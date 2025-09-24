@@ -24,8 +24,6 @@ tickers = tickers_reversed = {
     "CSCO": "Cisco",
     "CTSH": "Cognizant",
     "GLW": "Corning Inc.",
-    "CRWD": "CrowdStrike",
-    "DDOG": "Datadog",
     "DELL": "Dell Technologies",
     "ENPH": "Enphase Energy",
     "EPAM": "EPAM Systems",
@@ -55,7 +53,6 @@ tickers = tickers_reversed = {
     "NXPI": "NXP Semiconductors",
     "ON": "ON Semiconductor",
     "ORCL": "Oracle Corporation",
-    "PLTR": "Palantir Technologies",
     "PANW": "Palo Alto Networks",
     "PTC": "PTC Inc.",
     "QCOM": "Qualcomm",
@@ -78,15 +75,14 @@ tickers = tickers_reversed = {
     "ZBRA": "Zebra Technologies"
 }
 
-
-stock_database = sqlite3.connect("Database set-ups/StockData.db")
+stock_database = sqlite3.connect("StockData.db")
 cursor = stock_database.cursor()
 
 for TICKER in tickers.keys():
     ticker = yf.Ticker(TICKER)
     cursor.execute("INSERT INTO Tickers (CompanyName, Ticker) VALUES (?, ?)", (tickers[TICKER], TICKER))
 
-    stock_historical_data = ticker.history(period="10y")
+    stock_historical_data = ticker.history(start="2017-09-01", end="2025-09-04", interval="1d")
     for dat, row in stock_historical_data.iterrows():
         date_stamp = date.isoformat(dat)
         cursor.execute("""INSERT OR REPLACE INTO StockData (Ticker, Date, Open, High, Low, Close, Volume, Dividends, StockSplits)
