@@ -24,7 +24,9 @@ for INDEX in indexes.items():
 
 indicators = {"VIX": "^VIX",
               "13-Week Treasury":"^IRX",
-              "5-Year Treasury":"^FVX"}
+              "5-Year Treasury":"^FVX",
+              "Oil": "CL=F",
+              "Gold ETF": "GLD"}
 
 for INDICATOR in indicators.items():
     ticker = yf.Ticker(INDICATOR[1])
