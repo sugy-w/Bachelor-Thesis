@@ -1,0 +1,74 @@
+\newcommand{\noopsort}[1]{} \newcommand{\printfirst}[2]{#1} \newcommand{\singleletter}[1]{#1} \newcommand{\switchargs}[2]{#2#1}
+\begin{thebibliography}{10}
+
+\bibitem{yfinance}
+Ran Aroussi.
+\newblock yfinance.
+\newblock \url{https://github.com/ranaroussi/yfinance}.
+\newblock Accessed: 2025-09-29.
+
+\bibitem{bis_report}
+Bank for International Settlements –~Monetary and Economic Department.
+\newblock Otc foreign exchange turnover in april 2025.
+\newblock {\em Triennial Central Bank Survey}, 2025.
+
+\bibitem{clanok1}
+Jakub Grudniewicz and Rafal Ślepaczuk.
+\newblock Application of machine learning in algorithmic investment strategies on global stock markets.
+\newblock {\em Research in International Business and Finance}, 66, 2023.
+
+\bibitem{clanok5}
+Yuping Huang.
+\newblock Research on the google stock price prediction based on svr, random forest, and knn models.
+\newblock {\em Highlights in Business, Economics and Management}, 24, 2024.
+
+\bibitem{snp500}
+Will Kenton.
+\newblock S\&P 500 index: What it’s for and why it’s important in investing.
+\newblock \url{https://www.investopedia.com/terms/s/sp500.asp?utm_source=chatgpt.com}.
+\newblock Accessed: 2025-12-03.
+
+\bibitem{clanok2}
+Pablo Mantilla and Sebastián Dormido-Canto.
+\newblock A novel feature engineering approach for high-frequency financial data.
+\newblock {\em Engineering Applications of Artificial Intelligence}, 125, 2023.
+
+\bibitem{clanok3}
+Akito Matsumoto, Andrea Pescatori, and Xin Wang.
+\newblock Commodity prices and global economic activity.
+\newblock {\em Japan and the World Economy}, 66, 2023.
+
+\bibitem{cnbc}
+Charlotte Morabito.
+\newblock The S\&P 500 is more concentrated with AI than ever. here's how to manage your risk.
+\newblock \url{https://www.cnbc.com/2025/10/22/your-portfolio-may-be-more-tech-heavy-than-you-think.html#:~:text=The%20top%20five%20companies%20in,relying%20on%20so%20few%20companies.}
+\newblock Accessed: 2025-12-03.
+
+\bibitem{gold}
+Jasper Osita.
+\newblock Why gold remains the ultimate security in a shifting world.
+\newblock \url{https://acy.com/en/market-news/education/why-gold-remains-ultimate-security-shifting-world-j-o-04222025-115842/}.
+\newblock Accessed: 2025-11-27.
+
+\bibitem{clanok4}
+Sakina and Muhammad Khan.
+\newblock Stock price prediction using neural networks.
+\newblock {\em Pakistan Journal of Law, Analysis and Wisdom}, 3, 2024.
+
+\bibitem{forex1}
+ScienceDirect.
+\newblock Foreign exchange market, 2025.
+\newblock In: ScienceDirect. Available at: \url{https://www.sciencedirect.com/topics/economics-econometrics-and-finance/foreign-exchange-market#:~:text=The%20foreign%20exchange%20market%2C%20or%20forex%20market%2C,hours%20a%20day%2C%20five%20days%20a%20week.}. [accessed 2025-11-28]. AI generated definition based on: Strategies of Banks and Other Financial Institutions, 2014, Available at: \url{https://www.sciencedirect.com/science/chapter/monograph/abs/pii/B9780124169975000051}.
+
+\bibitem{yahoo}
+Yahoo.
+\newblock Yahoo finance.
+\newblock \url{https://finance.yahoo.com/}.
+\newblock Accessed: 2025-09-29.
+
+\bibitem{konferencia1}
+Leying Yin, Xinyu Zhang, and Xiwen Xiong.
+\newblock Application and effectiveness of knn model in stock market prediction.
+\newblock In {\em Proceedings of the 3rd International Conference on Financial Technology and Business Analysis}, pages 129--133, 2025.
+
+\end{thebibliography}
