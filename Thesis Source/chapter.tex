@@ -48,6 +48,37 @@ nearly 30 \% of the fund, which makes it the most weighted sector, despite makin
 could be explained by a lots of factors steering the market nowadays, but the general view on the topic suggests, that recent boom of artificial 
 intelligence could be the most dominant engine of growth. This suggests that focusing on this segment is wise as it could be considered the most important one nowadays.
 
+\section{Variables in financial data}
+At first, we introduce specific attributes which define value movement of all financial and economical instruments used throughout the thesis 
+as feature and target variables. These attributes could be further generalised onto any financial instrument attribute's movement, not only on price 
+itself – as it will be applied on non-stock data as well.
+\par
+For the purposes of defining desired terminology, let's define time interval on which we analyse instrument's attribute movement as $t_1$ till $t_2$, where
+naturally $t_1 < t_2$. Defined atttributes, which are attached to single time breakpoints, could be universally defined for any time interval with various frequency.
+\par
+At the breakpoint $t_1$ we define \textbf{opening value}, which denotes value of the attribute at the very beginning of the interval. For the purposes of this thesis,
+where we aim to use daily frequency of data, this value denotes value of attribute at the very start of the trading day. In the opposite manner, at the breakpoint $t_2$ we define 
+\textbf{closing price}, denoting the final value of the attribute at the end of the observed interval – in our case at the end of the trading day.
+\par
+During the process of value evolving throughout the interval we observe global minimum and maximum of the attribute's value, which we denote \textbf{low value} and \textbf{high value} respectively.
+Such data give us scent of volatility during the interval and subsequently sentiment of the market regarding the attribute.
+\par
+Last but not least we accumulate data regarding number of nominal instrument's stocks traded \textit{(either sold or bought)} during the time interval. This is denoted as \textbf{volume} and in terms of
+the thesis this data is $> 0$ only for the stocks' data, as for some other instruments this data is irrelevant and not tracked anyhow.
+\par
+Last data attribute, applied only on stocks' data as well, which is strongly dependent on single stocks is volume of \textbf{dividends} paid off. Some companies oblige themselves
+to pay off parts of their profit to their investors on regular basis \textit{(e.g. Apple, Microsoft or Oracle)} \cite{dividendy}. With respect to the completness of data fetched we included this data
+in out potential features database.
+\par
+Visualisation of the terms defined on sample interval of Microsoft stock between the beginning of June 2025 and beginning of September 2025 is pictured on Figure \ref{fig:2.1}.
+
+\begin{figure}
+    \label{fig:2.1}
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/TermsVisual.png}
+    \caption{\centering \textit{Visualisation of the defined attribute's movement terms on Microsoft stock price.}}
+\end{figure}
+
 \section{Rolling window methodology}
 
 There are quite a few approaches on how to properly process time-series data into respective training, validation and test sets. In order to ensure
@@ -85,7 +116,6 @@ number of possible training, thus validation, data points making the training-va
 \par
 This methodology could be straightforwardly implemented to the stated problem. Further, it is sufficient to define process of
 maintaining chronology in the data.
-\newpage
 
 \section{Data chronology and prediction methodology}
 

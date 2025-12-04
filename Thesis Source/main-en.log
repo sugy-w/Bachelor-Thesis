@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025/Homebrew) (preloaded format=pdflatex 2025.11.7)  3 DEC 2025 17:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025/Homebrew) (preloaded format=pdflatex 2025.11.7)  4 DEC 2025 10:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -463,12 +463,12 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 [2
 
 ]
-<images/zadanie.pdf, id=99, 597.50731pt x 845.04607pt>
+<images/zadanie.pdf, id=103, 597.50731pt x 845.04607pt>
 File: images/zadanie.pdf Graphic file (type pdf)
 <use images/zadanie.pdf>
 Package pdftex.def Info: images/zadanie.pdf  used on input line 148.
 (pdftex.def)             Requested size: 597.50584pt x 845.044pt.
-<images/zadanie.pdf, id=101, page=1, 597.50731pt x 845.04607pt>
+<images/zadanie.pdf, id=105, page=1, 597.50731pt x 845.04607pt>
 File: images/zadanie.pdf Graphic file (type pdf)
 <use images/zadanie.pdf, page 1>
 Package pdftex.def Info: images/zadanie.pdf , page1 used on input line 148.
@@ -543,102 +543,115 @@ Chapter 2.
 [3
 
 ]
+<images/TermsVisual.png, id=227, 695.59875pt x 471.7625pt>
+File: images/TermsVisual.png Graphic file (type png)
+<use images/TermsVisual.png>
+Package pdftex.def Info: images/TermsVisual.png  used on input line 78.
+(pdftex.def)             Requested size: 396.91325pt x 269.18816pt.
+
 
 [4]
 
-[5]
+[5 <./images/TermsVisual.png>]
 
 [6]
 
 [7]
 
 [8]
+
+[9]
 Chapter 3.
 
 
-[9
+[10
 
 ]
 Chapter 4.
 ) (./conclusion.tex
 
-[10
+[11
 
 ])
 
-[11
+[12
 
 ] (./main-en.bbl
-Underfull \hbox (badness 1436) in paragraph at lines 42--46
-[]\T1/cmr/m/n/12 Charlotte Mora-bito.  The S&P 500 is more con-cen-trated with AI than
+Underfull \hbox (badness 5274) in paragraph at lines 11--15
+[]\T1/cmr/m/n/12 Nikita Chhabra et al.  2024 div-i-dend trends.  []$\T1/cmtt/m/n/12 https : / / elements .
  []
 
 
-Underfull \hbox (badness 1231) in paragraph at lines 42--46
-\T1/cmr/m/n/12 ever. here's how to man-age your risk.  []$\T1/cmtt/m/n/12 https : / / www . cnbc . com / 2025 / 10 /
+Underfull \hbox (badness 10000) in paragraph at lines 11--15
+\T1/cmtt/m/n/12 visualcapitalist . com / wp-[]content / uploads / 2024 / 09 / 1726513220934 . pdf$[]\T1/cmr/m/n/12 .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 42--46
-\T1/cmtt/m/n/12 22 / your-[]portfolio-[]may-[]be-[]more-[]tech-[]heavy-[]than-[]you-[]think . html# : ~ :
+Underfull \hbox (badness 3302) in paragraph at lines 48--52
+\T1/cmr/m/n/12 here's how to man-age your risk.  []$\T1/cmtt/m/n/12 https : / / www . cnbc . com / 2025 / 10 / 22 /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 42--46
+Underfull \hbox (badness 10000) in paragraph at lines 48--52
+\T1/cmtt/m/n/12 your-[]portfolio-[]may-[]be-[]more-[]tech-[]heavy-[]than-[]you-[]think . html# : ~ :
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--52
 \T1/cmtt/m/n/12 text = The % 20top % 20five % 20companies % 20in ,[] relying % 20on % 20so % 20few %
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 48--52
+Underfull \hbox (badness 10000) in paragraph at lines 54--58
 []\T1/cmr/m/n/12 Jasper Osita.  Why gold re-mains the ul-ti-mate se-cu-rity in a
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 48--52
+Underfull \hbox (badness 10000) in paragraph at lines 54--58
 \T1/cmr/m/n/12 shift-ing world.  []$\T1/cmtt/m/n/12 https : / / acy . com / en / market-[]news / education /
  []
 
 
-Overfull \hbox (23.53804pt too wide) in paragraph at lines 48--52
+Overfull \hbox (23.53804pt too wide) in paragraph at lines 54--58
 \T1/cmtt/m/n/12 why-[]gold-[]remains-[]ultimate-[]security-[]shifting-[]world-[]j-[]o-[]04222025-[]115842/$[]\T1/cmr/m/n/12 .
  []
 
 
 
-[12
+[13
 
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 59--62
+Underfull \hbox (badness 10000) in paragraph at lines 65--68
 []\T1/cmr/m/n/12 ScienceDirect.  For-eign ex-change mar-ket, 2025.  In: Sci-enceDi-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 59--62
+Underfull \hbox (badness 10000) in paragraph at lines 65--68
 \T1/cmr/m/n/12 rect. Avail-able at: []$\T1/cmtt/m/n/12 https : / / www . sciencedirect . com / topics /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 59--62
+Underfull \hbox (badness 10000) in paragraph at lines 65--68
 \T1/cmtt/m/n/12 economics-[]econometrics-[]and-[]finance / foreign-[]exchange-[]market# : ~ :
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 59--62
+Underfull \hbox (badness 10000) in paragraph at lines 65--68
 \T1/cmtt/m/n/12 text = The % 20foreign % 20exchange % 20market % 2C % 20or % 20forex % 20market %
  []
 
 ) (./appendixA-en.tex
 
-[13]
+[14]
 Underfull \hbox (badness 10000) in paragraph at lines 5--9
 
  []
 
 )
 
-[14
+[15
 
 ] (./main-en.aux)
  ***********
@@ -646,21 +659,21 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `main-en.out' has not changed.
-(rerunfilecheck)             Checksum: 85D5E99B0F8E1957AB299DAF25A957CE;3836.
+(rerunfilecheck)             Checksum: BAD1876E138B6B81F591FEB92480503C;4035.
  ) 
 Here is how much of TeX's memory you used:
- 13909 strings out of 473190
- 214164 string characters out of 5705898
- 623551 words of memory out of 5000000
- 36877 multiletter control sequences out of 15000+600000
+ 13927 strings out of 473190
+ 214523 string characters out of 5705898
+ 624637 words of memory out of 5000000
+ 36891 multiletter control sequences out of 15000+600000
  574430 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,17n,79p,601b,575s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/type1/public/cm-super/sfcc1440.pfb></usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/type1/public/cm-super/sfcc2074.pfb></usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/type1/public/cm-super/sfsl1200.pfb></usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on main-en.pdf (23 pages, 635521 bytes).
+Output written on main-en.pdf (24 pages, 675117 bytes).
 PDF statistics:
- 407 PDF objects out of 1000 (max. 8388607)
- 329 compressed objects within 4 object streams
- 68 named destinations out of 1000 (max. 500000)
- 184 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 427 PDF objects out of 1000 (max. 8388607)
+ 346 compressed objects within 4 object streams
+ 72 named destinations out of 1000 (max. 500000)
+ 197 words of extra memory for PDF output out of 10000 (max. 10000000)
 
