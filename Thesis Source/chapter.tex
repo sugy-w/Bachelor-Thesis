@@ -73,10 +73,10 @@ in out potential features database.
 Visualisation of the terms defined on sample interval of Microsoft stock between the beginning of June 2025 and beginning of September 2025 is pictured on Figure \ref{fig:2.1}.
 
 \begin{figure}
-    \label{fig:2.1}
     \centering
     \includegraphics[width=0.9\linewidth]{images/TermsVisual.png}
     \caption{\centering \textit{Visualisation of the defined attribute's movement terms on Microsoft stock price.}}
+    \label{fig:2.1}
 \end{figure}
 
 \section{Rolling window methodology}
@@ -234,8 +234,34 @@ In particular, included pairs, together with USD, are Euro \textbf{(EUR/USD)}, J
 
 \subsection{Other market indicators}
 Apart from the introduced indicators and general assets price movement data above, there is still a vast group of
-possibly valuable features, which do not fit into above defined features' groups.
+possibly valuable features, which do not fit into above defined features' groups. 
+\par 
+In order to track performance of US economy more precise, it is wise to include information regarding national debt to possible features. 
+For this purpose we included data about \textbf{US treasury bonds}. Bonds denote financial instrument mostly long-term low-risk securities
+issued by the government of the USA, where investor, in basic terms, lends money to the government in exchange for periodic fixed payments.
+These bonds are futher divided based on its maturity – time within issuer obliges itself to fully repay issued money.
+\par
+Price movements of bonds with various maturity are considered to be a good indicator of US economy, thus stock market state \cite{clanok6}. In our database
+of possible features we included bonds with maturity of 13 weeks, which belong to group of short terms bonds, and with 5 year long maturity. This kind of maturity
+is on the edge between long-term and medium-term. The choice reflects needs of tracking data regarding relatively very short horizon and long one.
+\par
+Apart from the bond related data we considered obtaining data which are not directly financial – they are not some type of asset. We researched possibilities of
+tracking sentiment of investors and market itself. We chose to include data of \textbf{Volatility Index} \textit{(VIX)}, which is a specific gauge tracking state
+of US stock market it terms of volatility and sentiment of investors. 
+\par
+It presumably brings valuable information, which might not be included in all of the metrics described, regarding the apriori mood of the market 
+and its assets risk. Its value ranges mostly up to $80$, which were considered as crisis values in years $2020$ and $2008$ and above approximately $10$, which
+is considered to be relatively stable market state. Value development between the January till September of 2025 is given on Figure \ref{fig:2.2}.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/VIX_example.png}
+    \caption{\centering \textit{VIX value movement through the 2025.}}
+    \label{fig:2.2}
+\end{figure}
+
+It is surely interesting to address the sudden VIX surge during the April 2025. This sudden increase was basically day-to-day and denotes 
+phase of repeated issuing and cancelling of international tarrifs. As we can see, this political move damaged investors' exposure to the US market then.
 
 \chapter{Predictive analyses on IT segment}
 

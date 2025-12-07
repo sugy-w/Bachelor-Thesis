@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main-en"] 1764840768.14336 "main-en.aux" "main-en.bbl" "main-en" 1764840769.53217 0
-  "./literatura.bib" 1764839534.29119 6002 0988ae0ef03a7ef72c862514dc8b44b7 ""
+["bibtex main-en"] 1765108989.75409 "main-en.aux" "main-en.bbl" "main-en" 1765108991.13282 0
+  "./literatura.bib" 1765106968.63222 6303 bb7f35f874fb4e8fb9c1509d75bcff14 ""
   "/usr/local/Cellar/texlive/20250308_2/share/texmf-dist/bibtex/bst/base/plain.bst" 1741388039 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "main-en.aux" 1764840769.10346 4405 1f013aafac88175166a7b672f3db45a7 "pdflatex"
+  "main-en.aux" 1765108990.716 4798 0a83dc3f777fb2f03099fd294de56126 "pdflatex"
   (generated)
   "main-en.bbl"
   "main-en.blg"
   (rewritten before read)
-["pdflatex"] 1764840768.29415 "/Users/mareksugar/Desktop/Bachelor Thesis/praca/main-en.tex" "main-en.pdf" "main-en" 1764840769.53236 0
+["pdflatex"] 1765108989.88462 "/Users/mareksugar/Desktop/Bachelor Thesis/praca/main-en.tex" "main-en.pdf" "main-en" 1765108991.133 0
   "/Users/mareksugar/Desktop/Bachelor Thesis/praca/main-en.tex" 1764780733.80168 6908 a0cf6d39e7595448f2c4052518d61388 ""
   "/usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1741388039 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/map/fontname/texfonts.map" 1741388039 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -139,18 +139,19 @@
   "/usr/local/Cellar/texlive/20250308_2/share/texmf-dist/web2c/texmf.cnf" 1741388039 42151 79f67285bdd95beca4d137b380b4b9e5 ""
   "/usr/local/Cellar/texlive/20250308_2/share/texmf-var/web2c/pdftex/pdflatex.fmt" 1741388039 3346062 5b41f5f1f86715961a7a7134091efb1b ""
   "appendixA-en.tex" 1764177304.66815 593 bca466c9d6708f13ef806e36e0e333a4 ""
-  "chapter.tex" 1764840766.56761 17977 d4e2a48726cbd384b348ce887cf643fe ""
+  "chapter.tex" 1765108988.12705 20347 ebb949b4bb9a5afa31abf88adad5281d ""
   "conclusion.tex" 1764768496.14891 428 5cd90a6ea49bf66ea41996a3ac1f3e15 ""
   "images/TermsVisual.png" 1764840502.9658 40356 5d97d1d7d6d877e5ec65025ececc5a3c ""
+  "images/VIX_example.png" 1765108266.77226 27569 d5392b77e3a966c72a2c8960eae51204 ""
   "images/zadanie.pdf" 1763412061.71828 315522 8a21bd794b1371ef2566ca3cf512f417 ""
   "intro.tex" 1764752832.45841 393 b52313734d670ae05a1bf9df205da7ff ""
-  "main-en.aux" 1764840769.10346 4405 1f013aafac88175166a7b672f3db45a7 "pdflatex"
-  "main-en.bbl" 1764840768.285 3561 be6cbf2e1af7b7353cfb74cea04c1339 "bibtex main-en"
-  "main-en.lof" 1764840769.10492 256 85edb5212db2ee63ee07f1c26e57566a "pdflatex"
-  "main-en.lot" 1764840769.10494 80 8ef3760424b18d5315040b0f3a94f59e "pdflatex"
-  "main-en.out" 1764840769.10459 4035 bad1876e138b6b81f591feb92480503c "pdflatex"
+  "main-en.aux" 1765108990.716 4798 0a83dc3f777fb2f03099fd294de56126 "pdflatex"
+  "main-en.bbl" 1765108989.88049 3799 2808a10b1c3710bdedfc709e47a994c0 "bibtex main-en"
+  "main-en.lof" 1765108990.71754 388 829638e7df267bf9f813017cddff1f7a "pdflatex"
+  "main-en.lot" 1765108990.71756 80 8ef3760424b18d5315040b0f3a94f59e "pdflatex"
+  "main-en.out" 1765108990.71722 4035 bad1876e138b6b81f591feb92480503c "pdflatex"
   "main-en.tex" 1764780733.80168 6908 a0cf6d39e7595448f2c4052518d61388 ""
-  "main-en.toc" 1764840769.10489 1945 e4b9ab13bab1cc074034ff2aceb55ff4 "pdflatex"
+  "main-en.toc" 1765108990.71751 1945 6aebf5adb5a19c13fba3fea93eabb564 "pdflatex"
   (generated)
   "main-en.aux"
   "main-en.lof"

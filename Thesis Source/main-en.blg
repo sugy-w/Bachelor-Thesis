@@ -3,44 +3,44 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main-en.aux
 The style file: plain.bst
 Database file #1: literatura.bib
-You've used 14 entries,
+You've used 15 entries,
             2118 wiz_defined-function locations,
-            564 strings with 6779 characters,
-and the built_in function-call counts, 3472 in all, are:
-= -- 336
-> -- 150
+            570 strings with 6974 characters,
+and the built_in function-call counts, 3749 in all, are:
+= -- 362
+> -- 168
 < -- 1
-+ -- 62
-- -- 46
-* -- 147
-:= -- 608
-add.period$ -- 48
-call.type$ -- 14
-change.case$ -- 64
++ -- 70
+- -- 52
+* -- 165
+:= -- 660
+add.period$ -- 51
+call.type$ -- 15
+change.case$ -- 70
 chr.to.int$ -- 0
-cite$ -- 14
-duplicate$ -- 132
-empty$ -- 298
-format.name$ -- 46
-if$ -- 737
+cite$ -- 15
+duplicate$ -- 142
+empty$ -- 315
+format.name$ -- 52
+if$ -- 791
 int.to.chr$ -- 0
-int.to.str$ -- 14
-missing$ -- 7
-newline$ -- 80
-num.names$ -- 28
-pop$ -- 98
+int.to.str$ -- 15
+missing$ -- 8
+newline$ -- 85
+num.names$ -- 30
+pop$ -- 102
 preamble$ -- 2
-purify$ -- 50
+purify$ -- 55
 quote$ -- 0
-skip$ -- 108
+skip$ -- 116
 stack$ -- 0
-substring$ -- 100
-swap$ -- 24
+substring$ -- 106
+swap$ -- 25
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 56
+type$ -- 60
 warning$ -- 0
-while$ -- 30
-width$ -- 16
-write$ -- 155
+while$ -- 32
+width$ -- 17
+write$ -- 166

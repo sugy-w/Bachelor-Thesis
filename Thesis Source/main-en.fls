@@ -242,6 +242,11 @@ INPUT /usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/tfm/public/cm/
 INPUT /usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/tfm/jknappen/ec/ectt1200.tfm
 INPUT /usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/tfm/jknappen/ec/ecrm1440.tfm
 INPUT /usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/tfm/jknappen/ec/ecbx1440.tfm
+INPUT ./images/VIX_example.png
+INPUT ./images/VIX_example.png
+INPUT ./images/VIX_example.png
+INPUT ./images/VIX_example.png
+INPUT ./images/VIX_example.png
 INPUT conclusion.tex
 INPUT ./main-en.bbl
 INPUT ./main-en.bbl
