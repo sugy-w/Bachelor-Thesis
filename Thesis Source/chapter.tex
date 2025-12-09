@@ -58,7 +58,7 @@ naturally $t_1 < t_2$. Defined atttributes, which are attached to single time b
 \par
 At the breakpoint $t_1$ we define \textbf{opening value}, which denotes value of the attribute at the very beginning of the interval. For the purposes of this thesis,
 where we aim to use daily frequency of data, this value denotes value of attribute at the very start of the trading day. In the opposite manner, at the breakpoint $t_2$ we define 
-\textbf{closing price}, denoting the final value of the attribute at the end of the observed interval – in our case at the end of the trading day.
+\textbf{closing value}, denoting the final value of the attribute at the end of the observed interval – in our case at the end of the trading day.
 \par
 During the process of value evolving throughout the interval we observe global minimum and maximum of the attribute's value, which we denote \textbf{low value} and \textbf{high value} respectively.
 Such data give us scent of volatility during the interval and subsequently sentiment of the market regarding the attribute.
@@ -68,7 +68,7 @@ the thesis this data is $> 0$ only for the stocks' data, as for some other instr
 \par
 Last data attribute, applied only on stocks' data as well, which is strongly dependent on single stocks is volume of \textbf{dividends} paid off. Some companies oblige themselves
 to pay off parts of their profit to their investors on regular basis \textit{(e.g. Apple, Microsoft or Oracle)} \cite{dividendy}. With respect to the completness of data fetched we included this data
-in out potential features database.
+in our potential features database.
 \par
 Visualisation of the terms defined on sample interval of Microsoft stock between the beginning of June 2025 and beginning of September 2025 is pictured on Figure \ref{fig:2.1}.
 
@@ -132,7 +132,7 @@ the most importantly in the thesis, could be defined as:
     f(\mathbf{X}_{[t-p, t-1]}) = \hat{Y_{t}},
 \end{equation}
 
-where $\mathbf{X}_{[t-p, t-1]} \in \mathbb{R}^{p \times t}$, $p>1$ is the look-back parameter and $t\geq1$, number of feature variables used, denotes  historical developments
+where $\mathbf{X}_{[t-p, t-1]} \in \mathbb{R}^{p \times t}$, $p\geq1$ is the look-back parameter and $t\geq1$, number of feature variables used, denotes  historical developments
 of selected features in the interval $t-p$ till $t-1$ and $\hat{Y_{t}}$ denotes the targeting price prediction of the instrument in time $t$.  
 \par
 % Tu som skončil
