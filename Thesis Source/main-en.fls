@@ -222,7 +222,6 @@ OUTPUT main-en.toc
 INPUT ./main-en.lof
 INPUT ./main-en.lof
 INPUT main-en.lof
-INPUT /usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/tfm/jknappen/ec/ecti1200.tfm
 OUTPUT main-en.lof
 INPUT ./main-en.lot
 INPUT ./main-en.lot
@@ -230,6 +229,7 @@ INPUT main-en.lot
 OUTPUT main-en.lot
 INPUT intro.tex
 INPUT chapter.tex
+INPUT /usr/local/Cellar/texlive/20250308_2/share/texmf-dist/fonts/tfm/jknappen/ec/ecti1200.tfm
 INPUT ./images/TermsVisual.png
 INPUT ./images/TermsVisual.png
 INPUT ./images/TermsVisual.png

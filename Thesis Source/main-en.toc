@@ -5,8 +5,8 @@
 \contentsline {section}{\numberline {1.1}Machine learning as a method}{2}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Linear regression}{2}{section.1.2}%
 \contentsline {section}{\numberline {1.3}Regularized variants of linear regression}{2}{section.1.3}%
-\contentsline {section}{\numberline {1.4}k-Nearest neighbour algorithm}{2}{section.1.4}%
-\contentsline {section}{\numberline {1.5}Random forest Algorithm}{2}{section.1.5}%
+\contentsline {section}{\numberline {1.4}k-Nearest neighbours algorithm}{2}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Random forest algorithm}{2}{section.1.5}%
 \contentsline {section}{\numberline {1.6}Time-series neural network (LSTM)}{2}{section.1.6}%
 \contentsline {chapter}{\numberline {2}Stock market data}{3}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Variables in financial data}{4}{section.2.1}%
