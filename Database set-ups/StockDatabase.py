@@ -75,14 +75,14 @@ tickers = tickers_reversed = {
     "ZBRA": "Zebra Technologies"
 }
 
-stock_database = sqlite3.connect("StockData.db")
+stock_database = sqlite3.connect("Database set-ups/StockData.db")
 cursor = stock_database.cursor()
 
 for TICKER in tickers.keys():
     ticker = yf.Ticker(TICKER)
     cursor.execute("INSERT INTO Tickers (CompanyName, Ticker) VALUES (?, ?)", (tickers[TICKER], TICKER))
 
-    stock_historical_data = ticker.history(start="2017-09-01", end="2025-09-04", interval="1d")
+    stock_historical_data = ticker.history(start="2025-09-05", end="2026-01-19", interval="1d")
     for dat, row in stock_historical_data.iterrows():
         date_stamp = date.isoformat(dat)
         cursor.execute("""INSERT OR REPLACE INTO StockData (Ticker, Date, Open, High, Low, Close, Volume, Dividends, StockSplits)
