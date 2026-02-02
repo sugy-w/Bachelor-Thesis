@@ -117,12 +117,12 @@ Other estimation methods for $\hat{\beta}$ exist; however, only the least-square
 
 \section{Regularized variants of linear regression}
 
-Linear regression commonly tends to overfit certain types of datasets. This problem results in significantly
+Linear regression might overfit certain types of datasets. This problem arises with significantly
 large values of the parameters in $\bm{\beta}$. Relatively large values of the parameters result in significant changes of predictions
 $\hat{Y}$, thus making predictions potentially numerically unstable. There exists a plenty of methods involving explicit feature selection, resulting
-in omitting the features with large $\hat{\beta}$; however, this could be avoided \cite{islp}.
+in omitting the features with large $\hat{\beta}$; however, this could be avoided \cite{islp,skiena}.
 
-Continue with Equation \ref{eq:1.5} and let's add a specific term taking into account the absolute values of the single parameters $\hat{\beta}$  
+Continue with Equation \ref{eq:1.5} and let's add a specific term taking into account the sum of absolute values of the single parameters $\hat{\beta}$  
 \begin{equation}
     \label{equation:1.6}
      \min_{\hat{\beta}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^T(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_1,
@@ -140,13 +140,13 @@ Building up on the method introduced by Equation \ref{equation:1.6}, it is possi
     \label{equation:1.7}
      \min_{\hat{\beta}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^T(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_2^2,
 \end{equation}
-where $\lambda \geq 0$ is again a tuning parameter. In this approach, possibly larger penalty for larger values of $\hat{\beta}$ could be applied, which naturally might result in 
+where $\lambda \geq 0$ is again a tuning parameter. In this approach, possibly larger penalty for larger values of $\bm{\hat{\beta}}$ could be applied, which naturally might result in 
 a more strict minimization of their values – minimizing the chance of overfit. The approach in Equation \ref{equation:1.7} is then called \textbf{Ridge regularization} of linear regression.
 The aim of this optimization problem aligns with that in Lasso, preserving the trade-off between fit and minimal parameters in $\bm{\hat{\beta}}$. 
 
 Apart from the Lasso, Ridge cannot make the parameters equal to zero, meaning it cannot explicitly perform feature selection.
 
-The most important property of these methods, along with the parameters minimization is the model variance decrease, but an increased bias. This decreases overfit; however, increases the possible error when 
+The most important property of these methods, along with the parameters minimization, is the model variance decrease, but an increased bias as well. This decreases overfit; however, increases the possible error when 
 doing approximations on the data. Although, there is an increased possible error, this property makes the model more general and robust \cite{islp,skiena}.
 
 \section{k-Nearest neighbours algorithm}
@@ -155,10 +155,10 @@ The main idea, which forms the foundation of this method, is based on the assump
 are close to each other (for some distance definition), tend to be more similar in terms of the target variable $Y$ \cite{skiena}. This method can solve both regression and classification tasks; however, 
 only the regression setup is explained, as only this is used in the thesis.
 
-Suppose we have the training dataset as earlier, $\{ Y_i, \bm{X}_i \}_{i=1}^{n}$, where the stacked vector $\bm{X}_i$ is $(X_{i, 1}, X_{i, 2}, \ldots, X_{i, p})^T$, and $X_{i, q}$ denotes the value of the $q$-th predictor in the $i$-th observation.
+Suppose we have the training dataset as earlier, $\{ Y_i, \bm{X}_i \}_{i=1}^{n}$, where the stacked vector $\bm{X}_i = (X_{i, 1}, X_{i, 2}, \ldots, X_{i, p})^T$, and $X_{i, q}$ denotes the value of the $q$-th predictor in the $i$-th observation.
 Further we have $\bm{\hat{X}}$ composed of the same predictors, but without the linked value of the target $Y$. Lastly, we define a distance metric $\|.\|$ and a parameter $k \leq n$.
 
-Let $N \subseteq \{i\}_{i=1}^{n}$ be the set of indices of the $k$ nearest training feature vectors to the $\bm{\hat{X}}$, in terms of $\|.\|$. Then, the prediction of the target $Y$ is 
+Let $N \subseteq \{i\}_{i=1}^{n}$ be the set of indices of the $k$ nearest training feature vectors to the $\bm{\hat{X}}$, in terms of $\|.\|$. Then, the approximation of the target $Y$ is 
 
 \begin{equation}
     Y \approx \frac{1}{k}\sum_{i \in N} Y_i    
