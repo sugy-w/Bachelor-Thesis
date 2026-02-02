@@ -98,18 +98,18 @@ certain $\hat{\beta}$, approximates $Y$ as $\hat{Y}$, then $Y - \hat{Y}$ is the 
     \label{fig:1.1}
 \end{figure}
 Using the residuals, we can measure the goodness of fit. We aim to define the linear relation to be as close as possible to the training data. In matrix notation, we can represent the residuals 
-for all $n$ available observations as $Y - \textbf{X}\hat{\beta}$. To ensure that large errors are penalised more heavily and all of the residuals 
+for all $n$ available observations as $Y - \textbf{X}\bm{\hat{\beta}}$. To ensure that large errors are penalised more heavily and all of the residuals 
 contribute positively, regardless of their sign, the general error function is defined as
 \begin{equation}
     \label{equation:1.4}
-    (Y - \textbf{X}\hat{\beta})^T(Y - \textbf{X}\hat{\beta}).
+    (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^T(\bm{Y} - \textbf{X}\bm{\hat{\beta}}).
 \end{equation}
 
 Based on Equation \ref{equation:1.4}, we can derive an optimization approach to derive $\hat{\beta}\approx\beta$ as
 
 \begin{equation}
     \label{eq:1.5}
-    \min_{\hat{\beta}} \> (Y - \textbf{X}\hat{\beta})^T(Y - \textbf{X}\hat{\beta}).
+    \min_{\hat{\beta}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^T(\bm{Y} - \textbf{X}\bm{\hat{\beta}}).
 \end{equation}
 
 The approach in Equation \ref{eq:1.5} stands for \textbf{least-squares estimation}. 
@@ -117,10 +117,54 @@ Other estimation methods for $\hat{\beta}$ exist; however, only the least-square
 
 \section{Regularized variants of linear regression}
 
-Using solely linear regression might in a few cases result in overfitting.
+Linear regression commonly tends to overfit certain types of datasets. This problem results in significantly
+large values of the parameters in $\bm{\beta}$. Relatively large values of the parameters result in significant changes of predictions
+$\hat{Y}$, thus making predictions potentially numerically unstable. There exists a plenty of methods involving explicit feature selection, resulting
+in omitting the features with large $\hat{\beta}$; however, this could be avoided \cite{islp}.
 
+Continue with Equation \ref{eq:1.5} and let's add a specific term taking into account the absolute values of the single parameters $\hat{\beta}$  
+\begin{equation}
+    \label{equation:1.6}
+     \min_{\hat{\beta}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^T(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_1,
+\end{equation}
+where $\lambda \geq 0$ is a so-called tuning parameter. Equation \ref{equation:1.6} trades off two criteria – on the one hand, equally as in linear regression, the model seeks
+$\bm{\hat{\beta}}$ which fits the data the best, but on the other hand, the model seeks a fit with the smallest possible absolute values of the elements in $\bm{\hat{\beta}}$.
+This method is called \textbf{Lasso regularization} of linear regression and fully aligns with the objectives of preserving all the features, while limiting the possibility of overfitting 
+by minimizing the parameters in $\bm{\hat{\beta}}$.
+
+Lasso regularization, while optimizing, might set some of the parameters exactly to zero, which results in a \textbf{feature selection} process and the elimination of potentially invaluable features. 
+\newline
+\par
+Building up on the method introduced by Equation \ref{equation:1.6}, it is possible to use another type of norm to penalize values of the parameters in $\bm{\hat{\beta}}$.
+\begin{equation}
+    \label{equation:1.7}
+     \min_{\hat{\beta}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^T(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_2^2,
+\end{equation}
+where $\lambda \geq 0$ is again a tuning parameter. In this approach, possibly larger penalty for larger values of $\hat{\beta}$ could be applied, which naturally might result in 
+a more strict minimization of their values – minimizing the chance of overfit. The approach in Equation \ref{equation:1.7} is then called \textbf{Ridge regularization} of linear regression.
+The aim of this optimization problem aligns with that in Lasso, preserving the trade-off between fit and minimal parameters in $\bm{\hat{\beta}}$. 
+
+Apart from the Lasso, Ridge cannot make the parameters equal to zero, meaning it cannot explicitly perform feature selection.
+
+The most important property of these methods, along with the parameters minimization is the model variance decrease, but an increased bias. This decreases overfit; however, increases the possible error when 
+doing approximations on the data. Although, there is an increased possible error, this property makes the model more general and robust \cite{islp,skiena}.
 
 \section{k-Nearest neighbours algorithm}
+
+The main idea, which forms the foundation of this method, is based on the assumption that data points residing in the given vector space, which
+are close to each other (for some distance definition), tend to be more similar in terms of the target variable $Y$ \cite{skiena}. This method can solve both regression and classification tasks; however, 
+only the regression setup is explained, as only this is used in the thesis.
+
+Suppose we have the training dataset as earlier, $\{ Y_i, \bm{X}_i \}_{i=1}^{n}$, where the stacked vector $\bm{X}_i$ is $(X_{i, 1}, X_{i, 2}, \ldots, X_{i, p})^T$, and $X_{i, q}$ denotes the value of the $q$-th predictor in the $i$-th observation.
+Further we have $\bm{\hat{X}}$ composed of the same predictors, but without the linked value of the target $Y$. Lastly, we define a distance metric $\|.\|$ and a parameter $k \leq n$.
+
+Let $N \subseteq \{i\}_{i=1}^{n}$ be the set of indices of the $k$ nearest training feature vectors to the $\bm{\hat{X}}$, in terms of $\|.\|$. Then, the prediction of the target $Y$ is 
+
+\begin{equation}
+    Y \approx \frac{1}{k}\sum_{i \in N} Y_i    
+\end{equation}
+
+This method is non-parametric and aims to uncover patterns solely using the given training dataset. This method is called the \textbf{k-nearest neighbours} algorithm. 
 
 \section{Random forest algorithm}
 
