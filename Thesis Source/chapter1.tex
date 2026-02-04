@@ -164,8 +164,70 @@ Let $N \subseteq \{i\}_{i=1}^{n}$ be the set of indices of the $k$ nearest train
     Y \approx \frac{1}{k}\sum_{i \in N} Y_i    
 \end{equation}
 
-This method is non-parametric and aims to uncover patterns solely using the given training dataset. This method is called the \textbf{k-nearest neighbours} algorithm. 
+This method is non-parametric and aims to uncover patterns solely using the given training dataset. This method is called the \textbf{k-nearest neighbours} algorithm (k-NN). 
 
-\section{Random forest algorithm}
+\section{Decision tree regression}
+
+The idea of splitting the vector space of data into subsets based on occurrence of individual data points 
+in training dataset, as in the k-NN, is particularly easy to interpret and replicate. However, 
+the problem might arise with uniform weighting of all predictors, as there might 
+be predictors with larger or lower importance.
+
+To preserve the high interpretability of space partitioning and allowing for weighting of individual predictors, 
+data structure \textbf{binary tree} comes as a very natural candidate. The idea of using A tree
+is to recursively partition training dataset into tree's nodes, representing certain space partition, and effectively terminate the tree at certain 
+depth, with leaf nodes whose data points define the resulting target approximation.
+
+Similarly to the k-NN case, this algorithm is capable of solving both regression and classification tasks; however,
+only the regression setup in explained.
+
+Let $\{ Y_i, X_{i, 1}, X_{i, 2}, \ldots, X_{i, p} \}_{i=1}^{n}$, where $X_{i, q}$ denotes the value of $q$-th predictor in $i$-th observation,
+be the training dataset. The complete dataset is associated with the root node of the tree structure. The tree-building algorithm aims to recursively divide this set
+into two disjoint subsets based on a decision criterion $X_j \leq w$ and $X_j > w$, where $X_j$ is the certain chosen predictor among $\{X_q\}_{q=1}^{p}$
+and $w \in \mathbb{R}$ specified threshold value.
+
+The building of the tree is a greedy algorithm, which means that, at each step of the building, the algorithm chooses
+partition criterion locally optimally according to the current set of datapoints.
+
+Let $S$ be the set of datapoints in a given node. The aim is to define $S_{left}, S_{right}$ belonging to left and right child nodes respectively, based on the division criterion.
+In regression, the goal is to divide $S$, to make $S_{left}, S_{right}$ \textit{as homogeneous as possible}. We can define the weighted average of $Y$ variances, in respective sets as
+\begin{equation}
+    \text{Split}(X_j, w) = \frac{|S_{left}|}{|S|}\text{Var}(S_{left}) + \frac{|S_{right}|}{|S|}\text{Var}(S_{right})
+\end{equation}
+where $|S_{*}|$ denotes the cardinality of the set $S_{*}$. This metric is explicitly defined by $S$ and the chosen $X_j$, $w$.
+With this definition, we can measure homogeneity of the resulting split, making variance of both $S_{left}$ and $S_{right}$ as low as possible.
+
+This means that in all nodes of the structure, the algorithm solves
+\begin{equation}
+    \min_{X_j, w} \>\> \text{Split}(X_j, w) 
+\end{equation}
+and performs the split until a termination criterion is satisfied (e.g., maximum depth of the tree, minimum points in leaves, etc.).
+
+With such a data structure built, a certain input $\mathbf{X}$ belongs to 
+particular leaf node. The approximation of $Y$ corresponding to the $\mathbf{X}$ is then the arithmetic mean of the leaf's training $Y$ values. This approximation method
+is called the \textbf{decision tree algorithm} \cite{islp}.
+\newline
+\par
+Building an approximation solely on one decision tree might result in overfitting. Since a single tree
+is built using greedy approach, even small perturbation of the training dataset might potentially result
+in substantially different tree structures and, consequently, very different predictions.
+
+This sensitivity arises from the locally optimal splits in nodes, which depend heavily on the sample of data used in training.
+As a result, trees tend to overfit the data, particularly at relatively large tree depths \cite{islp, skiena}.
+
+A possible solution comes from the statistical method of \textbf{bootstrap} – artificial samples are generated from the original data by sampling with repetition \cite{skiena}. 
+We define $B$ as the number of such bootstrap samples, and single decision trees are trained on these samples. Then, each tree
+outputs a target approximation for the input as $\hat{Y}^{(b)}$. Then, the final approximation $\hat{Y}$ is
+
+\begin{equation*}
+    \hat{Y} = \frac{1}{B}\sum_{b=1}^{B} \hat{Y}^{(b)}
+\end{equation*}
+
+This resampling strategy introduces diversity among individual trees, which is essential for reducing the variance in the final model \cite{islp, skiena}.
 
 \section{Time-series analysis (ARIMA)}
+
+% Tu použijeme pravdepodobne knihu Elements of Forecasting
+% Nastolíme problém inak, využijeme inú formu dátovej predprípravy a
+% následne utvoríme čo je AR I MA, spravíme rovnice a ideme na to!
+% Kapitolka hotová do konca týždňa ako lusk!
