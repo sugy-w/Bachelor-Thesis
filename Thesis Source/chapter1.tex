@@ -199,7 +199,7 @@ With this definition, we can measure homogeneity of the resulting split, making 
 
 This means that in all nodes of the structure, the algorithm solves
 \begin{equation}
-    \min_{X_j, w} \>\> \text{Split}(X_j, w) 
+    \arg \min_{X_j, w} \>\> \text{Split}(X_j, w) 
 \end{equation}
 and performs the split until a termination criterion is satisfied (e.g., maximum depth of the tree, minimum points in leaves, etc.).
 
@@ -227,7 +227,53 @@ This resampling strategy introduces diversity among individual trees, which is e
 
 \section{Time-series analysis (ARIMA)}
 
-% Tu použijeme pravdepodobne knihu Elements of Forecasting
-% Nastolíme problém inak, využijeme inú formu dátovej predprípravy a
-% následne utvoríme čo je AR I MA, spravíme rovnice a ideme na to!
-% Kapitolka hotová do konca týždňa ako lusk!
+In all of the models introduced earlier, the idea of training the model was to tune the model to
+be able to generalize the input variables into output, the target variable. For the purposes of predicting 
+the future developments of time series, there exist specialized approaches beyond the mentioned conventional ML
+frameworks \cite{forecast_book}. One of the most widely used frameworks is the \textbf{Autoregressive Integrated Moving Average} (ARIMA) model.
+
+The ARIMA model relies on capturing short-term and often temporal patterns in the time series. Apart from the ML algorithms explained earlier, 
+ARIMA is time-aware, meaning its framework directly works with the concept of time flow and the dependency of target variable on it \cite{forecast_book}. 
+
+Let there be a univariate time series of length $T$ as $\{Y_t\}_{t=1}^{T}$. The idea of the ARIMA model relies on the concept of autoregressivity, which means
+that future data points of the time series are dependent on the earlier points in series. Rigorously speaking, let there be $p \in \mathbb{N}$ and
+
+% aké môže byť p??
+
+\begin{equation}
+    \label{eq:ARIMA1}
+    Y_t = \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \ldots + \phi_{p} Y_{t-p} + \epsilon_t
+\end{equation}
+where $\epsilon_t$ is the irreducible noise term and $\phi_1, \phi_2, \ldots, \phi_p$ are \textbf{autoregressive coefficients}. Time series tend to be non-stationary, which means that their statistical properties tend 
+to change over time. For this purpose, let there be an operator $B$, which satisfies $B Y_t = Y_{t-1}$. Then, the term of \textbf{differencing} is defined as
+\begin{equation}
+    \label{eq:ARIMA2}
+    Y_t'=(1-B)^d Y_t.
+\end{equation}
+Differencing removes the trend of the time series, stabilizes it, and decreases its non-stationarity.
+
+Lastly, the idea of ARIMA relies on the property of the \textbf{moving average}, which means that ARIMA models
+the value of $Y_t$ as a linear combination of forecast errors made in the past:
+\begin{equation}
+    \label{eq:ARIMA3}
+    Y_t = \epsilon_t + \theta_1 \epsilon_{t-1} + \theta_2 \epsilon_{t-2} + \ldots + \theta_q \epsilon_{t-q}
+\end{equation}
+where $\theta_1, \theta_2, \ldots, \theta_q$ are \textbf{moving average coefficients}. ARIMA tends to incorporate deviations encountered in the past to improve future predictions.
+
+By combining properties introduced in Equations \ref{eq:ARIMA1}, \ref{eq:ARIMA2} and \ref{eq:ARIMA3}, and using the
+chosen parameters $p, d, q$, we obtain the complete model defined as ARIMA$_{(p, d, q)}$ \cite{forecast_book}.
+
+The model relies on the assumption that $\epsilon_t \sim \mathcal{N}(0, \sigma^2)$. Under this assumption, 
+the joint likelihood of the observed time series can be written as
+
+\begin{equation}
+    \mathcal{L}(\bm{\phi}, \bm{\theta}, \sigma^2 | Y_1, Y_2, \ldots, Y_T)
+\end{equation}
+
+where $\bm{\phi}=(\phi_1, \phi_2, \ldots, \phi_p)^T$ and $\bm{\theta}=(\theta_1, \theta_2, \ldots, \theta_q)^T$. These parameters are estimated by solving 
+
+\begin{equation*}
+    \arg \max_{\bm{\phi}, \bm{\theta}, \sigma^2} \> \mathcal{L}(\bm{\phi}, \bm{\theta}, \sigma^2)
+\end{equation*}
+
+Such a model is then capable of predicting the future development of the time series variable, solely using its past development.
