@@ -7,7 +7,7 @@ a method, followed by descriptions of the individual algorithms used.
 
 \section{Machine learning as a method}
 
-Nowadays, we can say that machine learning (ML) has become a buzzworthy term in
+Nowadays, we can say that machine learning (ML) has become a widely known term in
 the field of data science. It stands for the subset of artificial intelligence enabled to identify patterns in data \cite{ibm}.
 Generally speaking, ML implements algorithms capable of learning from data and generalizing patterns to be able to make predictions on unseen data,
 which means being able to perform tasks without being explicitly told to \cite{islp}.      
@@ -36,7 +36,7 @@ is achieved by identifying patterns and similarities in the training data, witho
 
 Next, based on the character of the $Y$, we can distinguish \textit{regression} and \textit{classification} tasks. In \textbf{regression} tasks, $Y$ is a continuous variable, while in \textbf{classification} tasks, $Y$ is a discrete variable.
 
-Lastly, in order to have a complete picture of ML theory foundations, it is important to mention the terms \textit{overfit} and \textit{underfit} learning. In the process of building the model to approximate $f$,
+Lastly, in order to have a complete picture of ML theory foundations, it is important to mention the terms \textit{overfit} and \textit{underfit}. In the process of building the model to approximate $f$,
 we might encounter such a phenomenon, where the trained model captures patterns in the training dataset very well (memorizes), but, on the other hand, on a set of unseen data fails in terms of accuracy – this is called \textbf{overfit}. In contrast, \textbf{underfit}
 comes when the model and resulting $\hat{f}$ fail to generalize patterns on both training and unseen sets.
    
@@ -102,14 +102,14 @@ for all $n$ available observations as $Y - \textbf{X}\bm{\hat{\beta}}$. To ensur
 contribute positively, regardless of their sign, the general error function is defined as
 \begin{equation}
     \label{equation:1.4}
-    (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^T(\bm{Y} - \textbf{X}\bm{\hat{\beta}}).
+    (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^\text{T}(\bm{Y} - \textbf{X}\bm{\hat{\beta}}).
 \end{equation}
 
-Based on Equation \ref{equation:1.4}, we can derive an optimization approach to derive $\hat{\beta}\approx\beta$ as
+Based on the Equation \ref{equation:1.4}, we can derive an optimization approach to derive $\hat{\beta}\approx\beta$ as
 
 \begin{equation}
     \label{eq:1.5}
-    \min_{\hat{\beta}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^T(\bm{Y} - \textbf{X}\bm{\hat{\beta}}).
+    \arg \min_{\hat{\beta}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^\text{T}(\bm{Y} - \textbf{X}\bm{\hat{\beta}}).
 \end{equation}
 
 The approach in Equation \ref{eq:1.5} stands for \textbf{least-squares estimation}. 
@@ -118,36 +118,36 @@ Other estimation methods for $\hat{\beta}$ exist; however, only the least-square
 \section{Regularized variants of linear regression}
 
 Linear regression might overfit certain types of datasets. This problem arises with significantly
-large values of the parameters in $\bm{\beta}$. Relatively large values of the parameters result in significant changes of predictions
-$\hat{Y}$, thus making predictions potentially numerically unstable. There exists a plenty of methods involving explicit feature selection, resulting
+large values of the parameters in $\bm{\beta}$. Relatively large values of the parameters result in significant changes in predictions
+$\hat{Y}$, even under slight input perturbations, thus making the predictions potentially numerically unstable. There exist a plenty of methods involving explicit feature selection, resulting
 in omitting the features with large $\hat{\beta}$; however, this could be avoided \cite{islp,skiena}.
 
 Continue with Equation \ref{eq:1.5} and let's add a specific term taking into account the sum of absolute values of the single parameters $\hat{\beta}$  
 \begin{equation}
     \label{equation:1.6}
-     \min_{\hat{\beta}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^T(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_1,
+     \arg \min_{\hat{\beta}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^\text{T}(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_1,
 \end{equation}
 where $\lambda \geq 0$ is a so-called tuning parameter. Equation \ref{equation:1.6} trades off two criteria – on the one hand, equally as in linear regression, the model seeks
-$\bm{\hat{\beta}}$ which fits the data the best, but on the other hand, the model seeks a fit with the smallest possible absolute values of the elements in $\bm{\hat{\beta}}$.
-This method is called \textbf{Lasso regularization} of linear regression and fully aligns with the objectives of preserving all the features, while limiting the possibility of overfitting 
+$\bm{\hat{\beta}}$ which fits the data the best, but on the other hand, the model seeks a fit with the smallest possible sum of absolute values of the elements in $\bm{\hat{\beta}}$.
+This method is called \textbf{Lasso regularization} of linear regression and fully aligns with the objectives of explicitly preserving all the features, while limiting the possibility of overfitting 
 by minimizing the parameters in $\bm{\hat{\beta}}$.
 
-Lasso regularization, while optimizing, might set some of the parameters exactly to zero, which results in a \textbf{feature selection} process and the elimination of potentially invaluable features. 
+However, Lasso regularization, while optimizing, might set some of the parameters exactly to zero, which results in an implicit \textbf{feature selection} process and the elimination of potentially invaluable features \cite{islp}. 
 \newline
 \par
 Building up on the method introduced by Equation \ref{equation:1.6}, it is possible to use another type of norm to penalize values of the parameters in $\bm{\hat{\beta}}$.
 \begin{equation}
     \label{equation:1.7}
-     \min_{\hat{\beta}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^T(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_2^2,
+    \arg \min_{\hat{\beta}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^\text{T}(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_2^2,
 \end{equation}
 where $\lambda \geq 0$ is again a tuning parameter. In this approach, possibly larger penalty for larger values of $\bm{\hat{\beta}}$ could be applied, which naturally might result in 
 a more strict minimization of their values – minimizing the chance of overfit. The approach in Equation \ref{equation:1.7} is then called \textbf{Ridge regularization} of linear regression.
-The aim of this optimization problem aligns with that in Lasso, preserving the trade-off between fit and minimal parameters in $\bm{\hat{\beta}}$. 
+The goal of this optimization problem aligns with that in Lasso, preserving the trade-off between fit and minimal parameters in $\bm{\hat{\beta}}$. 
 
-Apart from the Lasso, Ridge cannot make the parameters equal to zero, meaning it cannot explicitly perform feature selection.
+Apart from the Lasso, Ridge cannot make the parameters equal to zero, meaning it cannot implicitly perform feature selection \cite{islp}.
 
 The most important property of these methods, along with the parameters minimization, is the model variance decrease, but an increased bias as well. This decreases overfit; however, increases the possible error when 
-doing approximations on the data. Although, there is an increased possible error, this property makes the model more general and robust \cite{islp,skiena}.
+doing approximations on the unseen data. Although, there is an increased possible error, this property makes the model more general and robust \cite{islp,skiena}.
 
 \section{k-Nearest neighbours algorithm}
 
@@ -158,7 +158,7 @@ only the regression setup is explained, as only this is used in the thesis.
 Suppose we have the training dataset as earlier, $\{ Y_i, \bm{X}_i \}_{i=1}^{n}$, where the stacked vector $\bm{X}_i = (X_{i, 1}, X_{i, 2}, \ldots, X_{i, p})^T$, and $X_{i, q}$ denotes the value of the $q$-th predictor in the $i$-th observation.
 Further we have $\bm{\hat{X}}$ composed of the same predictors, but without the linked value of the target $Y$. Lastly, we define a distance metric $\|.\|$ and a parameter $k \leq n$.
 
-Let $N \subseteq \{i\}_{i=1}^{n}$ be the set of indices of the $k$ nearest training feature vectors to the $\bm{\hat{X}}$, in terms of $\|.\|$. Then, the approximation of the target $Y$ is 
+Let $N \subseteq \{i\}_{i=1}^{n}$ be the set of indices of the $k$ nearest training feature vectors to the $\bm{\hat{X}}$, in terms of $\|.\|$ distance. Then, the approximation of the target $Y$ is 
 
 \begin{equation}
     Y \approx \frac{1}{k}\sum_{i \in N} Y_i    
@@ -174,7 +174,7 @@ the problem might arise with uniform weighting of all predictors, as there might
 be predictors with larger or lower importance.
 
 To preserve the high interpretability of space partitioning and allowing for weighting of individual predictors, 
-data structure \textbf{binary tree} comes as a very natural candidate. The idea of using A tree
+data structure \textbf{binary tree} comes as a very natural candidate. The idea of using a tree
 is to recursively partition training dataset into tree's nodes, representing certain space partition, and effectively terminate the tree at certain 
 depth, with leaf nodes whose data points define the resulting target approximation.
 
@@ -236,10 +236,7 @@ The ARIMA model relies on capturing short-term and often temporal patterns in th
 ARIMA is time-aware, meaning its framework directly works with the concept of time flow and the dependency of target variable on it \cite{forecast_book}. 
 
 Let there be a univariate time series of length $T$ as $\{Y_t\}_{t=1}^{T}$. The idea of the ARIMA model relies on the concept of autoregressivity, which means
-that future data points of the time series are dependent on the earlier points in series. Rigorously speaking, let there be $p \in \mathbb{N}$ and
-
-% aké môže byť p??
-
+that future data points of the time series are dependent on the earlier points in series. Rigorously speaking, let there be $p \in \mathbb{N}_0$ and
 \begin{equation}
     \label{eq:ARIMA1}
     Y_t = \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \ldots + \phi_{p} Y_{t-p} + \epsilon_t
@@ -262,7 +259,9 @@ where $\theta_1, \theta_2, \ldots, \theta_q$ are \textbf{moving average coeffici
 
 By combining properties introduced in Equations \ref{eq:ARIMA1}, \ref{eq:ARIMA2} and \ref{eq:ARIMA3}, and using the
 chosen parameters $p, d, q$, we obtain the complete model defined as ARIMA$_{(p, d, q)}$ \cite{forecast_book}.
-
+\begin{equation}
+    Y_t' = \phi_1 Y_{t-1}' + \ldots + \phi_p Y_{t-p}' + \epsilon_t + \theta_1 \epsilon_{t-1} + \ldots + \theta_q \epsilon_{t-q}
+\end{equation}
 The model relies on the assumption that $\epsilon_t \sim \mathcal{N}(0, \sigma^2)$. Under this assumption, 
 the joint likelihood of the observed time series can be written as
 
