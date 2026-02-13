@@ -61,15 +61,15 @@ There are several approaches for splitting time-series data into training, valid
 (for some $q$) are used to predict the closing price on day $t$ — the concepts of rolling window methodology are adopted \cite{forecast_book}.
 \par
 In our approach, we define a static time-series interval, which serves as a hybrid train-validation time interval. Let's define the overall data interval being between
-$T_1$ and $T_2$ breakpoints (let $T_2-T_1=M$). On this interval reside two frames of variables. 
+$T_1$ and $T_2$ timepoints (let $T_2-T_1=M$). On this interval reside two frames of variables. 
 
 Multivariate $\mathbf{X} \in \mathbb{R}^{M \times F}$, where $F$ denotes the number of features used, which serves 
 as an input variable. Included features in $\mathbf{X}$ are values of selected financial variables, shifted backwards up to $q=9$ days. This means, that 
-$\mathbf{X}[t]$ represents data available through days $t-1, t-2, \ldots, t-9$. \footnote{We chose the value of $q$ due to few reasons constant. Firstly, variable $q$ 
+$\mathbf{X}[t]$ (the $t$-th row of $\bm{X}$) represents data available through days $t-1, t-2, \ldots, t-9$. \footnote{We chose the value of $q$ due to few reasons constant. Firstly, variable $q$ 
 would result in larger time-complexity and necessity to optimize new parameter further. Secondly, we want to emphasize short-term market dynamics,
-which are commonly observed in financial time series and documented in the literature \cite{forecast_book}} 
+which are commonly observed in financial time series and documented in the literature \cite{forecast_book}.} 
 
-Second, univariate $Y \in \mathbb{R}^M$ accumulates values of the target variable (next closing price) to the respective rows of $\mathbf{X}$. This means, that $Y[t]$ is the value of the closing price on day $t$.
+Second, univariate $Y \in \mathbb{R}^M$ accumulates values of the target variable (next closing price) to the respective rows of $\mathbf{X}$. This means, that $Y[t]$ (the $t$-th value in the $Y$) is the value of the closing price on day $t$.
 \par
 Further, we define parameter $1 \leq p<M$, which is the length of the training subwindow, meaning how many \textit{next-day} predictions model would be trained on,
 and $w$, which denotes the forecasting horizon, i.e., the number of time units into the future for which predictions are made. For the purposes of this thesis and its next-day prediction methodology we define $w=1$.
@@ -80,19 +80,20 @@ between input and target matrices. Algorithm \ref{alg:sliding_window} shows what
 \caption{Rolling-window on $(T_1, T_2)$ interval}
 \label{alg:sliding_window}
 \begin{algorithmic}
-\State \# Set look-back window length $p$ 
 \State \# We assume $w \gets 1$
 \State \# The prediction target day is $t+p+1$, we have available data up to day $t+p$
+\State Set look-back window length $p$ 
+\State Retrieve the feature variables' values into the $\bm{X}$
 \For{each stock in database}
-    \State Retrieve stock's data for features $\mathbf{X}$ and target $Y$
+    \State Retrieve closing prices into the target $Y$
     \For{$t = T_1$ to $T_2 - (p + 1)$}
         \State $\mathbf{X}_{\text{train}} \gets \mathbf{X}[t : t+p]$ 
         \State $Y_{\text{train}} \gets Y[t : t+p]$
         \State $\mathbf{X}_{\text{predict}} \gets \mathbf{X}[t+p+1]$
         % Preistotu? 
         \State \# $\mathbf{X}_\text{predict}$ corresponds to the latest available data 
-        \State Train MODEL on $(\mathbf{X}_{\text{train}}, Y_{\text{train}})$
-        \State Generate prediction: MODEL$(\mathbf{X}_{\text{predict}})$
+        \State Train model $\hat{f}$ on $(\mathbf{X}_{\text{train}}, Y_{\text{train}})$: so $\hat{Y}_{\text{train}}=\hat{f}(\mathbf{X}_{\text{train}})$ 
+        \State Generate prediction: $\hat{f}(\mathbf{X}_{\text{predict}})$
     \EndFor
 \EndFor
 \end{algorithmic}
@@ -102,7 +103,7 @@ Firstly, respective intervals are overlapping and the shift between respective i
 is a single time unit. Secondly, by allowing window overlapping, we maximize the number of possible training data points, 
 making the training-validation process possibly more robust and general. Lastly, such setup would be implemented on train-validation interval $(T_1, T_2)$ and
 on disjoint test interval likewise.
-
+% Tuto pravdepodobne nejaké vysvetleňíčko? :)
 The multivariate $\mathbf{X}$ contains pre-chosen shifted variables (Subchapter \ref{subchapter:2.3}). In this thesis, time interval between 15th of September 2017 and 31st of December 2022 (1333 trading days)
 is used as training-validation interval and time interval between 1st of January 2023 and 16th of January 2026 (761 trading days) is used as test interval.
 
@@ -202,14 +203,3 @@ is considered to be relatively stable market state. Value development between th
 
 It is surely interesting to address the sudden VIX surge during the April 2025. This sudden increase was basically day-to-day and denotes 
 phase of repeated issuing and cancelling of international tarrifs. As we can see, this political move damaged investors' exposure to the US market then.
-
-\chapter{Predictive analyses on IT segment}
-
-This chapter will be dedicated to certain results obtained during training and validation of several algorithms and approaches on the data.
-We plan to analyze results brought by included algorithms in first chapter in detailed manner.
-
-\chapter{Next-day optimization of portfolio based on model's prediction}
-
-This chapter will deal with the topic of using the obtained data predictions (preferably from the most precise model) to optimize weights
-of single stock assets in hypothetical investment portfolio. For these purposes, we introduce Markowitz portfolio theory and the optimization 
-problem coming out of it. With such foundations we analyze results in terms of profit and risk by our models.
