@@ -32,8 +32,10 @@ such methods used in this thesis are linear regression or its regularized varian
 On the other hand, \textbf{non-parametric methods} do not assume any specific functional form of $f$. Instead, they rely on patterns included in the data itself to roughly approximate $f$. Generalisation to unseen data
 is achieved by identifying patterns and similarities in the training data, without explicitly defining $\hat{f}$. An example of such a method used in this thesis is the k-nearest neighbours algorithm or the random forest algorithm.
 
-Next, based on the character of the $Y$, we can distinguish regression and classification tasks. In \textbf{regression} tasks, $Y$ is a continuous variable, while in \textbf{classification} tasks, $Y$ is a categorical variable.
+Lastly, based on the character of the $Y$, we can distinguish regression and classification tasks. In \textbf{regression} tasks, $Y$ is a continuous variable, while in \textbf{classification} tasks, $Y$ is a categorical variable.
 
+\section{Bias-variance trade-off}
+% Predbežne, z poslednej verzie!
 Lastly, in order to have a complete picture of ML theory foundations, it is important to mention the terms overfit and underfit. In the process of building the model to approximate $f$,
 we might encounter such a phenomenon, where the trained model captures patterns in the training dataset very well (memorizes), but, on the other hand, on a set of unseen data fails in terms of accuracy – this is called \textbf{overfit}. In contrast, \textbf{underfit}
 comes when the model and resulting $\hat{f}$ fail to capture patterns on both training and unseen sets.
@@ -168,7 +170,7 @@ The main idea, which forms the foundation of this method, is based on the assump
 are close to each other (for some distance definition), tend to be more similar in terms of the target variable $Y$ \cite{skiena}. This method can solve both regression and classification tasks; however, 
 only the regression setup is explained, as only this is used in the thesis.
 
-Suppose we have the training dataset as earlier, $\{ Y_i, \bm{X}_i \}_{i=1}^{n}$, where the stacked vector $\bm{X}_i = (X_{i, 1}, X_{i, 2}, \ldots, X_{i, p})^T$, and $X_{i, q}$ denotes the value of the $q$-th predictor in the $i$-th observation.
+Suppose we have the training dataset as earlier, $\{ Y_i, \bm{X}_i \}_{i=1}^{n}$, where the stacked vector $\bm{X}_i = (X_{i, 1}, X_{i, 2}, \ldots, X_{i, p})^T$.
 Further, we have a new datapoint with vector of predictors $\bm{\hat{X}}$, but without the linked value of the target $Y$. Lastly, we define a distance metric $\|.\|$ and a parameter $k \leq n$.
 
 Let $N \subseteq \{i\}_{i=1}^{n}$ be the set of indices of the $k$ nearest training feature vectors $\bm{X}_i$ to the $\bm{\hat{X}}$, in terms of $\|.\|$ distance. Then, the approximation of the target $Y$ is 
@@ -192,7 +194,7 @@ depth, with leaf nodes whose data points define the resulting target approximati
 Similarly to the k-NN case, this algorithm is capable of solving both regression and classification tasks; however,
 only the regression setup in explained.
 
-Let $\{ Y_i, X_{i, 1}, X_{i, 2}, \ldots, X_{i, p} \}_{i=1}^{n}$, where $X_{i, q}$ denotes the value of $q$-th predictor in $i$-th observation,
+Let $\{ Y_i, X_{i, 1}, X_{i, 2}, \ldots, X_{i, p} \}_{i=1}^{n}$
 be the training dataset. The complete dataset is associated with the root node of the tree structure. The tree-building algorithm aims to recursively divide this set
 into two disjoint subsets based on a decision criterion $X_j \leq w$ and $X_j > w$, where $X_j$ is the certain chosen predictor among $\{X_q\}_{q=1}^{p}$
 and $w \in \mathbb{R}$ specified threshold value.
