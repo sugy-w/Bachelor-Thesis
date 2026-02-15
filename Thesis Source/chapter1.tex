@@ -35,11 +35,24 @@ is achieved by identifying patterns and similarities in the training data, witho
 Lastly, based on the character of the $Y$, we can distinguish regression and classification tasks. In \textbf{regression} tasks, $Y$ is a continuous variable, while in \textbf{classification} tasks, $Y$ is a categorical variable.
 
 \section{Bias-variance trade-off}
-% Predbežne, z poslednej verzie!
-Lastly, in order to have a complete picture of ML theory foundations, it is important to mention the terms overfit and underfit. In the process of building the model to approximate $f$,
-we might encounter such a phenomenon, where the trained model captures patterns in the training dataset very well (memorizes), but, on the other hand, on a set of unseen data fails in terms of accuracy – this is called \textbf{overfit}. In contrast, \textbf{underfit}
-comes when the model and resulting $\hat{f}$ fail to capture patterns on both training and unseen sets.
+Lastly, in order to provide a complete overview of the theoretical foundations of ML, it is important to mention the concepts of overfitting and underfitting \cite{skiena}. 
+The key concepts involved in this are \textbf{bias} and \textbf{variance}. 
+
+Bias is the error arising from incorrect assumptions made by the model. 
+One of the many examples is assuming that $f$ belongs to a certain functional class; however, the actual type is much more complex (e.g., restricting $f$ to be linear instead of polynomial).
+High bias causes the model to be insufficiently complex to generalize patterns in the training dataset, meaning it cannot perform well on previously unseen data. This is called \textbf{underfitting}. 
    
+Variance is the error arising from the model's sensitivity to perturbations made in the training dataset. The problem arises when a particular training set yields trained model, while another, slightly perturbed dataset,
+yields marginally different model, which usually leads to unstable generalization performance. This is mainly caused when the complexity of the model is too large (e.g., a high-order polynomial). In such a situation, the model memorizes patterns from the training data rather than learning the underlying patterns. This phenomenon is called \textbf{overfitting}.
+
+In practice, the goal is to choose the complexity (e.g., by assuming a functional type or by selecting a particular model) to achieve lowest possible bias and variance simultaneously (see Figure \ref{fig:1.2}). 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/bias-variance.png}
+    \caption{\centering Balancing the total error of the model through bias and variance of it.}
+    \label{fig:1.2}
+\end{figure}
 \section{Linear regression}
 
 Linear regression is one of the most fundamental methods in ML. It is a parametric method used for regression tasks, assuming that the true relationship between the predictors and the target variable is linear \cite{islp}.
