@@ -56,7 +56,7 @@ to pay parts of their profit to their investors on a regular basis (e.g., Apple,
     \label{fig:2.1}
 \end{figure}
 \section{Rolling window and prediction methodology}
-
+\label{rolling}
 There are several approaches for splitting time-series data into training, validation, and test sets. For the purposes of next-day prediction — where data from trading days $t-q, t-(q-1), \dots, t-1$ 
 (for some $q$) are used to predict the closing price on day $t$ — the concepts of rolling window methodology are adopted \cite{forecast_book}.
 \par
@@ -206,7 +206,7 @@ is considered to be relatively stable market state. Value development between th
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{images/VIX_example.png}
+    \includegraphics[width=0.7\linewidth]{images/VIX_example.png}
     \caption{\centering VIX value movement through the 2025.}
     \label{fig:2.2}
 \end{figure}

@@ -1,4 +1,38 @@
 \chapter{Predictive analyses on IT segment}
 
-This chapter will be dedicated to certain results obtained during training and validation of several algorithms and approaches on the data.
-We plan to analyze results brought by included algorithms in first chapter in detailed manner.
+This chapter presents obtained modelling results. For each of the models used, in-depth parameter tuning and evaluation 
+on both the training-validation and test datasets are performed. 
+
+\section{Evaluation metrics}
+
+Throughout the thesis, particular metrics of goodness of regression are used. Suppose that on the day $t$
+we acquired closing price data $Y_t$; therefore, based on the methodology introduced earlier (Subchapter \ref{rolling}),
+we obtain a prediction for the day $t+1$ as $\hat{Y}_{t+1}$.
+
+Firstly, in order to measure deviation from the actual $Y_{t+1}$, metric \textbf{absolute percentage error} (APE) is used.
+The percentage relativization was chosen in order to unify the scale among all the stocks, making the prediction error comparable
+across the stocks and more interpretable. The complete definition of the metric is given as
+\begin{equation*}
+    \text{APE}(\hat{Y}_{t+1}, Y_{t+1})=\frac{Y_{t+1}-\hat{Y}_{t+1}}{Y_{t+1}}.
+\end{equation*}
+Building upon the APE definition, the average value of the APE for individual stocks over the entire time interval considered is evaluated.
+
+Apart from that, we introduce a baseline benchmark to measure the model's significance. According to Fama, the asset price developments correspond to 
+the random walk \cite{fama1970efficient}. In accordance with this, such naïve method can be introduced, that benchmark predicts the next-day price at the $t+1$
+to be equal to the price on the day $t$.
+
+With the benchmark method defined, we quantify performance as the proportion of predictions made by the model that are closer, in terms of APE, to the actual 
+closing price than the predictions made by the naïve benchmark. From now on, such benchmarking will be referred as the \textbf{model's dominance}.
+
+\section{Linear regression}
+
+\section{Lasso regularization}
+
+\section{Ridge regularization}
+
+\section{k-Nearest neighbours regression}
+
+\section{Random forest regression}
+
+\section{ARIMA regression}
+
