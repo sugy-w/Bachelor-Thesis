@@ -25,8 +25,59 @@ With the benchmark method defined, we quantify performance as the proportion of 
 closing price than the predictions made by the naïve benchmark. From now on, such benchmarking will be referred as the \textbf{model's dominance}.
 
 \section{Linear regression}
+Although linear regression might seem rather simple, compared to other conventional ML frameworks it has been implemented in financial predictive
+modelling quite regularly. According to Zhao, linear regression is capable of reflecting the trend-based development of a certain stock \cite{zhao} up to a certain extent. 
+Zhao suggests that linear regression alone might not reflect patterns in general for any stock.
+
+On the other hand, Wang et al. suggest that linear regression, with appropriate data preprocessing, is capable of performing short-term predictions up to a certain
+accuracy threshold \cite{wang}.
+
+Our next-day approach can be considered short-term; therefore, we decided to include this framework in the thesis. Apart from the conventional regression, we considered 
+a possible feature selection optimization in each rolling window step and optimized the parameter $p$.
+
+\subsection{Possible feature selection}
+In order to analyze the possible contribution of omitting certain predictors, we implemented rolling forecasting with the selection of given $k$ most relevant predictors
+with respect to the next-day closing price. Taking into account the potentially extensive computational time of such prediction, predictor selection based on $F$-statistics
+was used. 
+
+The statistics reflect the ratio of variance explained by a single predictor (with respect to the closing price) to the remaining unexplained variance. Predictors that achieve higher values of the statistics
+are considered strongly correlated with the target \cite{islp}. After such precomputation, the $k$ best-performing predictors are kept in feature matrix.
+
+However, such an approach tends not to perform 
+significantly better than keeping all the predictors. Figure \ref{fig:3.1} shows a sample example of MAPE dependence on the number of selected best features for the stock Enphase Energy Inc. (ENPH).  
+
+It is possible to observe that omitting less correlated predictors causes and increase in MAPE. Up to a certain number $k$, the MAPE level tends to decrease. A further decrease in $k$ results in a stable MAPE level (red dotted line),
+which represents the level of MAPE when no predictors are omitted.
+
+Such behaviour was observed in the vast majority of stocks analyzed, with only slight (roughly $10^{-1} - 10^{-3}\%$) deviations below the benchmark line were observed. Furthermore, no feature selection in terms of linear regression 
+is used.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/enph_fs.png}
+    \caption{\centering MAPE dependence on number of features selected (stock ENPH).}
+    \label{fig:3.1}
+\end{figure}
+\subsection{Optimization of $p$}
+The only a priori model parameter present in the linear regression is the number of observations included in the training (denoted as $p$). Analysis of the dependence of MAPE on the parameter $p$
+for the selected ENPH stock, is shown in Figure \ref{fig:3.2}. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/enph_mape.png}
+    \caption{\centering MAPE dependence on the rolling window training length parameter (stock ENPH).}
+    \label{fig:3.2}
+\end{figure}
+
+In Figure \ref{fig:3.2}, local minimum is observed at $p=4$. In most of the included stocks we observed a similar convex development of MAPE dependence on $p$. What is more,
+the minimum, in the vast majority of stocks, is observed in $p=4$, rarely at $p=5$. The value of $p=4$ was chosen, based on the optimization on the training-validation 
+interval.
+
+Such a defined model achieved (on the training-validation interval) MAPE of $\textbf{1.844 \%}$ and dominance of $\textbf{44.82 \%}$ on average for all the stocks. In terms of interpretation,
+this means that linear regression is inferior, in terms of prediction accuracy, to the naïve benchmark on the given interval.
 
 \section{Lasso regularization}
+
+% Pre čitateľnosť, keď píšem v pdf-ku
+\newpage
 
 \section{Ridge regularization}
 
