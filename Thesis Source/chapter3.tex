@@ -85,33 +85,34 @@ In the vast majority of stocks, maximum error of $20 \%$ was observed; however e
 in minimal number of cases – average percentual error per stock did not exceed $4 \%$. 
 
 \section{Lasso regularization}
+\label{sub:lasso}
 
-Introducing regularization into the regression process might presumably improve the overall performance, in terms 
-of the introduced metrics, even though explicit feature selection has not proved to be any sufficient. Apart from the linear regression,
-it is necessary to further tune the regularization parameter $\lambda$, together with the length of training set $p$.
+Introducing regularization into the regression process might presumably improve the overall performance in terms 
+of the introduced metrics, even though explicit feature selection has not proved to be sufficient. Apart from the linear regression framework
+it is necessary to further tune the regularization parameter $\lambda$, together with the length of the training set $p$.
 
-Figure \ref{fig:3.3} visualizes performance of the MAPE depending on the chosen parameters $\lambda, p$ for the ENPH stock. 
+Figure \ref{fig:3.3} visualizes the performance of MAPE depending on the chosen parameters $\lambda$ and $p$ for the ENPH stock. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{images/enph_lambda.png}
     \caption{\centering MAPE dependence on the rolling window training length parameter and regularization parameter (stock ENPH).}
     \label{fig:3.3}
 \end{figure}
-In terms of the parameter $p$, it is possible to observe that the lowest MAPE is being achieved in approximate interval $p \in [4, 8]$ for chosen values of $\lambda$.
-Based on further evaluation of mean MAPE performance for all the stocks, the lowest mean MAPE was achieved for $p=4$. 
+In terms of the parameter $p$, it is possible to observe that the lowest MAPE is achieved in the approximate interval $p \in [4, 8]$ for the chosen values of $\lambda$.
+Based on further evaluation of mean MAPE performance across all stocks, the lowest mean MAPE was achieved for $p = 4$. 
 
-Further, the interval of the optimal setting of $\lambda$ for the given stocks as $\lambda \in [4, 5]$. Figure \ref{fig:3.4} depicts the overview of MAPE for the chosen ENPH stock.
-What needs to be pointed out is the MAPE fluctuation on the given subinterval $[4.5, 4.7]$. The improvement remains negligible, reaching at most the magnitude of $10^{-3} - 10^{-2} \%$. 
+Further, the interval of the optimal setting of $\lambda$ for the given stocks is $\lambda \in [4, 5]$. Figure \ref{fig:3.4} depicts an overview of MAPE for the chosen ENPH stock.
+What needs to be pointed out is the MAPE fluctuation on the given subinterval $[4.5, 4.7]$. The improvement remains negligible, reaching at most a magnitude of $10^{-3} - 10^{-2} \%$. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{images/lambda_lasso.png}
-    \caption{\centering MAPE dependence on the rolling window training length parameter and regularization parameter (stock ENPH).}
+    \caption{\centering MAPE dependence on the rolling window training length parameter and regularization parameter in Lasso (stock ENPH).}
     \label{fig:3.4}
 \end{figure}
-With the optimized parameters we decided to verify two approaches in setting the model. First, we used optimized values of $\lambda$ of each of the stocks. The resulting value 
-is $\overline{\lambda}=4.15$. We set up the Lasso model with the given $\overline{\lambda}$ (General model) and, in contrast, we verified performance of model,
-which checks which stock is being predicted and fetches particular stock's optmized $\lambda$ (Stock-wise model). The results of performance on the given training-validation interval
-are overviewed in the Table \ref{tab:mape_lambda}.
+With the optimized parameters, we decided to verify two approaches to setting up the model. First, we used optimized values of $\lambda$ of each of the stocks. The resulting value 
+is $\overline{\lambda}=4.15$. We set up the Lasso model with the given $\overline{\lambda}$ (General model) and, in contrast, we verified performance of a model that identifies the predicted stocks and applies its particular optimized $\lambda$
+(Stock-wise model). The results of performance on the given training-validation interval
+are summarized in Table \ref{tab:mape_lambda}.
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|}
@@ -123,32 +124,92 @@ General model & 2.297 & 36.16 \\
 Stock-wise model & 2.27 & 35.81 \\
 \hline
 \end{tabular}
-\caption{MAPE and dominance values for different settings of the model.}
+\caption{MAPE and dominance values for different settings of the model (Lasso).}
 \label{tab:mape_lambda}
 \end{table}
+Generally speaking, compared to the linear regression, there is a marginal decline in terms of both metrics. What is interesting is the behaviour of both metrics. The general model has achieved comparatively worse MAPE; however,
+its dominance is slightly higher than that of the stock-wise model.
 
-Generally speaking, compared to the linear regression there is a marginal downfall in terms of both metrics. What is interesting is the behaviour of both metrics. General model has achieved comparatively worse MAPE; however,
-its dominance is little over the dominance of the stock-wise model.
-
-Lastly, Figure \ref{fig:3.6} visualizes performance of the optimized model for single stocks. The visualization shows performance of general model
-as there is no marginal difference in the particular visualisation of stock-wise model. 
+Lastly, Figure \ref{fig:3.6} visualizes the performance of the optimized model for individual stocks. The visualization shows performance of the General model
+as there is no significant difference in the corresponding visualization of stock-wise model. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{images/distr_lasso.png}
     \caption{\centering Errors in prediction for single stocks (General model Lasso).}
     \label{fig:3.6}
 \end{figure}
-It is possible to suspect very similar distribution to the one in Figure \ref{fig:3.5}, visualizing distribution of error in linear regression.
-Even though, there are a few minor differences – the order of the stocks, in terms of range of errors, is not preserved. For example, the lowest range in Lasso was achieved on AAPL stock (Apple Inc.); however,
-in linear regression in stock IBM. This suggests that different ML algorithms most likely perform in various ways when predicting next-day price of single stocks – the stock having relatively the best results of predictions
-does not have to perform the best in the other algorithm. 
+It is possible to suspect a very similar distribution to the one in Figure \ref{fig:3.5}, which visualizes distribution of error in linear regression.
+Even so, there are a few minor differences – the order of the stocks, in terms of the range of errors, is not preserved. For example, the lowest range in Lasso was achieved on AAPL stock (Apple Inc.); however,
+in linear regression, it was achieved for the IBM stock. This suggests that different ML algorithms most likely perform differently when predicting next-day price of single stocks – the stock having relatively the best prediction results
+under one algorithm does not necessarily perform best under another.
+
+\section{Ridge regularization}
+Similarly to Lasso, there are several properties of Ridge regularization, that might improve the performance of the regression, compared to the
+linear regression. The parameter tuning process in this case is analogous to the one used in Lasso (see Subchapter \ref{sub:lasso}).
+
+In Figure \ref{fig:3.7}, the dependence of MAPE for the chosen ENPH stock on the selected regularization parameter $\lambda$ and the training window length $p$ is depicted.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/enph_heat_ridge.png}
+    \caption{\centering MAPE dependence on the rolling window training length parameter and regularization parameter in Ridge (stock ENPH).}
+    \label{fig:3.7}
+\end{figure}
+Directly compared to the MAPE development in Figure \ref{fig:3.3}, there is clear evidence of the optimal value of $p$ being 
+in the segment of $p \in [4, 6]$. The rise of error with the increasing value of $p$ is much more visible and stable for various values of $\lambda$.
+With further experiments, value of $p=4$ was chosen for later analyses. Analogous to the problem of choosing value of $p$ in Lasso regression,
+a certain subinterval of near-optimal values was localized – the lowest value was chosen to save computational time. 
+
+As seen in Figure \ref{fig:3.8}, dependence of MAPE on the value of the parameter $\lambda$ tends to follow a convex course. The segment of optimal $\lambda$ for the set of stocks 
+lies in the interval $\lambda \in [170, 260]$.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/lambda_ridge.png}
+    \caption{\centering MAPE dependence on the rolling window training length parameter and regularization parameter in Ridge (stock ENPH).}
+    \label{fig:3.8}
+\end{figure}
+Similar to the approach in Lasso regularization, using two model settings were chosen. The average value of optimal $\lambda$ for the analysed stocks 
+is $\overline{\lambda}=211.85$ (General model). Similarly, a model using the optimal value of $\lambda$ for each stock independently was also implemented (Stock-wise model).
+The final evaluation of these models is accumulated in Table \ref{tab:mape_lambda2}.
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Model Type} & \textbf{MAPE (\%)} & \textbf{Dominance (\%)} \\
+\hline
+General model & 1.791 & 45.08 \\
+\hline
+Stock-wise model & 1.79 & 45.15 \\
+\hline
+\end{tabular}
+\caption{MAPE and dominance values for different settings of the model (Ridge).}
+\label{tab:mape_lambda2}
+\end{table}
+Compared to the evaluation of linear regression, progress was achieved in both metrics progress. Ridge models have clearly better dominance
+and MAPE. Interestingly, compared to the case of Lasso, where counter-intuitive behaviour of MAPE and dominance was observed, the opposite behaviour
+is seen in Ridge models. General model tends to have higher MAPE and lower dominance, which is more intuitive.
+
+Last but not least, an overview of error distributions for individual stocks in the models is depicted in Figure \ref{fig:3.9} (General model). Similar to the Lasso case, the distinctions between
+General and Stock-wise models are negligible. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/distr_ridge.png}
+    \caption{\centering Errors in prediction for single stocks (General model Ridge).}
+    \label{fig:3.9}
+\end{figure}
+Overall, there are only minor distinctions to the presented Figures \ref{fig:3.5} and \ref{fig:3.6}, mainly in the order of stocks based on the error range. This again suggests
+that different ML frameworks tend to have varying performance across different stocks.
+
+\section{k-Nearest neighbours regression}
+Compared to the methods used earlier in this chapter, k-NN is a non-parametric method. The effect of this quality on the prediction power
+is definitely worth exploring. Even though the framework seems simple and one would expect a low chance of practical use, quite a few studies demonstrate
+its potential and relevance in predicting stock prices.
+
+
+% Tu by bolo fajn pocitovať niekoho
 
 % Pre čitateľnosť, keď píšem v pdf-ku
 \newpage
 
-\section{Ridge regularization}
-
-\section{k-Nearest neighbours regression}
 
 \section{Random forest regression}
 
