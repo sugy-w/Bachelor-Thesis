@@ -200,18 +200,47 @@ Overall, there are only minor distinctions to the presented Figures \ref{fig:3.5
 that different ML frameworks tend to have varying performance across different stocks.
 
 \section{k-Nearest neighbours regression}
-Compared to the methods used earlier in this chapter, k-NN is a non-parametric method. The effect of this quality on the prediction power
-is definitely worth exploring. Even though the framework seems simple and one would expect a low chance of practical use, quite a few studies demonstrate
+Compared to the methods used earlier in this chapter, k-NN is a non-parametric method. The effect of this property on the predictive performance
+is definitely worth exploring. Although the framework seems simple and one might expect limited practical applicability, several studies demonstrate
 its potential and relevance in predicting stock prices.
 
+Huang \cite{clanok5} included the k-NN algorithm in the stack of algorithms applied. Even though k-NN did not prove to be the best-performing among the algorithms used, Huang
+states that k-NN performs better in terms of the employed evaluation metric than more complex support vector regression framework.
 
-% Tu by bolo fajn pocitovať niekoho
+Further, Yin et al. \cite{konferencia1} showed that the k-NN algorithm tends to perform well, as their analysis of certain US stocks demonstrated that the
+deviation of predictions is relatively low, compared to other frameworks even for longer forecast periods.
 
-% Pre čitateľnosť, keď píšem v pdf-ku
-\newpage
+In the case of this algorithm, it is necessary to analyze the combined effect of choosing both parameters $k$ (number of neighbours) and the length of the training window $p$.
+Figure \ref{fig:3.10} shows the effect of dependence of MAPE on given values of parameters. The visualization is based on the averaged results of four given stocks: Roper Technologies Inc. (ROP),
+Enphase Energy Inc. (ENPH), Cadence Design Systems Inc. (CDNS), and EPAM Systems Inc. (EPAM).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/knn_heat.png}
+    \caption{\centering Dependence of $k$ and $p$ parameters on MAPE of next-day predictions (k-NN; average among chosen stocks).}
+    \label{fig:3.10}
+\end{figure}
+There is a clear trend showing that the most influential parameters is $k$, number of neighbours. The most interesting observation is the almost constant MAPE
+across all the considered values of $p$. This appears to be highly counter-intuitive quality; however, further analyses have shown that it could be explained 
+as a form of pathological behaviour of k-NN algorithm. 
+
+Across all stocks k-NN tends to reach its optimal setting when $k = 1$. In all rolling window steps across all the stocks, the closest '{}neighbour'
+to the prediction input is the observation from the most recent previous day. As k-NN has optimal setting in $k = 1$ regardless of $p$, k-NN algorithm effectively performs
+as a form of the proposed naïve benchmark. Consequently, k-NN cannot outperform it. Such setting ($k=1, p=4$) has achieved average MAPE per stock $\textbf{1.69 \%}$.
+
+To complete the analysis, Figure \ref{fig:3.11} depicts the distribution of errors across stocks. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/distr_knn.png}
+    \caption{\centering Errors in prediction for single stocks (k-NN).}
+    \label{fig:3.11}
+\end{figure}
+Again, the same property of model applies here as well. The individual error distributions tend to be very similar; however, the order of stocks based on range of the error is slightly shuffled. Interestingly,
+the order of stocks is very similar to the one in Figure \ref{fig:3.9} (Ridge). This may root from the fact that these models are very close to each other in terms of MAPE per stock. 
 
 
 \section{Random forest regression}
+% Pre čitateľnosť, keď píšem v pdf-ku
+\newpage
 
 \section{ARIMA regression}
 
