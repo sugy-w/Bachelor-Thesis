@@ -200,6 +200,7 @@ Overall, there are only minor distinctions to the presented Figures \ref{fig:3.5
 that different ML frameworks tend to have varying performance across different stocks.
 
 \section{k-Nearest neighbours regression}
+\label{knn}
 Compared to the methods used earlier in this chapter, k-NN is a non-parametric method. The effect of this property on the predictive performance
 is definitely worth exploring. Although the framework seems simple and one might expect limited practical applicability, several studies demonstrate
 its potential and relevance in predicting stock prices.
@@ -239,8 +240,121 @@ the order of stocks is very similar to the one in Figure \ref{fig:3.9} (Ridge). 
 
 
 \section{Random forest regression}
-% Pre čitateľnosť, keď píšem v pdf-ku
-\newpage
+% Grammar check odtiaľto!
+The Random forest regression framework is a frequently adopted algorithm in the finance area.
+There are studies employing it to predict the next-day price developments. Khaidem et al. \cite{khaidem} implemented
+Random Forest in its classifier form to predict direction of change of the next-day price. Using specific feature engineering,
+the authors suggest that this framework is capable of outperforming random guessing.
+
+However, there are few papers adopting the regression form of Random Forest for stock price prediction. Krauss et al. \cite{krauss} proposed 
+an ensemble implementation of Random Forest in combination with other algorithms, but reported performance only on the S\&P 500 index. 
+
+In the analyses conducted in this thesis, Random Forest Algorithm (RFA) aligns with many phenomena observed earlier. In Figure \ref{fig:3.12}, the dependence
+of MAPE, for a single stock, on the parameter $p$ – the length of the training window – is shown. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/enph_rfa.png}
+    \caption{\centering Dependence of MAPE on the length of the training window $p$ (stock ENPH, Random Forest).}
+    \label{fig:3.12}
+\end{figure}
+A distinct feature, similar to the one explored in the Subchapter \ref{knn}, can be observed. For all individual stocks in the datasets,
+RFA tends to perform the best in terms of MAPE when $p = 1$. Effectively, this means that training phase consists of only the most recent known data entry – the previous trading day.
+Consequently, RFA tends to fall into explained pathological case, equivalent to the proposed naïve benchmark.
+
+Moreover, tuning the available parameters (e.g., number of decision trees in the forest, maximum depth of single trees, etc.) does not change the course of parameter optimization. In all analyses and across 
+all analyzed stocks, the model setting $p = 1$ performs best. In addition, for settings $p > 1$, there is no improvement in dominance compared to the approaches presented above using other algorithms. Figure \ref{fig:3.12}
+shows dependence of model dominance on the parameter $p$ – the best setting in terms of the dominance is $p = 2$. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/rfa_dominance.png}
+    \caption{\centering Dependence of model dominance on training window length (stock ENPH).}
+    \label{fig:3.13}
+\end{figure}
+
+According to the analyses, this means that evaluation of MAPE is the same as in the k-NN framework. The value of average MAPE per stock (in the optimal model) is $\textbf{1.69 \%}$. 
 
 \section{ARIMA regression}
+
+As mentioned in Subchapter \ref{sub:arima}, ARIMA framework is capable of capturing time dependencies by default. This 
+can be beneficial for predictive analysis in this context. In order to tune parameters $p, d, q$ of the ARIMA model,
+an approach based on the principles of grid search was used.
+
+For each particular rolling window, initial state is set as $p = 0, d = 0, q = 0$. Incrementally, algorithm evaluates neighboring settings,
+such as $p+1, q+1, d+1$. For each of the combinations (up to the defined upper limit of each parameter), model is fitted according to the maximum likelihood estimation (according to the Equation \eqref{MLE}).
+For each fitting, Bayesian information criterion is evaluated and finally, based on this metric, the best-performing setting is selected \cite{pmdarima}.
+
+This method is somewhat naïve optimizer and, in terms of time complexity, computationally cumbersome. However, for the purposes of this thesis, this approach is suitable. 
+
+In this case, there is no need to present any dependence of MAPE or dominance on the chosen model parameters. For each rolling window and for each stock within it,
+parameters are chosen ad hoc.
+
+On the training-validation interval, this optimized model achieved an average MAPE per stock $\textbf{1.897 \%}$ and dominance of $\textbf{58.25 \%}$.
+Although the model was not able to outperform naïve benchmark or even Ridge in terms of MAPE, it performed best overall in terms of model dominance. 
+Such result is particularly interesting, as a comparatively lower MAPE does not necessarily imply higher dominance.
+
+\section{Test evaluation}
+In the previous subchapters, the process of parameter tuning was outlined in detail and, based on the introduced metrics, evaluated in order to optimize
+model performance. As introduced earlier, the same rolling-window-based prediction approach will be used on the test interval as well (see Subchapter \ref{testing_sub}).
+
+The evaluation of all implemented algorithms on the test interval is shown in Table \ref{tab:test}. For completeness and easier interpretation purposes,
+Table \ref{tab:trainval} also summarizes the results obtained on training-validation interval as well. Values of model dominance for k-NN and RFA are blank as they
+have no interpretative value – models are equivalent to the naïve benchmark. 
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Model Type} & \textbf{MAPE (\%)} & \textbf{Model Dominance (\%)} \\
+\hline
+ARIMA & 1.897 & 58.25 \\
+\hline
+Ridge (Stock-wise model) & 1.79 & 45.15 \\
+\hline
+Ridge (General model) & 1.791 & 45.08 \\
+\hline
+Linear regression & 1.844 & 44.82 \\
+\hline
+Lasso (General model) & 2.297 & 36.16 \\
+\hline
+Lasso (Stock-wise model) & 2.27 & 35.81 \\
+\hline
+Random Forest  & 1.69 & \\
+\hline
+k-Nearest neighbours & 1.69 & \\
+\hline
+\end{tabular}
+\caption{ Evaluation of tuned models on the training-validation interval.}
+\label{tab:trainval}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Model Type} & \textbf{MAPE (\%)} & \textbf{Model Dominance (\%)} \\
+\hline
+ARIMA & 1.923 & 56.68 \\
+\hline
+Ridge (Stock-wise model) & 1.794 & 45.94 \\
+\hline
+Ridge (General model) & 1.798 & 45.88 \\
+\hline
+Linear regression & 1.848 & 43.47 \\
+\hline
+Lasso (General model) & 2.24 & 38.83 \\
+\hline
+Lasso (Stock-wise model) & 2.31 & 37.1 \\
+\hline
+Random Forest & 1.72 & \\
+\hline
+k-Nearest neighbours & 1.72 & \\
+\hline
+\end{tabular}
+\caption{ Evaluation of tuned models on the test interval.}
+\label{tab:test}
+\end{table}
+
+As seen in Tables \ref{tab:trainval} and \ref{tab:test}, in both cases the metrics tend to reach similar values. This suggests that the models have not
+suffered from overfitting. Apart from that, it is interesting to observe similar values of both metrics on comparatively wide intervals.
+This may indicate that models are relatively stable.
 

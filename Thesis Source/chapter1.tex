@@ -252,6 +252,7 @@ outputs a target approximation for the input as $\hat{Y}^{(b)}$. Then, the final
 This resampling strategy introduces diversity among individual trees, which is essential for reducing the variance in the final model \cite{islp, skiena}.
 
 \section{Time-series analysis (ARIMA)}
+\label{sub:arima}
 
 In all of the models introduced earlier, the idea of training the model was to tune the model to
 be able to generalize the input variables into output, the target variable. For the purposes of predicting 
@@ -292,6 +293,7 @@ The model relies on the assumption that $\epsilon_t \stackrel{\text{i.i.d.}}{\si
 the joint likelihood of the observed time series can be written as
 
 \begin{equation}
+    \label{MLE}
     \mathcal{L}(\bm{\phi}, \bm{\theta}, \sigma^2 | Y_1, Y_2, \ldots, Y_T)
 \end{equation}
 
