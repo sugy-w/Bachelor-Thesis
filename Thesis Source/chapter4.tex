@@ -1,11 +1,92 @@
-\chapter{Next-day optimization of portfolio based on model's prediction}
+\chapter{Next-day optimization of portfolio}
 
-This chapter will deal with portfolio management using the obtained predictions.
+The goal of this chapter is to implement obtained prediction models and utilize their prediction ability
+to construct an investment portfolio management framework. Within this chapter, an investment portfolio refers
+to the allocating capital among particular stock assets in order to achieve various objectives (e.g., maximize return, minimize volatility, etc.).
 
 \section{Markowitz mean-variance portfolio}
 
+Allocating capital to a given set of stocks in order to balance the trade-off of asset volatility 
+and portfolio return can be formulated as an optimization problem. There are several approaches
+to properly constructing a portfolio strategy, each requiring different types of information from the data \cite{portfolio}.
+
+For the purposes of this thesis, together with the obtained next-day price prediction of individual stocks, as
+the most suitable framework can be considered \textbf{mean-variance portfolio} (MVP), introduced for the 
+first time in 1952 by Harry Markowitz \cite{portfolio}.
+
+Suppose $\mathbf{w} \in \mathbb{R}^a$, where $a$ is the number of assets considered, is a vector of weights, and $\mathbf{w}_i$ represents
+fraction of capital assigned to the $i$-th asset. Further, let $\bm{\Sigma} \in \mathbb{R}^{a \times a}$ denote the covariance matrix of assets price developments
+in the given time interval. Lastly, let $\bm{\mu} \in \mathbb{R}^{a}$ represents the vector of expected returns of considered assets in the next time unit.
+
+The goal is to balance the overall return of the portfolio (represented as $\mathbf{w}^{\top}\bm{\mu}$) with the portfolio variance (represented as $\mathbf{w}^{\top}\bm{\Sigma}\mathbf{w}$). Such 
+a bi-objective optimization problem can be formulated as follows:
+\begin{equation}
+    \label{eq:4.1}
+    \max_{\mathbf{w}} \>\>\> \mathbf{w}^{\top}\bm{\mu} - \lambda \mathbf{w}^{\top}\bm{\Sigma}\mathbf{w},
+\end{equation}
+where $\lambda$ is a hyperparameter controlling the portfolio's aversion to the risk. This problem aligns with the assumption that higher returns yield higher risk \cite{portfolio}.
+
+For the purposes of this thesis, it is sufficient to introduce certain constraints in Equation \eqref{eq:4.1}. In the considered strategy, short selling of stocks (seeking profit from an asset's decline) is forbidden
+(represented as $\mathbf{w} \geq \mathbf{0}_a$). Lastly, we require that the entire capital be allocated, with no uninvested funds (represented as $\mathbf{1}_a^{\top}\mathbf{w}=1$).
+
+However, framework in Equation \eqref{eq:4.1}, together with the introduced constraints, tends to be impractical in real-world scenarios \cite{portfolio}. The problem arises with frequent re-allocations
+and transaction costs in practice. Particularly, frequent re-allocations generate higher costs for the investor and subsequently lead to a decline in profit. With next-day predictions
+considered in this thesis, we decided to maintain the daily re-allocations; however, to minimize day-to-day transactions, we introduced an ad hoc modification of the framework based on Equation \eqref{eq:4.1}.
+
+Consider the variable $\mathbf{w}_t \in \mathbb{R}^a$ representing the portfolio allocation weights on day $t$ and $\bm{\mu}_t \in \mathbb{R}^a$ being the expected returns 
+of the assets on day $t$. Taking into account Equation \eqref{eq:4.1} and the objective of minimizing transactions, it is possible to define the optimization problem of capital allocation on day $t$ as follows:
+\begin{equation}
+\begin{aligned}
+\max_{\mathbf{w}_t} \quad 
+& \mathbf{w}_t^{\top}\bm{\mu}_t 
+- \lambda_{\text{R}} \mathbf{w}_t^{\top}\bm{\Sigma}\mathbf{w}_t 
+- \lambda_{T} \|\mathbf{w}_t - \mathbf{w}_{t-1}\|_1 \\
+\\
+\text{Subject to:} \quad 
+& \mathbf{w}_t \geq \mathbf{0}_a \>\>\> \text{and} \>\>\> \mathbf{1}_a^{\top}\mathbf{w}=1
+\end{aligned}
+\end{equation}
+where $\lambda_R$ denotes risk-aversion hyperparameter and $\lambda_T$ stands for approximate cost of a single transaction \cite{portfolio}. This modified MVP framework will be used in all analyses presented in the chapter.
+
 \section{Portfolio evaluation metrics}
 
+In order to evaluate success and to compare different portfolio-building settings, it
+is sufficient to define comparative metrics that measure specific qualities of a portfolio.
+
+Suppose strategy is applied over a time interval of length $N$. We can track the value of the portfolio over this interval; let
+the portfolio values be represented as a time series $V = V_1, V_2, \ldots, V_N$.
+
+To measure the average percentage return per year, we can define:
+\begin{equation}
+    \label{eq:4.3}
+    \text{CAGR}(V) = \left(\frac{V_N}{V_1}\right)^ {\frac{1}{r}} - 1 ,
+\end{equation}
+where $r$ is the number of trading years between $V_1$ and $V_N$. The metric in Equation \eqref{eq:4.3} represents for \textbf{cumulative annual growth return} (CAGR) \cite{portfolio}.
+
+In order to quantify volatility of the strategy, let $r_t = \frac{V_t}{V_{t-1}} - 1$ denotes the return on day $t$. Volatility over a given
+period is given as standard deviation of $r_1, r_2, \ldots, r_T$ defined as $\sigma = \sqrt{\frac{1}{T}\sum_{t=1}^T (r_t - \overline{r})^2}$, where $\overline{r}$ denotes
+the mean of $r_1, r_2, \ldots, r_T$. To annualize this metric, we define:
+\begin{equation}
+    \label{eq:4.4}
+    \text{AV}(T) = \sigma \sqrt{P},
+\end{equation}
+where $P$ is the number of periods (trading days) per year. This metric is referred to as \textbf{annualized volatility} (AV) \cite{portfolio}.
+
+Last but not least, it is possible to define a compound metric that takes into account both Equations \eqref{eq:4.3} and \eqref{eq:4.4}. Let us define:
+\begin{equation}
+    \text{Sharpe ratio}(T) = \frac{\text{CAGR}(T)}{\text{AV}(T)},
+\end{equation}
+which is referred to as the \textbf{Sharpe ratio} and represents the return the strategy earns per unit of risk \cite{portfolio}.
+
 \section{Evaluation on the training-validation interval}
+
+Despite the total number of considered variants of models being $8$, we decided to include subset of them in the portfolio-building analyses. Naturally, we chose ARIMA model, as its dominance was the highest among 
+all the models. Further, we decided to include both Ridge and Lasso  (in their General model form). These two were selected to analyze the performance of two marginally different model frameworks (in term of both MAPE and model dominance).
+
+\subsection{Lasso}
+
+\subsection{Ridge}
+
+\subsection{ARIMA}
 
 \section{Evaluation on the test interval}
