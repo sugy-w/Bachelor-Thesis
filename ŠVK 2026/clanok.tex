@@ -365,7 +365,213 @@ Performance of models tend to reach similar values as on the training-validation
 Similar values of metrics indicate that models perform relatively stable on both (differently wide) interval of data.
 
 \section{Portfolio management}
+With obtained models, capable of producing trustworthy predictions on the analyzed universe of stocks, next step
+is employing these models in process of portfolio optimization. In this paper, portfolio is meant as decision-making yielding 
+allocation of capital across particular stocks in order to achieve various objectives (e.g., maximum return, minimal risk, etc.).
 
+\subsection{Theoretical foundations}
+Allocating capital to a given set of stocks in order to balance the trade-off of asset
+volatility and portfolio return can be formulated as an optimization problem. There
+are several approaches to properly constructing a portfolio strategy, each requiring
+different types of information from the data \cite{portfolio}.
+
+Taking into account having prediction of returns for the next day as a suitable baseline,
+\textbf{Markowitz mean-variance portfolio} (MVP) was chosen. However, its elementary form 
+tends to be impractical in practice \cite{portfolio}.
+
+Its augmented form, introducing transactions costs was adopted. The complete definition of
+the used framework is as follows:
+\begin{equation*}
+\begin{aligned}
+\max_{\mathbf{w}_t} \quad 
+& \mathbf{w}_t^{\top}\bm{\mu}_t 
+- \lambda_{\text{R}} \mathbf{w}_t^{\top}\bm{\Sigma}\mathbf{w}_t 
+- \lambda_{T} \|\mathbf{w}_t - \mathbf{w}_{t-1}\|_1 \\
+\\
+\text{Subject to:} \quad 
+& \mathbf{w}_t \geq \mathbf{0}_a \>\>\> \text{and} \>\>\> \mathbf{1}_a^{\top}\mathbf{w}=1,
+\end{aligned}
+\end{equation*}
+where variable $\mathbf{w}_t, \mathbf{w}_{t-1} \in \mathbb{R}^a$, where $a$ is the total number of assets, are vectors
+of weights of particular stock assets in portfolio on days $t$ and $t-1$ respectively. Further, $\bm{\Sigma} \in \mathbb{R}^{a \times a}$ is a covariance
+matrix of assets, $\lambda_R$ is the risk-aversion hyperparameter and $\lambda_T$ is the unit transaction cost parameter. 
+Lastly, for $\mathbf{x} \in \mathbb{R}^t$, $\|\mathbf{x}\|_1 = \sum_{i=1}^{t} \|x_i\|$ is the L1 or Manhattan norm.
+
+Such extended MVP framework not only balances return and variance of the possible portfolio, but penalizes high volume of transactions, which
+in practice imply lower losses \cite{portfolio}.
+
+This allocation framework is used for daily re-allocations, which means that in every trading day optimization is run and weights of single stock assets
+vary on daily basis.
+
+Subsequently, it is necessary to define crucial evaluation metrics. Using them, comparison of portfolios between each other would be possible and interpretable.
+
+Suppose portfolio is applied on time interval $[1, N]$ and value of the portfolio is a time series $V = V_1, V_2, \ldots, V_N$ 
+
+\textbf{Cumulative annual growth rate}, representing the average percentage return per year, is given as follows \cite{portfolio}:
+\begin{equation}
+    \label{eq:1}
+    \text{CAGR}(V)=\left(\frac{V_N}{V_1}\right)^{\frac{1}{r}} - 1,
+\end{equation}
+where $r$ denotes number of trading years between $1$ and $N$ timepoints.
+
+Further, to quantify risk and volatility of the portfolio \textbf{annualized volatility} (AV) can be adopted \cite{portfolio}. Let $r_t = \frac{V_t}{V_{t-1}} - 1$ denote return 
+on day $t$. Volatility across the given time interval is given as standard deviation of $\sigma$ of $r_1, r_2, \ldots, r_N$. Subsequently, annualized volatility is given as follows:
+\begin{equation}
+    \label{eq:2}
+    \text{AV}(V) = \sigma\sqrt{P},
+\end{equation}
+where $P$ is the number of trading days per year.
+
+Lastly, one compound metric, based on Equations \eqref{eq:1} and \eqref{eq:2} can be derived \cite{portfolio}. \textbf{Sharpe ratio} stands for return strategy earns per unit risk and is given as:
+\begin{equation}
+    \text{Sharpe ratio}(V) = \frac{CAGR(V)}{AV(V)}
+\end{equation} 
+
+\subsection{Optimization on training-validation interval}
+With obtained predictions, the only parameter of the optimization model to tune is $\lambda_R$, steering the risk-aversion.
+
+In Figure \ref{fig:5}, dependence of CAGR on $\lambda_R$ (in Lasso General model) is depicted.
+It is possible to observe, that larger $\lambda_R$ (more conservative portfolio) yields larger CAGR.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/lambda_risk.png}
+    \caption{\centering Dependence of portfolio CAGR on risk-aversion parameter (Lasso General model).}
+    \label{fig:5}
+\end{figure}
+On top of that, in terms of CAGR dependence, such course was observed in all three analyzed model frameworks. Each portfolio, backed with predictions made by the particular model, has
+growing returns with growing value of $\lambda_R$.
+
+Speaking of AV, unified course is observed as well. Figure \ref{fig:6} shows dependence of AV on the value of $\lambda_R$.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/lambda_vol.png}
+    \caption{\centering Dependence of portfolio AV on risk-aversion parameter (Lasso General model).}
+    \label{fig:6}
+\end{figure}
+Even in this case, such declining course is observed in all three model frameworks.
+Even though course is universal for all the frameworks, each implementation was configured
+with of $\lambda_R = 1000$, as further growth has negligible effects on given evaluation metrics.
+In cases of Lasso and Ridge, General model variant was evaluated.
+% Really?
+
+Evaluation results on the training-validation interval are overviewed in Table \ref{tab:4}. Naïve strategy stands for portfoli optimization employed 
+with naïve benchmark prediction model.
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Portfolio Type} & \textbf{CAGR (\%)} & \textbf{AV (\%)} & \textbf{Sharpe ratio} \\
+\hline
+Naïve & 22.38 & 17.01 & 1.32 \\
+\hline
+ARIMA & 22.25 & 16.94 & 1.31 \\
+\hline
+Ridge (SM) & 21.68 & 16.89 & 1.28 \\
+\hline
+Ridge (GM) & 21.67 & 16.96 & 1.25 \\
+\hline
+Lasso (SM) & 18.58 & 17.08 & 1.09 \\
+\hline
+Lasso (GM) & 18.67 & 17.1 & 1.09 \\
+\hline
+\end{tabular}
+\caption{\centering Evaluation of tuned models on training-validation interval (SM -- Stock-wise model; GM -- General model).}
+\label{tab:4}
+\end{table}
+As a benchmark was used scenario of investing capital into two indices S\&P 500 and NASDAQ. Performance of these scenarios is 
+overviewed in Table \ref{tab:5}.
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Index name} & \textbf{CAGR (\%)} & \textbf{AV (\%)} & \textbf{Sharpe ratio} \\
+\hline
+S\&P 500 & 7.69 & 21.75 & 0.35 \\
+\hline
+NASDAQ & 9.19 & 25.52 & 0.36 \\
+\hline
+\end{tabular}
+\caption{\centering Evaluation of benchmark models on training-validation interval.}
+\label{tab:5}
+\end{table}
+Directly comparing results obtained by indices and models, portfolios backed by predictions perfomed marginally better in all reported metrics.
+On one hand, during the analyzed period, segment of IT experienced vast rise and this result is expected, but 
+on the other hand, NASDAQ index consists mainly from the technology and IT companies, so one could expect
+similar performance compared to the model backed strategies \cite{nasdaq}. 
+
+This means, that model backed strategies are capable of being both less risky and better in terms of average annual return.
+
+Overview of ARIMA backed strategy and investments in S\&P 500 and NASDAQ are visualized in Figure \ref{fig:7}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/arima_stock.png}
+    \caption{\centering Overview of portfolio value across training-validation interval.}
+    \label{fig:7}
+\end{figure}
+
+
+\subsection{Test evaluation}
+Optimized portfolio strategies were applied on the test interval as well. Throughout results are given in Table \ref{tab:6} together
+with performance of benchmark stock indices in the same time period in Table \ref{tab:7}.
+
+% Toto tu treba dokončiť, nech zbehnú testovacie behy SM
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Portfolio Type} & \textbf{CAGR (\%)} & \textbf{AV (\%)} & \textbf{Sharpe ratio} \\
+\hline
+Naïve & 17.2 & 26.35 & 0.65 \\
+\hline
+ARIMA & 16.47 & 26.14 & 0.63 \\
+\hline
+Ridge (SM) & 16.16  & 24.94  & 0.64  \\
+\hline
+Ridge (GM) & 15.98 & 24.95 & 0.64  \\
+\hline
+Lasso (SM) & 17.89 & 25.16 & 0.71 \\
+\hline
+Lasso (GM) & 17.64 & 25.19 & 0.7 \\
+\hline
+\end{tabular}
+\caption{\centering Evaluation of tuned models on test interval (SM -- Stock-wise model; GM -- General model).}
+\label{tab:6}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Index name} & \textbf{CAGR (\%)} & \textbf{AV (\%)} & \textbf{Sharpe ratio} \\
+\hline
+S\&P 500 & 19.22 & 15.20 & 1.26 \\
+\hline
+NASDAQ & 26.11 & 20.34 & 1.28 \\
+\hline
+\end{tabular}
+\caption{\centering Evaluation of benchmark models on test interval.}
+\label{tab:7}
+\end{table}
+Diametrally different evaluations of frameworks is observed. On the shorter test interval,
+benchmark indices overcame all the model backed strategies in all metrics. What is more is the opposite
+behavior of the models on the interval. While on the training-validation interval, models with the highest dominance
+reported the best results; on the test interval quite the opposite was observed.
+
+Paradoxically, the framework with the worst prediction results delivered the best performing portfolio strategy.
+This is quite an interesting result in context of the market regime in the time interval. During this period, US market (particularly IT and technology segment)
+experienced \textbf{bull market} -- phase in which market in general experiences higher returns and profits \cite{bull}.
+
+This results suggest that MVP backed strategies performed poorly in strong bull market phase. On the other hand, in relatively mediocre phase
+between 2017 and 2022 prediction backed strategy performed above expectations. 
+
+\section{Conclusions}
+
+% Tento test nie je úplne okej, treba to prezrieť!!!
+% Ešte aj pred spísaním celej bakalárky ofc aj!
+
+% Keď píšem v pdf-ku
+\newpage
 
 \nocite{*}
 \bibliographystyle{apalike}
