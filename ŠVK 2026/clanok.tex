@@ -1,0 +1,374 @@
+% !Mode:: "TeX::UTF-8"
+\documentclass{svk_en}
+%% ak pisete po slovensky, pouzijete namiesto horneho riadku
+%% \documentclass{svk_sk}
+
+\usepackage{algorithm}      % For the float environment (optional)
+\usepackage{algpseudocode}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bm}
+
+\begin{document}
+\title{On portfolio optimization based on machine learning predictions}
+
+\author{Marek Šugár
+\email{sugar11@uniba.sk}}
+
+%% vsimnite si, ze u autorov sa nepisu tituly
+%% prikaz \inst sluzi ako odkaz do zoznamu institucii
+%% (vid. nizsie)
+
+%% ak je skolitel/ka prace sucastne autorom, oznacte ho/ju uvedenym sposobom
+%% ak praca ma skolitela, ktory ale nie je autorom, uvedte to cez nasledujuci prikaz
+\supervisor{Samuel Rosa \inst{1}\email{samuel.rosa@fmph.uniba.sk}}
+%% ak praca nema skolitela, jednoducho vynechajte
+
+
+%% nasleduje kratka verzia nazvu clanku a 
+%% zoznam autorov (bez krstnych mien)
+%% tieto informacie sa zobrazuju v hlavicke
+\titlerunning{On portfolio optimization based on machine learning predictions}
+\authorrunning{Šugár}
+
+\institute{
+      Department of Applied Mathematics and Statistics,
+      FMFI UK,
+      Mlynská dolina,
+      842~48~Bratislava}
+
+\maketitle
+
+\begin{abstract}
+In the paper we present a complex analysis of approaches to portfolio optimization based on predictions made by machine learning (ML)
+algorithms. We compare several ML algorithms prediction accuracy based on unified sample of feature variables. In the paper, we focus on 
+segment of information technology (IT) companies listed on NYSE and NASDAQ exchanges and data between September 2017 and September 2025. Based on the results of our analyses, we propose a portfolio optimization strategy,
+which combines the Markowitz mean-variance approach with ML predictions. 
+
+\keywords{quantitative finance, portfolio optimization, machine learning, stock price prediction, stock segment}
+\end{abstract}
+
+\section{Introduction}
+
+Development of asset prices on financial markets is a complex 
+and non-linear time series, which is affected by a large number of 
+various external factors \cite{konferencia1}. Having an ability of 
+approximately predicting course of the asset prices in the future 
+is of great significance among the investors. Confident price forecasting
+can be used for devising informed investment strategy and capital optimization.  
+
+This paper studies possibilities of devising unified data pipeline, capable of
+processing stock price prediction and implementing it in optimizing capital allocation
+on a given historical time interval.
+
+Among a number of studies, involving forecasting price of stocks, many of them tend to 
+shift focus on a very limited number of stocks \cite{clanok5,konferencia1} or on main-stream
+stock indices \cite{krauss}. There is a lack of study conducted on a coherent group of stock assets.
+What is more, is the fact that these papers tend to shift focus solely on the prediction results and mechanics
+and do not employ them in further application analyses, which are potentially of a of great importance for real-world 
+investment decision-making.
+
+The paper focuses on a certain stock market segment. Among $500$ largest companies, listed
+on stock exchanges in the USA, by market capitalization, in total $65$ of them belong to the 
+market segment \textbf{Information technology} (IT). The main aim is to explore and evaluate
+prediction power of selected machine learning (ML) frameworks in predicting next-day closing price
+in the selected IT segment.
+
+Consequently, such acquired predictions will be used as a foundation of building investment portfolio
+consisting of stocks from the given segment.
+
+In the conclusion, paper implements and analyzes performance of a unified pipeline employing data pre-processing
+of a unified set of features related to the stock market, day-to-day closing price prediction and lastly portfolio
+optimization. From the broader perspective, paper brings study of predictability of the whole market segment on the
+US stock market.
+
+\section{Features used predictions}
+
+The amount of variables, which are directly or indirectly generated together with day-
+to-day market running, is quite enormous, and one should consider subsetting them for
+ML purposes wisely. 
+
+In this subchapter, we aim to show and justify the
+process of our general feature selection, mostly based on a priori knowledge of processes
+within financial markets and the variables’ most likely effect on stock markets.
+
+For the sake of completeness, data were obtained from the API directly fetching
+data available on Yahoo Finance – available through the Python abstraction
+provided by the \texttt{yfinance} library \cite{yahoo, yfinance}.
+
+\subsection{Stock market assets}
+As a possible predictors for modelling, other market assets might be valuable. In the paper, we employed
+a selected number of \textbf{stock indices} – an abstract concept accumulating information regarding various stocks
+into one unified asset. Indices are specifically designed to replicate price development of a given set of stocks. By choosing
+well designed indices – replicating broad scope of the market – model might acquire valuable predictor information.
+
+In the study, indices \textbf{S\&P 500} and \textbf{NASDAQ Composite} (NASDAQ) were used as predictors. S\&P 500 reflects performance
+of the $500$ largest US-traded stocks in terms of total market capitalization. Unlike S\&P 500, NASDAQ reflects performance of technology 
+and IT stocks traded in the USA, which might presumably be beneficial, taking into account the scope of the study.   
+
+Furthermore, one of the most fundamental part of the markets play \textbf{commodities}. This term represents mainly raw goods which are traded
+on the markets in large quantities.
+
+Their fundamental role in the market comes from the fact that most of these assets play an essential part in further processing,
+consumption and industry. Matsumoto et al. \cite{clanok3} suggest, that the commodity market
+play a vital part in the whole financial segment, which suggests, that including such
+assets in the predictor database might be sufficient.
+
+Among large number of commodities, we chose to include data regarding \textbf{gold} and \textbf{crude oil}. Gold still remains one of the most prominent securities. Most
+modern currencies are dependent on a system, where gold acts as a security stabilizing currency movements and limiting the governments issuing money \cite{gold}. Oil plays a vital role in keeping the world in motion, and a solid majority of the
+world’s activities depend on its presence and availability. This might imply that these
+dependencies on the global market would be projected into the price movement of the
+commodity.
+
+Lastly, in order ro reflect the international competitivness of US economy towards other major economies and quantitative information about
+relations among major economies, which is most likely an important predictor for stock price movements
+we decided to include data from the \textbf{foreign exchange market} (FOREX) – fully decentralized market reflecting relative value of 
+particular currency to the other currency.
+
+By our focus on the US market, we chose to include currency pairs with the Amer-
+ican dollar (USD) in all pairs. In particular, included pairs, together with the USD, are the Euro,
+Japanese yen, British pound sterling, Swiss franc, Australian dollar, Canadian dollar, and New
+Zealand dollar.
+
+\subsection{Other market indicators}
+
+In order to track the performance of the US economy more precisely, it is wise
+to include information regarding national debt as possible features. For this purpose,
+we included data about \textbf{US Treasury bonds}. According to Kumar et al. \cite{clanok6}, bonds of various 
+maturities are a valuable market predictor; that is why we selected wide range of bond maturities in the predictor database.
+We included $13$-week maturity (short term) and $5$-year long maturity.
+
+Apart from that, we included \textbf{Volatility Index} (VIX), which is a quantitative metric reflecting investor sentiment
+and is a sort of gauge tracking state of the US economy in terms of volatility and risk.
+
+\section{Prediction methodologies}
+
+\subsection{Rolling window}
+
+In order to properly process time series data into training, validation and test sets many approaches arise as suitable \cite{forecast_book}.
+For the purposes of this paper and the \textbf{next-day prediction} -- where data from trading days
+$t-q, t-(q-1), \ldots , t-1$ (for the given $q$) are employed as predictors for the closing price on day $t$ -- elements
+of rolling window might be adopted.
+
+In our approach, we define static time series interval, which serves as a hybrid training-validation interval. The interval is between $T_1$ and $T_2$ timepoints (with $T_2 - T_1 = M$).
+On this interval reside two frames of variables.
+
+Multivariate $\mathbf{X} \in \mathbb{R}^{M \times F}$, where $F$ denotes the number of features used, serves as an input variable. Included features in $\mathbf{X}$ are values of
+selected financial variables, shifted backwards up to $q = 9$ days. That means, that $\mathbf{X}[t]$ (the $t$-th row of $\mathbf{X}$) represents data 
+available through days $t-1, t-2, \ldots, t-9$. 
+
+Secondly, univariate $Y \in \mathbb{R}^M$ accumulates values of the target variable (next-day closing price) to the respective rows of $\mathbf{X}$. That means, that
+$Y[t]$ (the $t$-th value in the $Y$) is the closing price value on day $t$.
+
+Furthermore, we define parameter $1 \leq p < M$ (training window length parameter), which is the length of the training subwindow, meaning how many next-day predictions model 
+would be trained on. Lastly, parameter $w$ represents the forecasting horizon -- the number of time units into the future for which predictions are made (we define $w = 1$).
+
+With respect to the adopted data preparation and concepts of rolling window methodology, it is possible to generalize process of train and validation sets split. Algorithm \ref{alg:sliding_window}
+shows what parts of the global $\mathbf{X}, Y$ are directly available at the ceratin step of prediction.
+
+\begin{algorithm}[H]
+\caption{Rolling-window on $(T_1, T_2)$ interval}
+\label{alg:sliding_window}
+\begin{algorithmic}
+\State \# We assume $w \gets 1$
+\State \# The prediction target day is $t+p+1$
+\State \# We have available data up to day $t+p$
+\State Set look-back window length $p$ 
+\State Retrieve the feature variables' values into the $\mathbf{X}$
+\For{each stock in database}
+    \State Retrieve closing prices into the target $Y$
+    \For{$t = T_1$ to $T_2 - (p + 1)$}
+        \State $\mathbf{X}_{\text{train}} \gets \mathbf{X}[t : t+p]$ 
+        \State $Y_{\text{train}} \gets Y[t : t+p]$
+        \State $\mathbf{X}_{\text{predict}} \gets \mathbf{X}[t+p+1]$ 
+        \State \# $\mathbf{X}_\text{predict}$ is the latest available data 
+        \State Train model $\hat{f}$ on $(\mathbf{X}_{\text{train}}, Y_{\text{train}})$
+        \State Generate prediction: $\hat{f}(\mathbf{X}_{\text{predict}})$
+    \EndFor
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+In this paper, time interval between September 15, 2017 and December 31, 2022 (1333 trading days) is used as training-validation interval
+and time interval between January 1, 2023 and January 16, 2026 (761 trading days) is used as test interval.
+
+\subsection{ML frameworks}
+
+In the paper, various ML algorithms were employed. Taking into account rather 
+short-period forecast horizon, regularized variants of linear regression might be a suitable framework.
+Longer forecast periods tend to be non-linear and patterns in them are harder to generalize. That is why 
+we chose to employ variants \textbf{Lasso} and \textbf{Ridge}.
+
+The core property of these algorithms is their inability to be time-aware -- meaning they cannot capture time
+dependencies by default. One of the most widely used frameworks capable of it is the \textbf{Autoregressive Integrated Moving Average} (ARIMA) model. These three model frameworks were used as prediction engine
+for all the prediction analyses in the paper.
+
+\section{Predictive analyses}
+
+This part presents obtained modelling results. For each of the employed frameworks, in-depth parameter tuning and evaluation on both
+training-validation and test sets are reported.
+
+\subsection{Evaluation metrics}
+
+Based on the methodology introduced through Algorithm \ref{alg:sliding_window}, suppose we obtain prediction for the day $t+1$ (of certain stock) as $\hat{Y}_{t+1}$.
+In order to measure relative deviation from the actual $Y_{t+1}$, metric of \textbf{absolute percentage error} (APE) is used. Particular APE is given as:
+\begin{equation*}
+    \text{APE}(\hat{Y}_{t+1}, Y_{t+1})=\frac{|Y_{t+1}-\hat{Y}_{t+1}|}{Y_{t+1}}.
+\end{equation*}
+Further, the average value of the APE for inidividual stock, over the entire considered time interval, is evaluated (further referred to as \textbf{mean absolute percentage error} -- MAPE)
+
+Apart from that, we introduce a baseline benchmark to measure the model's significance. According to Fama \cite{fama1970efficient}, the asset price development corresponds to the random walk.
+In accordance with that, such naïve benchmark can be introduced, that it predicts the next-day price on day $t+1$ to be equal to the price on day $t$. With that, we quantify it as proportion
+of predictions, made by the non-naïve model, that are closer (in terms of APE) to the actual closing price than naïve predictions. Further, this will be referred to as \textbf{model dominance}.
+
+\subsection{Lasso regression}
+
+Lasso regularization model is explicitly defined using two parameters. Earlier introduced $p$ (length of the training window) and regularization parameter $\lambda$, steering the penalty in optimization.
+
+Figure \ref{fig:1} visualizes relationship of MAPE on the chosen values of parameters $\lambda$ and $p$ for the sample chosen stock Enphase Energy Inc. (Ticker ENPH).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/enph_lambda.png}
+    \caption{\centering MAPE dependence on the rolling window training length parameter and regularization parameter (Lasso, stock ENPH).}
+    \label{fig:1}
+\end{figure}
+In terms of the parameter $p$, it is possible to observe that the lowest MAPE is reported in the
+interval of $p \in [4, 8]$. Based on the further analyses, we chose $p = 4$ being constant. With such 
+value of the parameter $p$, the optimal (in terms of all stocks) interval for regularization parameter was localized being $\lambda \in [4, 5]$.
+Figure \ref{fig:2} shows an overview of MAPE for the chosen ENPH stock in dependence form $\lambda$. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/lambda_lasso.png}
+    \caption{\centering MAPE dependence on the rolling window training length parameter (Lasso, stock ENPH).}
+    \label{fig:2}
+\end{figure}
+Such a convex course was observed in all the analyzed stocks, which means that localizing optimal value of $\lambda$ was
+deterministic in all cases.
+
+In evaluation of the Lasso framework we decided to implement two various approaches. Firstly, we set up the Lasso model with one
+universal value of $\overline{\lambda}$ being the arithmetic mean of all optimized values of $\lambda$ of single stocks. The resulting 
+value is $\overline{\lambda} = 4.15$ (referred to as General model). Secondly, model with variable value of $\lambda$, is based on identifying
+stock and applying its optimized value of $\lambda$ in model (referred to as Stock-wise model).
+
+Evaluation of these model on the training-validation interval is shown in Table \ref{tab:1}:
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Model Type} & \textbf{MAPE (\%)} & \textbf{Dominance (\%)} \\
+\hline
+General model & 2.297 & 36.16 \\
+\hline
+Stock-wise model & 2.27 & 35.81 \\
+\hline
+\end{tabular}
+\caption{\centering MAPE and dominance values for different settings of the model (Lasso).}
+\label{tab:1}
+\end{table}
+What is interesting to point out, is the order of evaluation metrics for both models. It is possible to
+observe higher value of MAPE of General model; however, this setting achieved comparatively better dominance. 
+Such behaviour could be considered counter-intuitive, as higher proportion of predictions being closer to the actual 
+value of target variable might yield better overall deviation in general.
+
+\subsection{Ridge regression}
+With having the same model parameters as in the case of Lasso regression, it is possible to employ
+the same methodology of hyper-tuning the parameters.
+
+Figure \ref{fig:3} shows the compound dependence of MAPE on the rolling window parameter $p$ and regularization parameter $\lambda$ (stock ENPH). Likewise the Lasso, 
+this course in general applied to the vast majority of the analyzed stocks.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/enph_heat_ridge.png}
+    \caption{\centering MAPE dependence on the rolling window training length parameter and regularization parameter (Ridge, stock ENPH).}
+    \label{fig:3}
+\end{figure}
+In direct comparison with the Figure \ref{fig:1}, it is possible to observe clear segment of near-optimal values of $p \in [4, 6]$. 
+Based on the further experiments of fitting the model, we chose the value $p = 4$. 
+
+Further, it is possible to analyze dependence of MAPE solely on $\lambda$ regularization parameter. Figure \ref{fig:4} shows again
+convex course for the stock ENPH. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/lambda_ridge.png}
+    \caption{\centering MAPE dependence on the rolling window training length parameter (Ridge, stock ENPH).}
+    \label{fig:4}
+\end{figure}
+Even in this case, such course was observed in all of the analyzed stocks, therefore localizing the optimal value for each stock
+was determinsitic.
+
+Lastly, in terms of model evaluation, we employed the same approach as in the Lasso framework. The average value of optimal $\lambda$'s
+of each of the analyzed stocks if $\overline{\lambda} = 211.85$ (General model). The approach of using the optimal value of $\lambda$ for each stock
+was preserved as well (Stock-wise model). Evaluation results are given in Table \ref{tab:2}
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Model Type} & \textbf{MAPE (\%)} & \textbf{Dominance (\%)} \\
+\hline
+General model & 1.791 & 45.08 \\
+\hline
+Stock-wise model & 1.79 & 45.15 \\
+\hline
+\end{tabular}
+\caption{\centering MAPE and dominance values for different settings of the model (Ridge).}
+\label{tab:2}
+\end{table}
+Compared to the results in Table \ref{tab:1}, order of models is preserved -- Stock-wise model is superior
+in both of the metrics. What is more, relative differences of metric values between models is smaller, compared to 
+the Lasso framework.
+
+In terms of direct comparison, we observe marginal improvement compared to Lasso. Even though in terms of dominance,
+framework is inferior to the naïve benchmark, employing it showed progress.
+
+\subsection{ARIMA model}
+In the case of ARIMA we chose different approach to hypertune the parameters than in the previous two frameworks.
+For each particular rolling window, initial state $p = 0, d = 0, q = 0$ is set. Incrementally, algorithm
+explores the universe of possible settings by exploring the \textit{neighboring} states in the grid. All possible combinations
+of integer settings are fitted on the given training data and Bayesian information criterion (BIC) is evaluated \cite{pmdarima}.
+
+Subsequently, the optimal setting based on BIC is chosen. This method is somewhat naïve optimizer and, in terms of time complexity, com-
+putationally cumbersome. However, for the purposes of this research, this approach is suitable. 
+
+Therefore, in the case of ARIMA framework, there is no need to visualizes and report any particular dependencies as hypertuning is done 
+ad hoc in every interval across all analyzed stocks.
+
+Finally, in terms of evaluation, such set model achieved MAPE per stock $\mathbf{1.897 \%}$ and dominance of $\mathbf{58.25 \%}$.
+ARIMA was able to overcome all of the analyzed frameworks (even naïve) in terms of model dominance. On the other hand, in terms of MAPE across stocks,
+Ridge model achieved better performance. Such result is particularly interesting, as a comparatively
+lower MAPE does not necessarily imply higher dominance.
+
+\subsection{Test evaluation}
+Last step in the complex predictive analysis is evaluating performance of optimized models on before unseen (test) data sets.
+Evaluation results for all the considered model variants is in Table \ref{tab:3}
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Model Type} & \textbf{MAPE (\%)} & \textbf{Dominance (\%)} \\
+\hline
+ARIMA & 1.923 & 56.68 \\
+\hline
+Ridge (Stock-wise mode) & 1.794 & 45.94 \\
+\hline
+Ridge (General model) & 1.798 & 45.88 \\
+\hline
+Lasso (General model) & 2.24 & 38.83 \\
+\hline
+Lasso (Stock-wise model) & 2.31 & 37.1 \\
+\hline
+\end{tabular}
+\caption{\centering  Evaluation of tuned models on test interval.}
+\label{tab:3}
+\end{table}
+
+Performance of models tend to reach similar values as on the training-validation interval -- possibly no overfitting.
+Similar values of metrics indicate that models perform relatively stable on both (differently wide) interval of data.
+
+\section{Portfolio management}
+
+
+\nocite{*}
+\bibliographystyle{apalike}
+\bibliography{references}
+
+\end{document}
