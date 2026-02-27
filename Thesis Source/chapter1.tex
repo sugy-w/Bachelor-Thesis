@@ -1,5 +1,4 @@
 \chapter{Machine learning foundations}
-
 The aim of this chapter is to overview the methods of machine learning, which
 are going to be used for the purposes of predictive regression modeling in 
 this thesis. The chapter starts with a brief overview of machine learning as
@@ -115,7 +114,7 @@ for all $n$ available observations as $Y - \textbf{X}\bm{\hat{\beta}}$. To ensur
 contribute positively, regardless of their sign, the general error function is defined as
 \begin{equation}
     \label{equation:1.4}
-    (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^\text{T}(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) = \|\bm{Y} - \textbf{X}\bm{\hat{\beta}}\|_2^2
+    (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^\top(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) = \|\bm{Y} - \textbf{X}\bm{\hat{\beta}}\|_2^2
 \end{equation}
 or in an equivalent way as sum of squared residuals as
 \begin{equation*}
@@ -135,12 +134,12 @@ Other estimation methods for $\hat{\beta}$ exist; however, only the least-square
 Apart from the approximation methods, it is possible to derive closed form of the solution to the Equation \eqref{eq:1.5} \cite{skiena}. Straightforwardly, the value of the derivative with respect to the $\bm{\hat{\beta}}$ of the Equation \eqref{equation:1.4}
 is set to zero as
 \begin{equation*}
-    \frac{\partial}{\partial \bm{\hat{\beta}}} \|\bm{Y} - \textbf{X}\bm{\hat{\beta}}\|_2^2 = -2 \mathbf{X}^{\text{T}}(\bm{Y} - \mathbf{X}\bm{\hat{\beta}}) = 0
+    \frac{\partial}{\partial \bm{\hat{\beta}}} \|\bm{Y} - \textbf{X}\bm{\hat{\beta}}\|_2^2 = -2 \mathbf{X}^{\top}(\bm{Y} - \mathbf{X}\bm{\hat{\beta}}) = 0
 \end{equation*}
 then, solving for $\bm{\hat{\beta}}$ yields
 
 \begin{equation}
-    \mathbf{X}^{\text{T}}\mathbf{X}\bm{\hat{\beta}} = \mathbf{X}^{\text{T}}\mathbf{Y} \Rightarrow \bm{\hat{\beta}} = (\mathbf{X}^{\text{T}}\mathbf{X})^{-1}\mathbf{X}^{\text{T}}\mathbf{Y}.
+    \mathbf{X}^{\top}\mathbf{X}\bm{\hat{\beta}} = \mathbf{X}^{\top}\mathbf{Y} \Rightarrow \bm{\hat{\beta}} = (\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathbf{Y}.
 \end{equation}
 Such solution arises from the convexity of the Equation \eqref{equation:1.4}.
 
@@ -154,7 +153,7 @@ in omitting the features with large $\hat{\beta}$; however, by using \textbf{reg
 Continue with Equation \eqref{eq:1.5} and let us add a specific term taking into account the sum of absolute values of the single parameters $\hat{\beta}$  
 \begin{equation}
     \label{equation:1.6}
-     \arg \min_{\hat{\beta}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^\text{T}(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_1,
+     \arg \min_{\hat{\beta}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^\top(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_1,
 \end{equation}
 where $\lambda \geq 0$ is a so-called tuning parameter and $\|\bm{\hat{\beta}}\|_1 = \sum_{i=1}^{p}|\bm{\hat{\beta_{i}}}|$ is a L1 norm. Equation \eqref{equation:1.6} trades off two criteria – on the one hand, equally as in linear regression, the model seeks
 $\bm{\hat{\beta}}$ which fits the data the best, but on the other hand, the model seeks a fit with the smallest possible sum of absolute values of the elements in $\bm{\hat{\beta}}$.
@@ -167,7 +166,7 @@ However, Lasso regularization, while optimizing, might set some of the parameter
 Building up on the method introduced by Equation \eqref{equation:1.6}, it is possible to use another type of norm to penalize values of the parameters in $\bm{\hat{\beta}}$.
 \begin{equation}
     \label{equation:1.7}
-    \arg \min_{\hat{\beta}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^\text{T}(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_2^2,
+    \arg \min_{\hat{\beta}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^\top(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_2^2,
 \end{equation}
 where $\lambda \geq 0$ is again a tuning parameter and $\|\bm{\hat{\beta}}\|_2^2 = \sum_{i=1}^{p}\bm{\hat{\beta}}^2_{i}$ is a L2 norm. The approach in Equation \eqref{equation:1.7} is then called \textbf{Ridge regularization} of linear regression.
 The goal of this optimization problem aligns with that in Lasso, preserving the trade-off between fit and minimal parameters in $\bm{\hat{\beta}}$. 
@@ -183,7 +182,7 @@ The main idea, which forms the foundation of this method, is based on the assump
 are close to each other (for some distance definition), tend to be more similar in terms of the target variable $Y$ \cite{skiena}. This method can solve both regression and classification tasks; however, 
 only the regression setup is explained, as only this is used in the thesis.
 
-Suppose we have the training dataset as earlier, $\{ Y_i, \bm{X}_i \}_{i=1}^{n}$, where the stacked vector $\bm{X}_i = (X_{i, 1}, X_{i, 2}, \ldots, X_{i, p})^T$.
+Suppose we have the training dataset as earlier, $\{ Y_i, \bm{X}_i \}_{i=1}^{n}$, where the stacked vector $\bm{X}_i = (X_{i, 1}, X_{i, 2}, \ldots, X_{i, p})^\top$.
 Further, we have a new datapoint with vector of predictors $\bm{\hat{X}}$, but without the linked value of the target $Y$. Lastly, we define a distance metric $\|.\|$ and a parameter $k \leq n$.
 
 Let $N \subseteq \{i\}_{i=1}^{n}$ be the set of indices of the $k$ nearest training feature vectors $\bm{X}_i$ to the $\bm{\hat{X}}$, in terms of $\|.\|$ distance. Then, the approximation of the target $Y$ is 
@@ -262,7 +261,7 @@ frameworks \cite{forecast_book}. One of the most widely used frameworks is the \
 The ARIMA model relies on capturing short-term and often temporal patterns in the time series. Apart from the ML algorithms explained earlier, 
 ARIMA is time-aware, meaning its framework directly works with the concept of time flow and the dependency of target variable on it \cite{forecast_book}. 
 
-Let there be a univariate time series of length $T$ as $\{Y_t\}_{t=1}^{T}$. The idea of the ARIMA model relies on the concept of autoregressivity, which means
+Let there be a univariate time series of length $T$ as $\{Y_t\}_{t=1}^{\top}$. The idea of the ARIMA model relies on the concept of autoregressivity, which means
 that future data points of the time series are dependent on the earlier points in series. Rigorously speaking, let there be $p \in \mathbb{N}_0$ and
 \begin{equation}
     \label{eq:ARIMA1}
@@ -297,7 +296,7 @@ the joint likelihood of the observed time series can be written as
     \mathcal{L}(\bm{\phi}, \bm{\theta}, \sigma^2 | Y_1, Y_2, \ldots, Y_T)
 \end{equation}
 
-where $\bm{\phi}=(\phi_1, \phi_2, \ldots, \phi_p)^T$ and $\bm{\theta}=(\theta_1, \theta_2, \ldots, \theta_q)^T$. These parameters are estimated by solving 
+where $\bm{\phi}=(\phi_1, \phi_2, \ldots, \phi_p)^\top$ and $\bm{\theta}=(\theta_1, \theta_2, \ldots, \theta_q)^\top$. These parameters are estimated by solving 
 
 \begin{equation*}
     \arg \max_{\bm{\phi}, \bm{\theta}, \sigma^2} \> \mathcal{L}(\bm{\phi}, \bm{\theta}, \sigma^2)
