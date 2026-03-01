@@ -10,7 +10,7 @@
 \usepackage{bm}
 
 \begin{document}
-\title{On portfolio optimization based on machine learning predictions}
+\title{Segment focused portfolio optimization based on machine learning predictions}
 
 \author{Marek Šugár
 \email{sugar11@uniba.sk}}
@@ -522,17 +522,17 @@ with performance of benchmark stock indices in the same time period in Table \re
 \hline
 \textbf{Portfolio Type} & \textbf{CAGR (\%)} & \textbf{AV (\%)} & \textbf{Sharpe ratio} \\
 \hline
-Naïve & 17.2 & 26.35 & 0.65 \\
+Naïve & 16.48 & 25.20 & 0.65 \\
 \hline
-ARIMA & 16.47 & 26.14 & 0.63 \\
+ARIMA & 15.67 & 25.48 & 0.62 \\
 \hline
-Ridge (SM) & 16.16  & 24.94  & 0.64  \\
+Ridge (SM) & 15.39 & 25.28 & 0.61 \\
 \hline
-Ridge (GM) & 15.98 & 24.95 & 0.64  \\
+Ridge (GM) & 15.20 & 25.29 & 0.6  \\
 \hline
-Lasso (SM) & 17.89 & 25.16 & 0.71 \\
+Lasso (SM) & 17.11 & 25.51 & 0.67 \\
 \hline
-Lasso (GM) & 17.64 & 25.19 & 0.7 \\
+Lasso (GM) & 16.88 & 25.53 & 0.66 \\
 \hline
 \end{tabular}
 \caption{\centering Evaluation of tuned models on test interval (SM -- Stock-wise model; GM -- General model).}
@@ -545,9 +545,9 @@ Lasso (GM) & 17.64 & 25.19 & 0.7 \\
 \hline
 \textbf{Index name} & \textbf{CAGR (\%)} & \textbf{AV (\%)} & \textbf{Sharpe ratio} \\
 \hline
-S\&P 500 & 19.22 & 15.20 & 1.26 \\
+S\&P 500 & 8.35 & 23.1 & 0.36 \\
 \hline
-NASDAQ & 26.11 & 20.34 & 1.28 \\
+NASDAQ & 18.51 & 25.15 & 0.74 \\
 \hline
 \end{tabular}
 \caption{\centering Evaluation of benchmark models on test interval.}
