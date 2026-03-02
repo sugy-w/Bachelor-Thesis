@@ -11,7 +11,11 @@ a0paper%,
 % not all are needed to run this minimal example
 \usepackage{graphicx}
 \usepackage{algorithm}
+\usepackage{makecell}
+\usepackage{bm}
 \usepackage{algpseudocode}
+\usepackage{multirow}
+\usepackage{amsmath}
 \usepackage[percent]{overpic}
 \usepackage[detect-weight]{siunitx}
 \usepackage{tabto}
@@ -34,7 +38,8 @@ a0paper%,
 \setlength{\unitlength}{1.0cm}
 %
 % define cern blue  
-\definecolor{cernblue}{cmyk}{0,80,100,0} %for text / color / logo
+% 197 80 41
+\definecolor{cernblue}{rgb}{0.35, 0.63, 0.74} %for text / color / logo
 % fonts
 \usepackage[scaled]{helvet}
 \renewcommand*\familydefault{\sfdefault}
@@ -153,6 +158,16 @@ a0paper%,
        European Journal of Operational Research, 259.
       \vspace{-0.1cm}
 
+      \bibitem{ref4}
+      Fama, E. F. (1970). Efficient capital mar-
+      kets: A review of theory and empirical work. Journal
+      of Finance, 25(2):383–417.
+      \vspace{-0.1cm}
+
+      \bibitem{ref5}
+      Palomar, D. P. (2025). Portfolio Optimization Book. Cambridge University Press.
+      \vspace{-0.1cm}
+
 	  \end{tiny}
 	\end{thebibliography} 
   \end{minipage}
@@ -197,7 +212,7 @@ a0paper%,
   % 3. mini page for contact info
   \begin{minipage}[t][3.6cm]{.32\textwidth}
   \vspace{0.3cm}
-  $\quad$\textbf{\small\color{cernblue}MORE INFORMATION} \vspace{0.15cm}\\ 
+  $\quad$\textbf{\small\color{cernblue}ABOUT THE AUTHOR} \vspace{0.15cm}\\ 
 	\begin{minipage}{.35\textwidth}
 	  \begin{center}
       % DO NOT FORGET to replace link by link to your or cern website!
@@ -248,7 +263,7 @@ a0paper%,
   \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=10pt]
     \item The amount of variables, which are directly or indirectly generated with day-to-day market running is enormous and qualified selecting is necessary. Selection methodology in this study is based of \textit{a priori} expectations of link between market and particular feature.  
     \\
-    \item Among \textbf{stock indices}, S\&P 500 and NASDAQ Composite were chosen for their presumable prediction valuabality.
+    \item Among \textbf{stock indices}, S\&P 500 and NASDAQ Composite (NASDAQ) were chosen for their presumable prediction valuabality.
     \item From the set of raw goods -- \textbf{commodities} -- traded on the market, gold and crude oil were selected. 
     \item Lastly, data regarding \textbf{foreign exchange market} -- exchange rates of selected major currencies (with american dollar), were considered.
     \\
@@ -262,52 +277,127 @@ a0paper%,
   \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=10pt]
     \item We adopted \textbf{rolling window} framework for next-day closing price prediction of stocks. Data from trading days $t-q, t-(q-1), \ldots, t-1$ are employed as predictors for the closing price on day $t$. 
   \end{itemize}
-  \vspace{0.5cm}
-  \hspace*{8pt} Suppose time interval, where prediction applied, is bounded by time points $T_1$ and $T_2$ (suppose $T_2 - T_1 = M$). On this interval reside two frames.
-  Multivariate $\mathbf{X} \in \mathbb{R}^{M \times F}$, where $F$ is the number of used features -- values of selected variables, shifted backwards up to $q = 9$ days. This means
+  \vspace{0.4cm}
+  \hspace*{8pt} Suppose time interval of length $M$. For optimization purposes we used 
+  constant $q = 9$. On this interval reside two frames:
+  \\\\
+  \hspace*{8pt}Multivariate $\mathbf{X} \in \mathbb{R}^{M \times F}$, where $F$ is the number of used features -- values of selected variables, shifted backwards up to $q = 9$ days. This means
   that $\mathbf{X}[t]$ (the $t$-th row of $\mathbf{X}$) represents feature data available through days $t-1, t-2, \ldots, t-9$.
   \vspace{0.3cm}
+  \hspace*{8pt}Univariate $Y \in \mathbb{R}^M$ accumulates values of the target variable (next-day closing price) to the respective rows of $\mathbf{X}$. This means, that $Y[t]$ (the $t$-th value in the $Y$) is the closing price on day $t$.
   
-  \hspace*{8pt}123
+  \vspace{0.6cm}
 
-
-
-
+  \hspace*{8pt}Suppose we have data available up to day $t + p$. Parameter $p$ is the number of trading days, model is trained on. The goal is to predict closing price on day $t + p + 1$  
+  
+  \vspace{0.3cm}
+  
+  \hspace*{8pt}In the approach employed, at each step, the model is trained on feature observations $\mathbf{X}[t : t + p]$ and corresponding target value 
+  $Y[t : t + p]$, and it generates a one-step-ahead prediction using the feature vector $\mathbf{X}[t + p + 1]$. 
 }
 %
 %
-\headerbox{Rolling window implementation}{name=resolution, span=3, row=0, column=3}{
-  \begin{center}
-  \begin{minipage}{0.9\linewidth}
-\begin{algorithmic}
-\State \texttt{ \# We assume $w \gets 1$}
-\State \texttt{ \# The prediction target day is $t+p+1$}
-\State \texttt{ \# We have available data up to day $t+p$}
-\State \texttt{Set look-back window length $p$}
-\State \texttt{Retrieve the feature variables' values into $\mathbf{X}$}
-\\
-\For{each stock in database}
-    \State Retrieve closing prices into the target $Y$
-    \For{$t = T_1$ to $T_2 - (p + 1)$}
-        \State $\mathbf{X}_{\text{train}} \gets \mathbf{X}[t : t+p]$
-        \State $Y_{\text{train}} \gets Y[t : t+p]$
-        \State $\mathbf{X}_{\text{predict}} \gets \mathbf{X}[t+p+1]$
-        \State Train model $\hat{f}$ on $(\mathbf{X}_{\text{train}}, Y_{\text{train}})$
-        \State Generate prediction: $\hat{f}(\mathbf{X}_{\text{predict}})$
-    \EndFor
-\EndFor
-\end{algorithmic}
-\end{minipage}
-\end{center}
+\headerbox{Prediction results \& Benchmarking}{name=resolution, span=3, row=0, column=3}{
+\begin{itemize}
+  \item Several studies lack qualified benchmarking of obtained predictions to some naïve or low-effort solutions. In accordance with it Fama \cite{ref4}, we employed benchmarking towards naïve prediction assuming price on next day is equal to the yesterday's one.
+\end{itemize}
+
+\hspace{0.3cm} \textbf{Dominance} corresponds to the fraction of predictions in average, when 
+
+\hspace{0.3cm} tuned model was more precise than naïve benchmark.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{c c c}
+\hline
+\textbf{Model Type} & \textbf{MAPE (\%)} & \textbf{Dominance (\%)} \\
+\hline
+ARIMA & 1.923 & 56.68 \\
+\hline
+Ridge (Stock-wise mode) & 1.794 & 45.94 \\
+\hline
+Ridge (General model) & 1.798 & 45.88 \\
+\hline
+Lasso (General model) & 2.24 & 38.83 \\
+\hline
+Lasso (Stock-wise model) & 2.31 & 37.1 \\
+\hline
+\end{tabular}
+\caption{\centering  Evaluation of final-tuned models test interval.}
+\label{tab:1}
+\end{table}
 
 }		
 %
 %
-\headerbox{Prediction Evaluation \& Portfolio Optimization}{name=summary, span=3, below=resolution, above=foottext, column=3}{
+\headerbox{Model-backed portfolio optimization}{name=portfolio, span=3, below=resolution, column=3}{
   \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=10pt]
-    \item summary
-    \item outlook
+    \item Obtained models are capable of reinforcing portfolio optimization frameworks. In the case of this study, modified \textbf{Markowitz mean-variance portfolio} was chosen \cite{ref5}. 
+    \item Employed modified version takes into account \textbf{transaction costs}.
+  \end{itemize}
+  
+  \hspace{0.3cm} Let $\mathbf{w}_{t}, \mathbf{w}_{t-1}$ be assets weights in days $t, t-1$, $\bm{\mu}_t$ 
+  
+  \hspace{0.3cm} expected returns in day $t$, $\bm{\Sigma}$ covariance matrix and $\lambda_R, \lambda_T$ 
+  
+  \hspace{0.3cm} hyperparameters of risk-aversion and transaction unit cost; then 
+  
+  \hspace{0.3cm} optimization framework is given as:
+
+  \begin{equation*}
+\begin{aligned}
+\max_{\mathbf{w}_t} \quad 
+& \mathbf{w}_t^{\top} \bm{\mu}_t 
+- \lambda_{\mathrm{R}} \mathbf{w}_t^{\top} \bm{\Sigma} \mathbf{w}_t 
+- \lambda_{T} \| \mathbf{w}_t - \mathbf{w}_{t-1} \|_1 \\
+\text{Subject to} \quad 
+& \mathbf{w}_t \geq \mathbf{0}_a, \quad
+\mathbf{1}_a^{\top} \mathbf{w}_t = 1.
+\end{aligned}
+\end{equation*}
+
+\hspace{0.3cm} Tuned models' evaluations, on the interval between January 2023 and 
+
+\hspace{0.3cm} January 2026, are as follows:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{c c c}
+\hline
+\textbf{Portfolio Type} & \textbf{Annual Return (\%)} & \textbf{Annual Volatility (\%)} \\
+\hline
+Naïve & 16.48 & 25.20 \\
+\hline
+ARIMA & 15.67 & 25.48 \\
+\hline
+Ridge (SM) & 15.39 & 25.28 \\
+\hline
+Ridge (GM) & 15.20 & 25.29 \\
+\hline
+Lasso (SM) & 17.11 & 25.51 \\
+\hline
+Lasso (GM) & 16.88 & 25.53 \\
+\hline
+\hline
+S\&P 500 & 8.35 & 23.1 \\
+\hline
+NASDAQ & 18.51 & 25.15 \\
+\hline
+\end{tabular}
+%\caption{\centering Evaluation of tuned models on test interval vs benchmark indices (SM -- Stock-wise model; GM -- General model).}
+\label{tab:6}
+\end{table}
+}
+\headerbox{Conclusions \& Discussion}{name=summary, span=3, below=portfolio, above=foottext, column=3}{
+  \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=10pt]
+    \item Time-dependence aware model (e.g. ARIMA) are capable of delivering comparatively better results, rather than conventional ML solutions.
+    \item In order to build resilient investment strategy, extremely precise predictions of returns are not necessarily essential. 
+    \vspace{0.3cm}
+    \item During market phase of neither bull or bear, such strategy is probably capable of delivering above-average results; however, during bull periods (2023 -- 2026, AI surge),
+    strategy could not compete with NASDAQ benchmark. Even though, general market (S\&P 500) was beaten (in terms of annual return).
+    \item Resulting data-pipeline is universal, capable of analyzing any set of stocks, segment, etc.
   \end{itemize}  
+
 }
 %
 %
