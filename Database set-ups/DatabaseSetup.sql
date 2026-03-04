@@ -1,4 +1,6 @@
-/* DONE */
+/* 
+Table StockData stores the historical stock data for 65 IT companies
+*/
 CREATE TABLE IF NOT EXISTS StockData (
     "Ticker" TEXT,
     "Date" DATE,
@@ -12,7 +14,9 @@ CREATE TABLE IF NOT EXISTS StockData (
     PRIMARY KEY ("Ticker", "Date")
 );
 
-/* DONE */
+/*
+Tables Indexes stores the historical data for NASDAQ + S&P 500
+*/
 CREATE TABLE IF NOT EXISTS Indexes (
     "IndexName" TEXT,
     "Date" DATE,
@@ -24,7 +28,9 @@ CREATE TABLE IF NOT EXISTS Indexes (
     PRIMARY KEY ("IndexName", "Date")
 );
 
-/* DONE */
+/*
+Table MarketIndicators stores the historical data for VIX, Gold, Oil + Treausury Bonds (various maturities)
+*/
 CREATE TABLE IF NOT EXISTS MarketIndicators (
     "Indicator" TEXT,
     "Date" DATE,
@@ -36,7 +42,9 @@ CREATE TABLE IF NOT EXISTS MarketIndicators (
     PRIMARY KEY ("Indicator", "Date")
 );
 
-/* DONE */
+/*
+Table CurrencyExchange stores the historical data for 7 major currency pairs (all include USD)
+*/
 CREATE TABLE IF NOT EXISTS CurrencyExchange (
     "Currencies" TEXT,
     "Date" DATE,
@@ -48,6 +56,9 @@ CREATE TABLE IF NOT EXISTS CurrencyExchange (
     PRIMARY KEY ("Currencies", "Date")
 );
 
+/*
+Table Tickers stores the mapping between company names and their corresponding stock tickers
+*/
 CREATE TABLE IF NOT EXISTS Tickers (
     "CompanyName" TEXT,
     "Ticker" TEXT

@@ -6,6 +6,8 @@ import time
 '''
 Dictionary holds all 68 companies listed in S&P 500 Stock Index with the GICS Sector "Information Technology"
 GICS -> Global Industry Classification Standard, industry taxonomy developed for the purposes of S&P 
+
+For the purposes of the thesis, 3 companies were removed, as their IPO was during the analyzed period.
 '''
 tickers = tickers_reversed = {
     "ACN": "Accenture",
@@ -75,6 +77,7 @@ tickers = tickers_reversed = {
     "ZBRA": "Zebra Technologies"
 }
 
+# Up to desire, change pwd
 stock_database = sqlite3.connect("Database set-ups/StockData.db")
 cursor = stock_database.cursor()
 
@@ -82,6 +85,7 @@ for TICKER in tickers.keys():
     ticker = yf.Ticker(TICKER)
     cursor.execute("INSERT INTO Tickers (CompanyName, Ticker) VALUES (?, ?)", (tickers[TICKER], TICKER))
 
+    # Up to desire, change start; end of interval
     stock_historical_data = ticker.history(start="2025-09-05", end="2026-01-19", interval="1d")
     for dat, row in stock_historical_data.iterrows():
         date_stamp = date.isoformat(dat)
@@ -90,7 +94,7 @@ for TICKER in tickers.keys():
                           (?, ?, ?, ?, ?, ?, ?, ?, ?)
                        """, (TICKER, date_stamp, row["Open"], row["High"], row["Low"], row["Close"], row["Volume"], row["Dividends"], row["Stock Splits"]))
         stock_database.commit()
-    
+    # Being nice to the API server :)
     time.sleep(2)
 
 
