@@ -1,7 +1,3 @@
-```
-![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white)
-```
-
 # 📈 Analysis of Financial Markets Using Machine Learning
 
 > Bachelor Thesis in Quantitative Finance, joint study programme Computer Science & Mathematics 
