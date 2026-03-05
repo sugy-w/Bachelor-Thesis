@@ -87,7 +87,7 @@ between input and target matrices. Algorithm \ref{alg:sliding_window} shows what
 \For{each stock in database}
     \State Retrieve closing prices into the target $Y$
     \For{$t = T_1$ to $T_2 - (p + 1)$}
-        \State $\mathbf{X}_{\text{train}} \gets \mathbf{X}[t : t+p]$ 
+        \State $\mathbf{X}_{\text{train}} \gets \mathbf{X}[t : t+p]$  \>\>\>\>\>\>\> \# Z-score scaled
         \State $Y_{\text{train}} \gets Y[t : t+p]$
         \State $\mathbf{X}_{\text{predict}} \gets \mathbf{X}[t+p+1]$ 
         \State \# $\mathbf{X}_\text{predict}$ corresponds to the latest available data 
@@ -107,7 +107,7 @@ on disjoint test interval likewise.
 The multivariate $\mathbf{X}$ contains pre-chosen shifted variables (Subchapter \ref{subchapter:2.3}). In this thesis, time interval between September 15, 2017 and December 31, 2022 (1333 trading days)
 is used as training-validation interval and time interval between January 1, 2023 and January 16, 2026 (761 trading days) is used as test interval.
 
-At this point, it is sufficient to illustrate this data preparatory setup with a specific example in order to better understand Algorithm \ref{alg:sliding_window}.
+At this point, it is appropriate to illustrate this data preparatory setup with a specific example in order to better understand Algorithm \ref{alg:sliding_window}.
 Let $p=4$ and suppose we want to predict the closing price on January 20, 2022. We have complete data up to January 19, 2022. With fixed $q=9$ and given $p$
 the available training and validation data points are depicted in Figure \ref{fig:2.3}. 
 \begin{figure}[H]
