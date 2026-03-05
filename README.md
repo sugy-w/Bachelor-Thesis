@@ -1,5 +1,5 @@
 ```
-![Python](https://img.shields.io/badge/Python-3.13-blue)
+![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white)
 ```
 
 # 📈 Analysis of Financial Markets Using Machine Learning
