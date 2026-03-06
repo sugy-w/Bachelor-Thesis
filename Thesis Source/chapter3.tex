@@ -29,9 +29,10 @@ With the benchmark method defined, we quantify performance as the proportion of 
 closing price than the predictions made by the naïve benchmark. From now on, such benchmarking will be referred as the \textbf{model's dominance}.
 
 \section{Naïve model}
-Employed naïve benchmark model does not employ any ML framework. Benchmark assumes no return in the following day; rigorously speaking prediction of the closing price $\hat{Y}_{t+1}$ on day $t + 1$ is $\hat{Y}_{t+1} = Y_{t}$.
+\label{naive}
+Employed naïve benchmark model does not employ any ML framework. Benchmark assumes no return in the following day; rigorously speaking, prediction of the closing price $\hat{Y}_{t+1}$ on day $t + 1$ is $\hat{Y}_{t+1} = Y_{t}$.
 
-Evaluation results of the model, on the particular training-validation interval, are average MAPE (over all the analyzed stocks) of $\mathbf{1.69 \%}$. In this case it has no meaning to analyze dominance, as it has no interpretative value.
+Evaluation result of the model, on the particular training-validation interval, is average MAPE (over all the analyzed stocks) of $\mathbf{1.69 \%}$. In this case it has no meaning to analyze dominance, as it has no interpretative value.
 
 \section{Linear regression}
 Although linear regression might seem rather simple, compared to other conventional ML frameworks, it has been implemented in financial predictive
@@ -111,7 +112,7 @@ Figure \ref{fig:3.3} visualizes the performance of MAPE depending on the chosen 
 In terms of the parameter $p$, it is possible to observe that the lowest MAPE is achieved in the approximate interval $p \in [4, 8]$ for the chosen values of $\lambda$.
 Based on further evaluation of mean MAPE performance across all stocks, the lowest mean MAPE was achieved for $p = 4$. Further analyses were conducted with this value of $p$.
 
-Subsequently, the interval of the optimal setting of $\lambda$ for the given stocks is $\lambda \in [4, 5]$. Figure \ref{fig:3.4} depicts an overview of MAPE for the chosen ENPH stock in dependence from $\lambda$ on the focused interval.
+Subsequently, the interval of the optimal setting of $\lambda$ for the given stocks was derived as $\lambda \in [4, 5]$. Figure \ref{fig:3.4} depicts an overview of MAPE for the chosen ENPH stock in dependence from $\lambda$ on the focused interval.
 What needs to be pointed out is the MAPE fluctuation on the given subinterval $[4.5, 4.7]$. The improvement remains negligible, reaching at most an absolute magnitude of $10^{-3} - 10^{-2} \%$. 
 \begin{figure}[H]
     \centering
@@ -226,7 +227,7 @@ Figure \ref{fig:3.10} shows the effect of dependence of MAPE on given values of 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{images/knn_heat.png}
-    \caption{\centering Dependence of $k$ and $p$ parameters on MAPE of next-day predictions (k-NN).}
+    \caption{\centering Dependence of prediction MAPE on $k$ and $p$ parameters (k-NN).}
     \label{fig:3.10}
 \end{figure}
 There is a clear trend showing that the most influential parameters is $k$, number of neighbours. The most interesting observation is the almost constant MAPE
@@ -235,7 +236,7 @@ as a form of pathological behavior of k-NN algorithm.
 
 Across all stocks k-NN tends to reach its optimal setting when $k = 1$. In all rolling window steps across all the stocks, the closest '{}neighbour'
 to the prediction input is the observation from the \textbf{most recent previous day}. As k-NN has optimal setting in $k = 1$ regardless of $p$, k-NN algorithm effectively performs
-as the proposed naïve benchmark model. Consequently, k-NN cannot outperform it. Such setting ($k=1, p=4$) has achieved average MAPE across the stocks $\textbf{1.69 \%}$.
+as the proposed naïve benchmark model. Consequently, k-NN cannot outperform it. Such setting ($k=1, p=4$) has achieved average MAPE across the stocks $\textbf{1.69 \%}$ (the same as in the naïve model).
 
 To complete the analysis, Figure \ref{fig:3.11} depicts the distribution of APE across the stocks. 
 \begin{figure}[H]
@@ -264,7 +265,7 @@ of MAPE, for a single stock, on the parameter $p$ – the length of the training
     \caption{\centering Dependence of MAPE on the length of the training window $p$ (Random Forest, stock ENPH).}
     \label{fig:3.12}
 \end{figure}
-A distinct feature, similar to the one explored in the Subchapter \ref{knn}, can be observed. For all individual stocks in the datasets,
+A distinct feature, similar to the one explored in the Section \ref{knn}, can be observed. For all individual stocks in the datasets,
 RFA tends to perform the best, in terms of MAPE, when $p = 1$. Effectively, this means that training phase consists of only the most recent known data entry – the previous trading day.
 Consequently, RFA tends to fall into explained pathological case, equivalent to the proposed naïve benchmark.
 
@@ -281,7 +282,7 @@ According to the analyses, this means that evaluation of MAPE is the same as in 
 
 \section{ARIMA model}
 
-As mentioned in Subchapter \ref{sub:arima}, ARIMA framework is capable of capturing time dependencies by default. This 
+As mentioned in Section \ref{sub:arima}, ARIMA framework is capable of capturing time dependencies by default. This 
 can be beneficial for predictive analysis in this context. Apart from the previous ML models, in this case ARIMA is trained only using univariate time series of closing prices. Due to the potentially high time complexity,
 features were omitted from training. In order to tune parameters $p, d, q$ of the ARIMA model,
 an approach based on the principles of grid search was used.
@@ -295,8 +296,8 @@ This method is somewhat naïve optimizer and, in terms of time complexity, compu
 In this case, there is no need to present any dependence of MAPE or dominance on the chosen model parameters. For each rolling window and for each stock within it,
 optimal settings of $p, d, q$ are chosen based on BIC and there is no need to optimize parameters separately and visualize dependencies similar to the ones in previous sections.
 
-On the training-validation interval, this optimized model achieved an average MAPE per stock $\textbf{1.897 \%}$ and dominance of $\textbf{58.25 \%}$.
-Although the model was not able to outperform naïve benchmark or even Ridge in terms of MAPE, it performed best overall in terms of model dominance.
+On the training-validation interval, this optimized model achieved an average MAPE $\textbf{1.897 \%}$ and dominance of $\textbf{58.25 \%}$.
+Although the model was not able to outperform naïve benchmark or even Ridge in terms of average MAPE, it performed best overall in terms of model dominance.
 Such result is particularly interesting, as a comparatively lower MAPE does not necessarily imply higher dominance.
 
 On the other hand, this dominance result might arise from the fact that in approximately $66 \%$ of rolling windows across stocks, $p, d, q$ optimization terminated in a pathological case where $(p, d, q) = (0, 1, 0)$, which is equivalent to the proposed naïve benchmark method.
@@ -304,10 +305,10 @@ On the other hand, this dominance result might arise from the fact that in appro
 To complete the picture of performance, distribution of APE across the stocks is depicted in Figure \ref{fig:3.14}.
 \newline
 \par
-At this point, it is possible to clearly outline that performance of given ML frameworks vary from stock to stock. As stated before, stocks tend to have various predictability in different ML algorithms, even though input features remain. On the other hand, it is possible to observe one common feature among all APE distribution visualizations.
-In all analyzed distributions, three common stocks are present in the top ranks in order of maximal APE – particularly EPAM Systems Inc. (EPAM), Super Micro Computer (SMCI) and Symatec (GEN).
+At this point, it is possible to clearly outline that performance of given ML frameworks varies from stock to stock. As stated before, stocks tend to have various predictability in different ML algorithms, even though input features remain the same. On the other hand, it is possible to observe one common feature among all APE distribution visualizations.
+In all analyzed distributions, three common stocks are present in the top ranks in order of maximal APE – particularly EPAM Systems Inc. (EPAM), Super Micro Computer (SMCI) and Gen Digital Inc. (GEN).
 
-In all these stocks, a few model prediction were marginally off, with APE over $40 \%$ (at most over $80 \%$).
+In all these stocks, a few model predictions were marginally off, with APE exceeding $40 \%$ (at most over $80 \%$).
 Such large deviations typically occur during periods of abnormal price movement or heightened volatility. In these situations, the underlying dynamics of the stock price change abruptly and cannot be adequately captured by models trained primarily on historical patterns.
 However, such cases represent small fraction of events on the market and should be interpreted as outliers and not systematic bias.
 
@@ -319,8 +320,8 @@ However, such cases represent small fraction of events on the market and should 
 \end{figure}
 
 \section{Test evaluation}
-In the previous subchapters, the process of parameter tuning was outlined in detail and, based on the introduced metrics, evaluated in order to optimize
-model performance. As introduced earlier, the same rolling-window-based prediction approach will be used on the test interval as well (see Subchapter \ref{testing_sub}).
+In the previous sections, the process of parameter tuning was outlined in detail and, based on the introduced metrics, evaluated in order to optimize
+model performance. As introduced earlier, the same rolling-window-based prediction approach will be used on the test interval as well (see Section \ref{testing_sub}).
 
 The evaluation of all implemented algorithms on the test interval is shown in Table \ref{tab:test}. For completeness and easier interpretation purposes,
 Table \ref{tab:trainval} also summarizes the results obtained on training-validation interval as well. Values of model dominance for k-NN and RFA are blank as they

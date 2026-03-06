@@ -44,6 +44,7 @@ of the assets on day $t$. Taking into account Equation \eqref{eq:4.1} and the ob
 \\
 \text{Subject to:} \quad 
 & \mathbf{w}_t \geq \mathbf{0}_a \>\>\> \text{and} \>\>\> \mathbf{1}_a^{\top}\mathbf{w}=1
+\label{eq:4.2}
 \end{aligned}
 \end{equation}
 where $\lambda_R$ denotes risk-aversion hyperparameter and $\lambda_T$ stands for approximate cost of a single transaction \cite{portfolio}. This modified MVP framework (with constant $\lambda_T = 0.01$) will be used in all analyses presented in the chapter.
@@ -83,10 +84,101 @@ which is referred to as the \textbf{Sharpe ratio} and represents the return the 
 Despite the total number of considered variants of models being $8$, we decided to include subset of them in the portfolio-building analyses. Naturally, we chose ARIMA model, as its dominance was the highest among 
 all the models. Further, we decided to include both Ridge and Lasso  (in their General model form). These two were selected to analyze the performance of two marginally different model frameworks (in term of both MAPE and model dominance).
 
-\subsection{Lasso}
+In all the subsequent analyses, the main focus will be on tuning of $\lambda_R$, the risk-aversion hyperparameter.
 
-\subsection{Ridge}
+\subsection{Naïve portfolio}
+As a benchmark portfolio we chose to employ introduced naïve benchmark prediction model (see Section \ref{naive}). Effectively, this framework is based on the a priori assumption that,
+in optimization problem introduced in Equation \eqref{eq:4.2}, term $\bm{\mu}_t \in \mathbb{R}^a$ representing expected returns satisfies $\bm{\mu}_t = \mathbf{0}_a$ – expecting no returns in the following day, indirectly
+employing naïve model as the prediction engine.
 
-\subsection{ARIMA}
+In this case, it is suitable to analyze the performance of the set-up portfolio with various values of risk-aversion parameter $\lambda_R$. Dependence of CAGR on the chosen value of $\lambda_R$ is depicted in Figure \ref{fig:4.1}.
+
+It is possible to observe that the CAGR converges to a value of approximately $22.5 \%$ when $\lambda_R > 500$. However, the optimal value is observed at $\lambda_R = 300$, where the overall CAGR exceeds $23 \%$.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/naive_cagr.png}
+    \caption{\centering Dependence of CAGR on chosen $\lambda_R$ value (Naïve model).}
+    \label{fig:4.1}
+\end{figure}
+
+The dependence of AV on $\lambda_R$ is depicted in Figure \ref{fig:4.2}. In this case a clear convergence is observed as $\lambda_R$ increases. Moreover, the decline in AV for $\lambda_R > 1000$ remains negligible. This yields quite a few possible management decisions. Either we focus on keeping the CAGR highest possible (even though with not optimal AV) or
+we try to balance these two metrics to achieve approximately optimal results both in volatility and return. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/naive_av.png}
+    \caption{\centering Dependence of AV on chosen $\lambda_R$ value (Naïve model).}
+    \label{fig:4.2}
+\end{figure}
+In this case, we decided to balance volatility and potential return of the portfolio by setting $\lambda_R = 1000$. Evaluation of this portfolio is presented in Table \ref{tab:naive_portoflio}, together with evaluations of conventional indices available for investors.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Portfolio Type} & \textbf{CAGR (\%)} & \textbf{AV (\%)} & \textbf{Sharpe ratio} \\
+\hline
+Naïve & 22.38 & 17.01 & 1.32 \\
+\hline
+S\&P 500 & 7.69 & 21.75 & 0.35 \\
+\hline
+NASDAQ & 9.19 & 25.52 & 0.36 \\
+\hline
+\end{tabular}
+\caption{Evaluation of the naïve portfolio, together with benchmark indices.}
+\label{tab:naive_portoflio}
+\end{table}
+
+On average, in naïve portfolio, capital was allocated to $\mathbf{13.2}$ stock assets per day (out of a total $65$).
+
+A marginal difference can be observed, with naïve portfolio clearly outperforming both indices in all the evaluation metrics.
+Such result, obtained by the naïve portfolio, is quite optimistic, even when taking into account transaction costs. This fact might root in 
+segment focus of the portfolio on IT segment, which had experienced major surge in the recent years.
+
+Lastly, to compare the portfolios, we simulate investment development. Suppose initial investment of $100\> \$$ in September 2017. Development of the investment over the training-validation interval is shown in Figure \ref{fig:4.3}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/inv_naive.png}
+    \caption{\centering Investment development in the training-validation interval (Naïve portfolio).}
+    \label{fig:4.3}
+\end{figure}
+
+\subsection{Lasso portfolio}
+In Figure \ref{fig:4.4}, the dependence of CAGR on the chosen value of $\lambda_R$ for Lasso model is depicted. Similar to the case shown in Figure \ref{fig:4.1}, it is possible to observe direct proportion between CAGR and $\lambda_R$.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/lasso_cagr.png}
+    \caption{\centering Dependence of CAGR on chosen $\lambda_R$ value (Lasso model).}
+    \label{fig:4.4}
+\end{figure}
+Further, dependence of AV on chosen value of $\lambda_R$ is visualized in Figure \ref{fig:4.5}. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/lasso_av.png}
+    \caption{\centering Dependence of AV on chosen $\lambda_R$ value (Lasso model).}
+    \label{fig:4.5}
+\end{figure}
+In the case of managing volatility, this fully aligns with the purpose of the $\lambda_R$ in portfolio optimization. By making portfolio more conservative, overall volatility and risk decrease. Interestingly, the AV appears
+to convergence to approximately $17 \%$. By increasing the value of $\lambda_R$ over $1000$, decline in AV is negligible.
+
+By increasing the value of $\lambda_R$ beyond $2000$, gains in CAGR were minimal, ont the order of $10^{-2} - 10^{-1} \%$. Taking into account, that further increasing does not necessarily improve risk-management, we chose to set $\lambda_R = 2000$. 
+
+The resulting portfolio has a CAGR $\mathbf{20.15 \%}$, an AV $\mathbf{16.8 \%}$ and a Sharpe ratio $\mathbf{1.2}$. On average, capital was allocated to $\mathbf{11.1}$ stock assets per day (out of total $65$).
+The Lasso portfolio was unable to outperform naïve in terms of CAGR; however, in terms of volatility, it is approximately $0.2 \%$ lower in absolute manner.
+
+To complete the evaluation, simulation of $100 \> \$$ investment is visualized in Figure \ref{fig:4.6}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/inv_lasso.png}
+    \caption{\centering Evaluation of the Lasso portfolio, together with benchmark indices.}
+    \label{fig:4.6}
+\end{figure}
+
+Compared to Figure \ref{fig:4.3}, worse performance can be observed throughout 2021 and 2022. Interestingly, during the COVID-19 period (between 2021 and 2022), major indices declined; however, the proposed portfolio remained relatively stable. This suggests that the proposed portfolio model performs comparatively well during a bear market—a phase in which the overall market generally experiences negative returns.
+
+\newpage
+
+\subsection{Ridge portfolio}
+
+\subsection{ARIMA portfolio}
 
 \section{Evaluation on the test interval}

@@ -35,17 +35,17 @@ Lastly, based on the character of the $Y$, we can distinguish regression and cla
 
 \section{Bias-variance trade-off}
 Lastly, in order to provide a complete overview of the theoretical foundations of ML, it is important to mention the concepts of overfitting and underfitting \cite{skiena}. 
-The key concepts involved are \textbf{bias} and \textbf{variance}. 
+The key concepts associated with these phenomena are \textbf{bias} and \textbf{variance}. 
 
 Bias is the error arising from incorrect assumptions made by the model. 
-One example is assuming that $f$ belongs to a certain functional class; however, the true underlying function is much more complex (e.g., restricting $f$ to be linear instead of polynomial).
-It refers to the error that occurs when true $f$ is much more complex than the $\hat{f}$, resulting in systematically incorrect assumptions by the model, regardless of the number of training samples. 
+One example is assuming that $f$ belongs to a certain functional class; however, the true underlying function may be much more complex (e.g., restricting $f$ to be linear instead of polynomial).
+It refers to the error that occurs when the true $f$ is much more complex than the estimated $\hat{f}$, resulting in systematically incorrect assumptions by the model, regardless of the number of training samples. 
 
 Variance is the error arising from the model's sensitivity to perturbations in the training dataset. The problem occurs when a particular training set yields a trained model, while another, slightly perturbed dataset,
-yields marginally different model, which usually leads to unstable generalization performance. 
-More formally, variance refers to the amount by which $\hat{f}$ would change, if the model were built using different training datasets. In the ideal case, the estimation of $f$ should not vary between training sets – model should generalize rather than memorize.
+yields a marginally different model, which usually leads to unstable generalization performance. 
+More formally, variance refers to the amount by which $\hat{f}$ would change if the model were built using different training datasets. In the ideal case, the estimation of $f$ should not vary between training sets – the model should generalize rather than memorize.
 
-In practice, the goal is to choose the complexity (e.g., by assuming a functional type or by selecting a particular model) to achieve lowest possible bias and variance simultaneously (see Figure \ref{fig:1.2}). 
+In practice, the goal is to choose the model complexity (e.g., by assuming a functional type or by selecting a particular model) to achieve lowest possible bias and variance simultaneously (see Figure \ref{fig:1.2}). 
 
 \begin{figure}[H]
     \centering
@@ -53,9 +53,9 @@ In practice, the goal is to choose the complexity (e.g., by assuming a functiona
     \caption{\centering Balancing the total error of the model through bias and variance of it.}
     \label{fig:1.2}
 \end{figure}
-Familiar terms, connected to bias and variance, are the aforementioned overfitting and underfitting. Typically, in models with low complexity (high bias and low variance), a situation may occur in which the model performs poorly on both training and testing data – this is called underfitting.
+Familiar terms connected to bias and variance are the aforementioned overfitting and underfitting. Typically, in models with low complexity (high bias and low variance), a situation may occur in which the model performs poorly on both training and testing data – this is called underfitting.
 
-On the other hand, the opposite situation arises when model is overly complex (low bias and high variance). In this case, typically model performs well on training data; however, performs significantly worse on the testing data, as it effectively memorizes the training data.
+On the other hand, the opposite situation arises when the model is overly complex (low bias and high variance). In this case, typically the model performs well on training data; however, it performs significantly worse on the testing data, as it effectively memorizes the training data.
 \section{Linear regression}
 Linear regression is one of the most fundamental methods in ML. It is a parametric method used for regression tasks, assuming that the true relationship between the predictors and the target variable is linear \cite{islp}.
 
