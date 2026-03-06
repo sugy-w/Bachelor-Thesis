@@ -269,42 +269,22 @@ a0paper%,
     \\
     \item Apart from these, data quantifying \textbf{volatility on the market} and price developments of selected \textbf{US Treasury Bonds} were used.
   \end{itemize}
-
 }
 %
 %
-\headerbox{Rolling window foundations}{name=2ddiag, span=3, below=vmeas, above=foottext, column=0}{
-  \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=10pt]
-    \item We adopted \textbf{rolling window} framework for next-day closing price prediction of stocks. Data from trading days $t-q, t-(q-1), \ldots, t-1$ are employed as predictors for the closing price on day $t$. 
-  \end{itemize}
-  \vspace{0.4cm}
-  \hspace*{8pt} Suppose time interval of length $M$. For optimization purposes we used 
-  constant $q = 9$. On this interval reside two frames:
-  \\\\
-  \hspace*{8pt}Multivariate $\mathbf{X} \in \mathbb{R}^{M \times F}$, where $F$ is the number of used features -- values of selected variables, shifted backwards up to $q = 9$ days. This means
-  that $\mathbf{X}[t]$ (the $t$-th row of $\mathbf{X}$) represents feature data available through days $t-1, t-2, \ldots, t-9$.
-  \vspace{0.3cm}
-  \hspace*{8pt}Univariate $Y \in \mathbb{R}^M$ accumulates values of the target variable (next-day closing price) to the respective rows of $\mathbf{X}$. This means, that $Y[t]$ (the $t$-th value in the $Y$) is the closing price on day $t$.
-  
-  \vspace{0.6cm}
-
-  \hspace*{8pt}Suppose we have data available up to day $t + p$. Parameter $p$ is the number of trading days, model is trained on. The goal is to predict closing price on day $t + p + 1$  
-  
-  \vspace{0.3cm}
-  
-  \hspace*{8pt}In the approach employed, at each step, the model is trained on feature observations $\mathbf{X}[t : t + p]$ and corresponding target value 
-  $Y[t : t + p]$, and it generates a one-step-ahead prediction using the feature vector $\mathbf{X}[t + p + 1]$. 
-}
-%
-%
-\headerbox{Prediction results \& Benchmarking}{name=resolution, span=3, row=0, column=3}{
-\begin{itemize}
+\headerbox{Prediction results \& Benchmarking}{name=resolution, span=3, column=0, below=vmeas}{
+\begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=10pt]
+  \item We adopted \textbf{rolling window} framework for next-day closing price prediction of stocks. Data from trading days $t-q, t-(q-1), \ldots, t-1$ are employed as predictors for the closing price on day $t$. 
   \item Several studies lack qualified benchmarking of obtained predictions to some naïve or low-effort solutions. In accordance with it Fama \cite{ref4}, we employed benchmarking towards naïve prediction assuming price on next day is equal to the yesterday's one.
 \end{itemize}
 
+\vspace{0.4cm}
+
 \hspace{0.3cm} \textbf{Dominance} corresponds to the fraction of predictions in average, when 
 
-\hspace{0.3cm} tuned model was more precise than naïve benchmark.
+\hspace{0.3cm} tuned model was more precise than naïve benchmark. Results of predictive 
+
+\hspace{0.3cm} hyper-tuned predictive models (on test sample) are as follows:
 
 \begin{table}[H]
 \centering
@@ -313,6 +293,8 @@ a0paper%,
 \textbf{Model Type} & \textbf{MAPE (\%)} & \textbf{Dominance (\%)} \\
 \hline
 ARIMA & 1.923 & 56.68 \\
+\hline
+Naïve benchmark & 1.729 &  \\
 \hline
 Ridge (Stock-wise mode) & 1.794 & 45.94 \\
 \hline
@@ -323,14 +305,16 @@ Lasso (General model) & 2.24 & 38.83 \\
 Lasso (Stock-wise model) & 2.31 & 37.1 \\
 \hline
 \end{tabular}
-\caption{\centering  Evaluation of final-tuned models test interval.}
+%\caption{\centering  Evaluation of final-tuned models test interval.}
 \label{tab:1}
 \end{table}
+\hspace{0.3cm} Out-performing naïve benchmark is extremely difficult; however, ARIMA 
 
-}		
+\hspace{0.3cm} model was able to out-perform it in dominance.
+}
 %
 %
-\headerbox{Model-backed portfolio optimization}{name=portfolio, span=3, below=resolution, column=3}{
+\headerbox{Model-backed portfolio optimization}{name=portfolio, span=3, column=3}{
   \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=10pt]
     \item Obtained models are capable of reinforcing portfolio optimization frameworks. In the case of this study, modified \textbf{Markowitz mean-variance portfolio} was chosen \cite{ref5}. 
     \item Employed modified version takes into account \textbf{transaction costs}.
@@ -370,13 +354,9 @@ Naïve & 16.48 & 25.20 \\
 \hline
 ARIMA & 15.67 & 25.48 \\
 \hline
-Ridge (SM) & 15.39 & 25.28 \\
+Ridge & 15.20 & 25.29 \\
 \hline
-Ridge (GM) & 15.20 & 25.29 \\
-\hline
-Lasso (SM) & 17.11 & 25.51 \\
-\hline
-Lasso (GM) & 16.88 & 25.53 \\
+Lasso & 16.88 & 25.53 \\
 \hline
 \hline
 S\&P 500 & 8.35 & 23.1 \\
@@ -387,6 +367,11 @@ NASDAQ & 18.51 & 25.15 \\
 %\caption{\centering Evaluation of tuned models on test interval vs benchmark indices (SM -- Stock-wise model; GM -- General model).}
 \label{tab:6}
 \end{table}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{logos/arima.png}
+    \caption{\centering Performance of $100 \> \$$ investment in proposed ARIMA model and indices.}
+\end{figure}
 }
 \headerbox{Conclusions \& Discussion}{name=summary, span=3, below=portfolio, above=foottext, column=3}{
   \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=10pt]
@@ -397,8 +382,8 @@ NASDAQ & 18.51 & 25.15 \\
     strategy could not compete with NASDAQ benchmark. Even though, general market (S\&P 500) was beaten (in terms of annual return).
     \item Resulting data-pipeline is universal, capable of analyzing any set of stocks, segment, etc.
   \end{itemize}  
-
 }
+
 %
 %
 \end{poster}
