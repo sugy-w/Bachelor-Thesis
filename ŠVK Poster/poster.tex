@@ -179,8 +179,13 @@ a0paper%,
 	\vspace{.3cm}
 	$\quad$\textbf{\small\color{cernblue}ACKNOWLEDGEMENT}\\$\;$\\
 	\footnotesize
-    \hspace*{8.5pt}This way I would like to express my sincere gratitude to the supervisor
-    of this research, Dr. Rosa, for his guidance, mentorship during this research and willingness to guide me.
+    \hspace*{8.5pt}This way I would like to express my sincere gratitude 
+    
+    \hspace*{8.5pt}to the supervisor of this research, Dr. Rosa, for his guidance, 
+    
+    \hspace*{8.5pt}mentorship during this research and willingness to guide 
+    
+    \hspace*{8.5pt}me.
 	\begin{minipage}{.32\textwidth}
 	  \begin{center}
 		%\includegraphics[width=.75\textwidth]{logos/}
@@ -253,7 +258,7 @@ a0paper%,
    \item There are quite a few studies involing both classification and regression machine learning (ML) approaches to predict developments on the market; however, many of them apply ML techniques only on very limited number of \cite{ref1,ref2} or on stock indices \cite{ref3}. There is no comprehensive study on whole market segment.  
    \item What is more is lack of studies applying prediction modelling in portfolio strategy optimization.
    \\
-   \item This study evaluates prediction capabilities of selected ML and portfolio optimization frameworks on segment of \textbf{Information technology} (IT) among 500 biggest US companies by market cap
+   \item This study evaluates prediction capabilities of selected ML algorithms and portfolio optimization framework on segment of \textbf{Information technology} (IT) among 500 biggest US companies by market cap
    during period between September 2017 and January 2026.
   \end{itemize}  
 }
@@ -267,7 +272,7 @@ a0paper%,
     \item From the set of raw goods -- \textbf{commodities} -- traded on the market, gold and crude oil were selected. 
     \item Lastly, data regarding \textbf{foreign exchange market} -- exchange rates of selected major currencies (with american dollar), were considered.
     \\
-    \item Apart from these, data quantifying \textbf{volatility on the market} and price developments of selected \textbf{US Treasury Bonds} were used.
+    \item Apart from these, data quantifying \textbf{volatility} on the market and price developments of selected \textbf{US Treasury Bonds} were used.
   \end{itemize}
 }
 %
@@ -275,7 +280,7 @@ a0paper%,
 \headerbox{Prediction results \& Benchmarking}{name=resolution, span=3, column=0, below=vmeas}{
 \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=10pt]
   \item We adopted \textbf{rolling window} framework for next-day closing price prediction of stocks. Data from trading days $t-q, t-(q-1), \ldots, t-1$ are employed as predictors for the closing price on day $t$. 
-  \item Several studies lack qualified benchmarking of obtained predictions to some naïve or low-effort solutions. In accordance with it Fama \cite{ref4}, we employed benchmarking towards naïve prediction assuming price on next day is equal to the yesterday's one.
+  \item Several studies lack qualified benchmarking of obtained predictions to some naïve or low-effort solutions. In accordance with Fama \cite{ref4}, we employed benchmarking naïve prediction, assuming price on next day is equal to the yesterday's one.
 \end{itemize}
 
 \vspace{0.4cm}
@@ -320,13 +325,13 @@ Lasso (Stock-wise model) & 2.31 & 37.1 \\
     \item Employed modified version takes into account \textbf{transaction costs}.
   \end{itemize}
   
-  \hspace{0.3cm} Let $\mathbf{w}_{t}, \mathbf{w}_{t-1}$ be assets weights in days $t, t-1$, $\bm{\mu}_t$ 
+  \hspace{0.3cm} Let $\mathbf{w}_{t}, \mathbf{w}_{t-1}$ be assets weights in days $t, t-1$ respectively; $\bm{\mu}_t$ 
   
-  \hspace{0.3cm} expected returns in day $t$, $\bm{\Sigma}$ covariance matrix and $\lambda_R, \lambda_T$ 
+  \hspace{0.3cm} expected returns in day $t$; $\bm{\Sigma}$ covariance matrix and $\lambda_R, \lambda_T$ 
   
-  \hspace{0.3cm} hyperparameters of risk-aversion and transaction unit cost; then 
+  \hspace{0.3cm} hyperparameters of risk-aversion and transaction unit cost respectively; 
   
-  \hspace{0.3cm} optimization framework is given as:
+  \hspace{0.3cm} then capital allocation optimization is given as:
 
   \begin{equation*}
 \begin{aligned}
@@ -334,15 +339,15 @@ Lasso (Stock-wise model) & 2.31 & 37.1 \\
 & \mathbf{w}_t^{\top} \bm{\mu}_t 
 - \lambda_{\mathrm{R}} \mathbf{w}_t^{\top} \bm{\Sigma} \mathbf{w}_t 
 - \lambda_{T} \| \mathbf{w}_t - \mathbf{w}_{t-1} \|_1 \\
-\text{Subject to} \quad 
+\text{Subject to:} \quad 
 & \mathbf{w}_t \geq \mathbf{0}_a, \quad
 \mathbf{1}_a^{\top} \mathbf{w}_t = 1.
 \end{aligned}
 \end{equation*}
 
-\hspace{0.3cm} Tuned models' evaluations, on the interval between January 2023 and 
+\hspace{0.3cm} Tuned portfolio models evaluations, on the interval between January 2023
 
-\hspace{0.3cm} January 2026, are as follows:
+\hspace{0.3cm} and January 2026, are as follows:
 
 \begin{table}[H]
 \centering
