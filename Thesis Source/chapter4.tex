@@ -52,7 +52,7 @@ where $\lambda_R$ denotes risk-aversion hyperparameter and $\lambda_T$ stands fo
 \section{Portfolio evaluation metrics}
 
 In order to evaluate success and to compare different portfolio-building settings, it
-is sufficient to define comparative metrics that measure specific qualities of a portfolio.
+is necessary to define comparative metrics that measure specific qualities of a portfolio.
 
 Suppose strategy is applied over a time interval of length $N$. We can track the value of the portfolio over this interval; let
 the portfolio values be represented as a discrete time series $V = V_1, V_2, \ldots, V_N$.
@@ -84,12 +84,21 @@ which is referred to as the \textbf{Sharpe ratio} and represents the return the 
 Despite the total number of considered variants of models being $8$, we decided to include subset of them in the portfolio-building analyses. Naturally, we chose ARIMA model, as its dominance was the highest among 
 all the models. Further, we decided to include both Ridge and Lasso  (in their General model form). These two were selected to analyze the performance of two marginally different model frameworks (in term of both MAPE and model dominance).
 
-In all the subsequent analyses, the main focus will be on tuning of $\lambda_R$, the risk-aversion hyperparameter.
+In all the subsequent analyses, the main focus will be on tuning of $\lambda_R$, the risk-aversion hyperparameter (with constant $\lambda_T = 0.01$). In the analyses, the same data split as in the Chapter \ref{chap:3} is applied -- training-validation (between September 15, 2017 and December 31, 2022) and testing (between January 1, 2023 and January 16, 2026) intervals.
+\newline
+\par
+In model-backed portfolio optimizations, term $\bm{\mu}_t$ for the particular day $t$ is derived using the tuned, rolling-window prediction models, introduced in the previous sections (see Chapter \ref{chap:3}).
+
+Apart from that, specific approach needs to be applied to deriving the covariance matrix $\bm{\Sigma}$. Suppose predicting the closing price on day $t$, thus we have data on days $t-1, t-2, \ldots$ available. Subsequently,
+we derive percentual returns for each stock, on each of the days $t-60, t-59, \ldots, t-1$. Using the obtained vectors of historical returns for each stock, covariance matrix of returns is derived, which would serve as $\bm{\Sigma}$. 
+
+Constant shift backwards
+by $60$ days was chosen as a compromise between having a sufficiently large sample for reliable covariance estimation and maintaining responsiveness to more recent market conditions.
 
 \subsection{Naïve portfolio}
 As a benchmark portfolio we chose to employ introduced naïve benchmark prediction model (see Section \ref{naive}). Effectively, this framework is based on the a priori assumption that,
 in optimization problem introduced in Equation \eqref{eq:4.2}, term $\bm{\mu}_t \in \mathbb{R}^a$ representing expected returns satisfies $\bm{\mu}_t = \mathbf{0}_a$ – expecting no returns in the following day, indirectly
-employing naïve model as the prediction engine.
+employing naïve model as the prediction engine. This framework is referred to as the \textbf{Minimum Variance Portfolio} \cite{portfolio}.
 
 In this case, it is suitable to analyze the performance of the set-up portfolio with various values of risk-aversion parameter $\lambda_R$. Dependence of CAGR on the chosen value of $\lambda_R$ is depicted in Figure \ref{fig:4.1}.
 
@@ -130,7 +139,7 @@ NASDAQ & 9.19 & 25.52 & 0.36 \\
 
 On average, in naïve portfolio, capital was allocated to $\mathbf{13.2}$ stock assets per day (out of a total $65$).
 
-A marginal difference can be observed, with naïve portfolio clearly outperforming both indices in all the evaluation metrics.
+A marginal difference across all analyzed metrics between the naïve portfolio and the indices can be observed, with naïve portfolio clearly outperforming both indices in all the evaluation metrics.
 Such result, obtained by the naïve portfolio, is quite optimistic, even when taking into account transaction costs. This fact might root in 
 segment focus of the portfolio on IT segment, which had experienced major surge in the recent years.
 
@@ -142,7 +151,7 @@ Lastly, to compare the portfolios, we simulate investment development. Suppose i
     \label{fig:4.3}
 \end{figure}
 
-\subsection{Lasso portfolio}
+\subsection{Overview of risk-aversion}
 In Figure \ref{fig:4.4}, the dependence of CAGR on the chosen value of $\lambda_R$ for Lasso model is depicted. Similar to the case shown in Figure \ref{fig:4.1}, it is possible to observe direct proportion between CAGR and $\lambda_R$.
 \begin{figure}[H]
     \centering
@@ -160,7 +169,7 @@ Further, dependence of AV on chosen value of $\lambda_R$ is visualized in Figure
 In the case of managing volatility, this fully aligns with the purpose of the $\lambda_R$ in portfolio optimization. By making portfolio more conservative, overall volatility and risk decrease. Interestingly, the AV appears
 to convergence to approximately $17 \%$. By increasing the value of $\lambda_R$ over $1000$, decline in AV is negligible.
 
-By increasing the value of $\lambda_R$ beyond $2000$, gains in CAGR were minimal, ont the order of $10^{-2} - 10^{-1} \%$. Taking into account, that further increasing does not necessarily improve risk-management, we chose to set $\lambda_R = 2000$. 
+By increasing the value of $\lambda_R$ beyond $2000$, gains in CAGR were minimal, on the order of $10^{-2} - 10^{-1} \%$. Taking into account, that further increasing does not necessarily improve risk-management, we chose to set $\lambda_R = 2000$. 
 
 The resulting portfolio has a CAGR $\mathbf{20.15 \%}$, an AV $\mathbf{16.8 \%}$ and a Sharpe ratio $\mathbf{1.2}$. On average, capital was allocated to $\mathbf{11.1}$ stock assets per day (out of total $65$).
 The Lasso portfolio was unable to outperform naïve in terms of CAGR; however, in terms of volatility, it is approximately $0.2 \%$ lower in absolute manner.
@@ -177,8 +186,132 @@ Compared to Figure \ref{fig:4.3}, worse performance can be observed throughout 2
 
 \newpage
 
-\subsection{Ridge portfolio}
+\subsection{Further tuning}
+At this point, an interesting situation occured. Using Figures \ref{fig:4.4} and \ref{fig:4.5}, it is possible to observe exactly the same monotonic development of both CAGR and AV
+with increasing parameter $\lambda_R$. However, the actual optimal values for $\lambda_R$ vary across models, the global dependence overview stays the same.
 
-\subsection{ARIMA portfolio}
+Because of this, we decided not to include dedicated tuning sections for each model, as the methodology and the process of tuning is the same across all the considered models. Instead, this section
+accumulates the resulting optimal settings for each particular model and the overall evaluation of these portfolios.
 
-\section{Evaluation on the test interval}
+Last but not least, it is suitable to rigorously state the methodology of selecting the optimal value of $\lambda_R$. With analyzing performance of portfolios on the given interval,
+it is possible (in all models) to state such boundary of $\lambda_R$, beyond which progress in both CAGR and AV is negligible. In all models, value of $\lambda_R$ was selected as that particular boundary.
+
+The overview of portfolio model settings is given in Table \ref{tab:settings}. Notice that in both Lasso and Ridge, the prediction model is the General model setting.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Portfolio Type} & $\lambda_R$ \\
+\hline
+ARIMA & 1000 \\
+\hline
+Ridge & 1200 \\
+\hline
+Lasso & 2000 \\
+\hline
+\end{tabular}
+\caption{\centering Full overview of portfolio models tuned settings.}
+\label{tab:settings}
+\end{table}
+
+Subsequently, it is possible to analyze the performance of all tuned models together. The evaluation overview is in Table \ref{tab:eval}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Portfolio Type} & \textbf{CAGR (\%)} & \textbf{AV (\%)} & \textbf{Sharpe ratio} & \textbf{Avg. \# Stocks} \\
+\hline
+Naïve & 22.38 & 17.01 & 1.32& 1.32 \\
+\hline
+ARIMA & 22.25 & 16.94 & 1.31& 1.32 \\
+\hline
+Ridge & 21.56 & 16.75 & 1.29& 1.32 \\
+\hline
+Lasso & 20.15 & 16.8 & 1.20& 1.32 \\
+\hline
+\hline
+S\&P 500 & 7.69 & 21.75 & 0.35& \\
+\hline
+NASDAQ & 9.19 & 25.52 & 0.36& \\
+\hline
+\end{tabular}
+\caption{\centering Evaluation of all analyzed portfolio settings, together with benchmark indices (Training-validation interval).}
+\label{tab:eval}
+\end{table}
+
+There is a clear evidence of dominance of prediction backed portfolios against the benchmark indices all three metrics. In terms of CAGR, the best performing portfolio was ARIMA-powered. The order of portfolios, in terms 
+of CAGR, fully aligns with the order of prediction models in terms of dominance (see Table \ref{tab:trainval}). Interestingly, the best performing prediction model (in terms of average MAPE) did not perform the best in terms of CAGR.
+On the other hand, the model with the largest dominance performed the best.
+
+What is more, is the behaviour of AV metric. The lowest value of AV was in the Ridge model and the largest in Naïve model. Generally, in this case, by employing predictions to the MVP framework, general volatility tends to be lower than in the case of 
+no predictions for the next day. 
+
+Concluding the evaluation, model-backed portfolios overperformed both indices vastly in all metrics. This fact possibly roots from the performance of these models during the COVID-19 period, where major indices fell marginally, while introduced models performed good conservative performance.
+This might suggest good performance of all models during crisis periods. 
+
+However, the Naïve portfolio performed the best in CAGR, although not in AV. This suggests that non-naïve models can handle volatility of the market better than min-variance portfolio. 
+
+Lastly, the overall performance of the tuned portfolios is overviewed through the simulation of $100 \> \$$ investment during the period of training-validation interval. This is depicted in Figure \ref{}.
+
+% Tu bude dobré taký komparatívny obrázok, prerušované indexy a porovnanie 3 modelov. Bude potrebné to spustiť znova :)
+% Aj pre testing!
+
+% Possibly komentáre!
+
+\section{Evaluation on the testing interval}
+Eventually, it is possible to test the obtained portfolios on the testing interval (January 2023 until January 2026). The obtained evaluation results are given in Table \ref{tab:eval2}.
+ 
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Portfolio Type} & \textbf{CAGR (\%)} & \textbf{AV (\%)} & \textbf{Sharpe ratio} & \textbf{Avg. \# Stocks} \\
+\hline
+Naïve & 16.48 & 25.20 & 0.65& 0.65 \\ % DONE
+\hline
+ARIMA & 15.67 & 25.48 & 0.62& 0.65 \\ % DONE
+\hline
+Ridge & 15.30 & 25.24 & 0.61& 0.65 \\ % DONE
+\hline
+Lasso & 17.07 & 25.26 & 0.68& 0.65 \\ % DONE
+\hline
+\hline
+S\&P 500 & 8.35 & 23.1 & 0.36 & \\ % DONE
+\hline
+NASDAQ & 18.51 & 25.15 & 0.74 & \\ % DONE
+\hline
+\end{tabular}
+\caption{\centering Evaluation of all analyzed portfolio settings, together with benchmark indices (Testing interval).}
+\label{tab:eval2}
+\end{table}
+
+Quite the opposite behaviour, compared to the training-validation interval, is observed here. We observe marginal difference in CAGR between benchmarks 
+S\&P 500 and NASDAQ. This fact possibly roots from the so called \textbf{AI Boom}, during this period. During the testing interval, technology and AI segments 
+experienced major surge of capitalization, which resulted in this historically above-average results \cite{bull}. This fact is projected in major gains in tech-heavy NASDAQ index; 
+however, the general S\&P 500 had not experienced such high returns.
+
+Thanks to this factor, even our tech-heavy portfolios experienced relatively (to the overall US market) better results. However, these results could not match the both CAGR and AV of the NASDAQ. On the other hand,
+in contrast to the training-validation interval evaluation, prediction-backed (Lasso) portfolio overperformed the Naïve portfolio.
+
+The most interesting observation is the order of models, based on CAGR. In the case on the training-validation interval, models with the largest dominance achieved the best results; however, in this case order changed, with Lasso being the best performing portfolio in CAGR.
+This result is interesting, taking into account the preserved order of prediction models in terms of dominance on the testing interval as well (see Table \ref{tab:test}).
+
+In conclusion, in the case of the training-validation interval, model-backed portfolio was performing better in terms of CAGR than the Naïve portfolio; however, all the models were beat by the NASDAQ in both CAGR and AV. As a final evaluation,
+the overview of $100 \> \$$ investment development over time is depicted in Figure \ref{}.
+
+\section{Portfolio frequency analysis}
+As stated in Tables \ref{tab:eval} and \ref{tab:eval2}, we analyzed the number of stocks in portfolio per day. Digging deeper into this data, it is possible to outline 
+some kind of preference of particular models (on the training-validation interval) to certain stocks.
+
+Interestingly, Ridge model included all of the IT stocks in portfolio for at least $100$ trading days. All other models completely excluded stocks \textbf{Lam Research} (LRCX) and \textbf{Teradyne} (TER) from their portfolios.
+
+On the other hand, all models preffered various stocks the most. However, the \textbf{IBM} stock was the most preferred among all; being included, in all of the the portfolios for more than $900$ days in total (more than $66 \> \%$ of days). 
+Among other stocks, likely preferred stocks were e.g., \textbf{Motorola Solutions}, \textbf{Tyler Technologies} (TYL) or \textbf{GEN Technology} (GEN) (all over $50 \> \%$ of days).
+
+Among the least preferred stocks, apart from the LRCX and TER, very few times models included \textbf{Palo Alto Networks} (at most $8 \> \%$ days), \textbf{Microchip Technology} (MCHP) or \textbf{ON Semiconductor} (ON) (both at most $10 \> \%$ days).
+
+An interesting visualization could be derived from these data. Suppose 
+
+% A čo na testovacom intervale?
