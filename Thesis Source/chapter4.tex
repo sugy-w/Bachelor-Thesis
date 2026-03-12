@@ -223,13 +223,13 @@ Subsequently, it is possible to analyze the performance of all tuned models toge
 \hline
 \textbf{Portfolio Type} & \textbf{CAGR (\%)} & \textbf{AV (\%)} & \textbf{Sharpe ratio} & \textbf{Avg. \# Stocks} \\
 \hline
-Naïve & 22.38 & 17.01 & 1.32& 1.32 \\
+Naïve & 22.38 & 17.01 & 1.32& 13.2 \\
 \hline
-ARIMA & 22.25 & 16.94 & 1.31& 1.32 \\
+ARIMA & 22.25 & 16.94 & 1.31& 11.9 \\
 \hline
-Ridge & 21.56 & 16.75 & 1.29& 1.32 \\
+Ridge & 21.56 & 16.75 & 1.29& 12.14 \\
 \hline
-Lasso & 20.15 & 16.8 & 1.20& 1.32 \\
+Lasso & 20.15 & 16.8 & 1.20& 11.1 \\
 \hline
 \hline
 S\&P 500 & 7.69 & 21.75 & 0.35& \\
@@ -253,12 +253,16 @@ This might suggest good performance of all models during crisis periods.
 
 However, the Naïve portfolio performed the best in CAGR, although not in AV. This suggests that non-naïve models can handle volatility of the market better than min-variance portfolio. 
 
-Lastly, the overall performance of the tuned portfolios is overviewed through the simulation of $100 \> \$$ investment during the period of training-validation interval. This is depicted in Figure \ref{}.
+Lastly, the overall performance of the tuned portfolios is overviewed through the simulation of $100 \> \$$ investment during the period of training-validation interval. This is depicted in Figure \ref{fig:5}.
 
-% Tu bude dobré taký komparatívny obrázok, prerušované indexy a porovnanie 3 modelov. Bude potrebné to spustiť znova :)
-% Aj pre testing!
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{images/train_100.png}
+    \caption{\centering Evaluation of the portfolios, together with benchmark indices (Training-validation interval).}
+    \label{fig:5}
+\end{figure}
 
-% Possibly komentáre!
+It is possible to observe fairly similar development of investment in Naïve, ARIMA and Ridge models. Lasso portfolio experienced visibly comparatively worse development in terms of return. 
 
 \section{Evaluation on the testing interval}
 Eventually, it is possible to test the obtained portfolios on the testing interval (January 2023 until January 2026). The obtained evaluation results are given in Table \ref{tab:eval2}.
@@ -269,13 +273,13 @@ Eventually, it is possible to test the obtained portfolios on the testing interv
 \hline
 \textbf{Portfolio Type} & \textbf{CAGR (\%)} & \textbf{AV (\%)} & \textbf{Sharpe ratio} & \textbf{Avg. \# Stocks} \\
 \hline
-Naïve & 16.48 & 25.20 & 0.65& 0.65 \\ % DONE
+Naïve & 16.48 & 25.20 & 0.65& 14.1 \\ % DONE
 \hline
-ARIMA & 15.67 & 25.48 & 0.62& 0.65 \\ % DONE
+ARIMA & 15.67 & 25.48 & 0.62& 13.23 \\ % DONE
 \hline
-Ridge & 15.30 & 25.24 & 0.61& 0.65 \\ % DONE
+Ridge & 15.30 & 25.24 & 0.61& 13.1 \\ % DONE
 \hline
-Lasso & 17.07 & 25.26 & 0.68& 0.65 \\ % DONE
+Lasso & 17.07 & 25.26 & 0.68& 12.01 \\ % DONE
 \hline
 \hline
 S\&P 500 & 8.35 & 23.1 & 0.36 & \\ % DONE
@@ -299,11 +303,21 @@ The most interesting observation is the order of models, based on CAGR. In the c
 This result is interesting, taking into account the preserved order of prediction models in terms of dominance on the testing interval as well (see Table \ref{tab:test}).
 
 In conclusion, in the case of the training-validation interval, model-backed portfolio was performing better in terms of CAGR than the Naïve portfolio; however, all the models were beat by the NASDAQ in both CAGR and AV. As a final evaluation,
-the overview of $100 \> \$$ investment development over time is depicted in Figure \ref{}.
+the overview of $100 \> \$$ investment development over time is depicted in Figure \ref{fig:5.1}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{images/test_100.png}
+    \caption{\centering Evaluation of the portfolios, together with benchmark indices (Test interval).}
+    \label{fig:5.1}
+\end{figure}
+
+Figure \ref{fig:5.1} depicts different development, as there is no visible marginal difference between benchmark indices and model-backed portfolios. Even so, NASDAQ outperformed all models in terms of total return. However, during the period between $2024$ and $2025$, model-backed portfolios outperformed both benchmarks.
+What is more is the enormous dip during April and May 2025 (president Trump imposed first round of tarrifs) - in this period model-backed portfolios experiences the lowest dip, which might suggest comparatively better performance during such abnormal market events.
 
 \section{Portfolio frequency analysis}
 As stated in Tables \ref{tab:eval} and \ref{tab:eval2}, we analyzed the number of stocks in portfolio per day. Digging deeper into this data, it is possible to outline 
-some kind of preference of particular models (on the training-validation interval) to certain stocks.
+some kind of preference of particular models (on the training-validation interval) to certain stocks. In this section, related fractions of days state, in what fraction of days within interval, stock was included in portfolio.
 
 Interestingly, Ridge model included all of the IT stocks in portfolio for at least $100$ trading days. All other models completely excluded stocks \textbf{Lam Research} (LRCX) and \textbf{Teradyne} (TER) from their portfolios.
 
@@ -311,7 +325,19 @@ On the other hand, all models preffered various stocks the most. However, the \t
 Among other stocks, likely preferred stocks were e.g., \textbf{Motorola Solutions}, \textbf{Tyler Technologies} (TYL) or \textbf{GEN Technology} (GEN) (all over $50 \> \%$ of days).
 
 Among the least preferred stocks, apart from the LRCX and TER, very few times models included \textbf{Palo Alto Networks} (at most $8 \> \%$ days), \textbf{Microchip Technology} (MCHP) or \textbf{ON Semiconductor} (ON) (both at most $10 \> \%$ days).
+\newline
+\par
+Preference of certain stocks remained similar (with only slight shuffle in ranks) even on testing interval although, the most included stock changed – on testing interval, the most included stock was \textbf{Verisign} (VRSN) (over $92 \> \%$ of days), followed by mentioned \textbf{Motorola Solutions} (approximately $85 \> \%$ of days) and (the most preferred stock on training-validation interval) \textbf{IBM} ($72 \> \%$ of days).
+Interesting is the fraction of trading days, in which most preferred stocks were included in training-validation and test intervals. On test interval, framework included these stocks vastly more.
 
-An interesting visualization could be derived from these data. Suppose 
+On the other hand, all portfolios excluded few stocks completely – \textbf{Oracle Corporation} (on training-validation interval included approximately in $25 \> \%$ of days) and \textbf{Lam Research} (on training-validation interval excluded as well).
 
-% A čo na testovacom intervale?
+An interesting visualization in Figure \ref{fig:5.2} shows periods of intervals, where the most and least used stocks were used in Ridge model (on training-validation interval). 
+Ridge was chosen, as the least used stocks there were not excluded completely.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.98\linewidth]{images/port_use.png}
+    \caption{\centering Overview of use of certain stocks in Ridge model (Training-validation interval).}
+    \label{fig:5.2}
+\end{figure}
