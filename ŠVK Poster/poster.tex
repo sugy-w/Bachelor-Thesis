@@ -255,11 +255,11 @@ a0paper%,
   \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=10pt]
    \item Noisy and high-frequency data generated on the stock exchange markets have been point of interest for decades.
    \item Being able to trust-worthy predict day-to-day changes of stock assets would be extremely beneficial for the industry -- more informed decision in portfolio management, strategy evaluations, etc.
-   \item There are quite a few studies involing both classification and regression machine learning (ML) approaches to predict developments on the market; however, many of them apply ML techniques only on very limited number of \cite{ref1,ref2} or on stock indices \cite{ref3}. There is no comprehensive study on whole market segment.  
+   \item There are quite a few studies involing both classification and regression machine learning (ML) approaches to predict developments on the market; however, many of them apply ML techniques only on very limited number of \cite{ref1,ref2} or on stock indices \cite{ref3}. There is no comprehensive study on a whole market segment.  
    \item What is more is lack of studies applying prediction modelling in portfolio strategy optimization.
    \\
    \item This study evaluates prediction capabilities of selected ML algorithms and portfolio optimization framework on segment of \textbf{Information technology} (IT) among 500 biggest US companies by market cap
-   during period between September 2017 and January 2026.
+   during the period between September 2017 and January 2026.
   \end{itemize}  
 }
 %
@@ -268,9 +268,9 @@ a0paper%,
   \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=10pt]
     \item The amount of variables, which are directly or indirectly generated with day-to-day market running is enormous and qualified selecting is necessary. Selection methodology in this study is based of \textit{a priori} expectations of link between market and particular feature.  
     \\
-    \item Among \textbf{stock indices}, S\&P 500 and NASDAQ Composite (NASDAQ) were chosen for their presumable prediction valuabality.
+    \item Among \textbf{stock indices}, S\&P 500 and NASDAQ Composite (NASDAQ) were chosen for their presumable prediction valuability.
     \item From the set of raw goods -- \textbf{commodities} -- traded on the market, gold and crude oil were selected. 
-    \item Lastly, data regarding \textbf{foreign exchange market} -- exchange rates of selected major currencies (with american dollar), were considered.
+    \item Lastly, data regarding \textbf{foreign exchange market} -- exchange rates of selected major currencies (with American dollar), were considered.
     \\
     \item Apart from these, data quantifying \textbf{volatility} on the market and price developments of selected \textbf{US Treasury Bonds} were used.
   \end{itemize}
@@ -293,7 +293,7 @@ a0paper%,
 
 \begin{table}[H]
 \centering
-\begin{tabular}{c c c}
+\begin{tabular}{c r r}
 \hline
 \textbf{Model Type} & \textbf{MAPE (\%)} & \textbf{Dominance (\%)} \\
 \hline
@@ -305,9 +305,9 @@ Ridge (Stock-wise mode) & 1.794 & 45.94 \\
 \hline
 Ridge (General model) & 1.798 & 45.88 \\
 \hline
-Lasso (General model) & 2.24 & 38.83 \\
+Lasso (General model) & 2.240 & 38.83 \\
 \hline
-Lasso (Stock-wise model) & 2.31 & 37.1 \\
+Lasso (Stock-wise model) & 2.310 & 37.10 \\
 \hline
 \end{tabular}
 %\caption{\centering  Evaluation of final-tuned models test interval.}
@@ -321,7 +321,7 @@ Lasso (Stock-wise model) & 2.31 & 37.1 \\
 %
 \headerbox{Model-backed portfolio optimization}{name=portfolio, span=3, column=3}{
   \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=10pt]
-    \item Obtained models are capable of reinforcing portfolio optimization frameworks. In the case of this study, modified \textbf{Markowitz mean-variance portfolio} was chosen \cite{ref5}. 
+    \item Obtained models are capable of reinforcing portfolio optimization frameworks (models are used to define expected returns). In the case of this study, modified \textbf{Markowitz mean-variance portfolio} was chosen \cite{ref5}. 
     \item Employed modified version takes into account \textbf{transaction costs}.
   \end{itemize}
   
@@ -351,7 +351,7 @@ Lasso (Stock-wise model) & 2.31 & 37.1 \\
 
 \begin{table}[H]
 \centering
-\begin{tabular}{c c c}
+\begin{tabular}{c r r}
 \hline
 \textbf{Portfolio Type} & \textbf{Annual Return (\%)} & \textbf{Annual Volatility (\%)} \\
 \hline
@@ -364,7 +364,7 @@ Ridge & 15.20 & 25.29 \\
 Lasso & 16.88 & 25.53 \\
 \hline
 \hline
-S\&P 500 & 8.35 & 23.1 \\
+S\&P 500 & 8.35 & 23.10 \\
 \hline
 NASDAQ & 18.51 & 25.15 \\
 \hline
@@ -383,7 +383,7 @@ NASDAQ & 18.51 & 25.15 \\
     \item Time-dependence aware model (e.g. ARIMA) are capable of delivering comparatively better results, rather than conventional ML solutions.
     \item In order to build resilient investment strategy, extremely precise predictions of returns are not necessarily essential. 
     \vspace{0.3cm}
-    \item During market phase of neither bull or bear, such strategy is probably capable of delivering above-average results; however, during bull periods (2023 -- 2026, AI surge),
+    \item During market phase of neither bull or bear (Training-validation interval), such strategy is probably capable of delivering above-average results; however, during bull periods (2023 -- 2026, AI surge),
     strategy could not compete with NASDAQ benchmark. Even though, general market (S\&P 500) was beaten (in terms of annual return).
     \item Resulting data-pipeline is universal, capable of analyzing any set of stocks, segment, etc.
   \end{itemize}  
