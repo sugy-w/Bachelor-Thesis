@@ -240,17 +240,16 @@ NASDAQ & 9.19 & 25.52 & 0.36& \\
 
 There is clear evidence of the dominance of model-backed portfolios over the benchmark indices in all three metrics. In terms of CAGR, the best-performing portfolio was ARIMA. The ranking of portfolios by CAGR 
 fully aligns with the ranking of prediction models by dominance (see Table \ref{tab:trainval}). Interestingly, the best performing prediction model (in terms of average MAPE) did not perform the best in terms of CAGR.
-On the other hand, the model with the largest dominance delivered the best performance.
 
-Furthermore, the behaviour of the AV metric is noteworthy. The lowest AV among model-backed portfolios was observed for the Ridge model, while the highest in Naïve model. This suggests that, in this case, by employing predictions into the MVP framework generally reduces volatility compared to a 
-portfolio that assumes no next-day predictions. 
+Furthermore, the behaviour of the AV metric is noteworthy. The lowest AV among model-backed portfolios was observed for the Ridge model, while the highest in Naïve model. This suggests that, in this case, employing predictions into the MVP framework generally reduces volatility compared to a 
+portfolio that uses no next-day predictions. 
 
 Concluding the evaluation, model-backed portfolios substantially overperformed both indices across all metrics. This result may root from the performance of these models during the COVID-19 period, where major indices declined sharply, while the model-backed portfolios remained relatively stable.
 This suggests robust performance of all model-backed portfolios during crisis periods. 
 
 However, the Naïve portfolio achieved the highest CAGR, although not the lowest AV. This suggests that non-naïve models can manage market volatility more effectively than the naïve min-variance portfolio. 
 
-Finally, the overall performance of the model-backed portfolios is illustrated through the simulation of $100 \> \$$ investment over the training-validation interval, as depicted in Figure \ref{fig:5}.
+Finally, the overall performance of all considered portfolios is illustrated through the simulation of $100 \> \$$ investment over the training-validation interval, as depicted in Figure \ref{fig:5}.
 
 \begin{figure}[H]
     \centering
@@ -288,7 +287,7 @@ NASDAQ & 18.51 & 25.15 & 0.74 & \\ % DONE
 \label{tab:eval2}
 \end{table}
 
-Quite the opposite behaviour is observed, compared to the training-validation interval. Only a marginal difference in CAGR is seen between the benchmark
+Quite the opposite behaviour is observed, compared to the training-validation interval. A significant difference in CAGR is seen between the benchmark
 indices S\&P 500 and NASDAQ. This is likely due to the so called \textbf{AI Boom}, during this period. In this interval, the technology and AI segments 
 experienced a major surge in capitalization, resulting in historically above-average results \cite{bull}. This is reflected in major gains in tech-heavy NASDAQ index; 
 however, the broader S\&P 500 did not achieve such high returns.
@@ -309,9 +308,9 @@ the overview of $100 \> \$$ investment development over time is depicted in Figu
     \label{fig:5.1}
 \end{figure}
 
-Figure \ref{fig:5.1} shows a different development pattern, as there is no significant difference between benchmark indices and model-backed portfolios. Even so, NASDAQ outperformed all portfolios in terms of total return. However, during the period between $2024$ and $2025$, model-backed portfolios exceeded the performance of both benchmarks.
+Figure \ref{fig:5.1} shows a different development pattern, as there is no significant difference between benchmark indices and model-backed portfolios. Even so, NASDAQ outperformed all portfolios in terms of total absolute return. However, during the period between $2024$ and $2025$, model-backed portfolios exceeded the performance of both benchmarks.
 
-What is more is the enormous dip during April and May 2025 (president Trump imposed first round of tarrifs) -- in this period model-backed portfolios experienced the smallest decline, suggesting comparatively better resilience during such abnormal market event than the benchmark indices.
+What is more is the enormous dip during April and May 2025 (president Trump imposed first round of tarrifs) -- in this period model-backed portfolios experienced similar decline compared to the benchmark indices. On the other hand, in terms of the total value of portfolio, all model-backed portfolios outperformed all of the indices.
 
 \section{Portfolio frequency analysis}
 As shown in Tables \ref{tab:eval} and \ref{tab:eval2}, we analyzed the number of stocks in portfolio per day. A deeper analysis of this data reveals
@@ -335,7 +334,7 @@ The Ridge model was chosen for this illustration because it did not completely e
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.98\linewidth]{images/port_use.png}
+    \includegraphics[width=0.92\linewidth]{images/port_use.png}
     \caption{\centering Overview of use of certain stocks in Ridge model (Training-validation interval).}
     \label{fig:5.2}
 \end{figure}
