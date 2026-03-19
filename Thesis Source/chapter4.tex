@@ -1,5 +1,5 @@
 \chapter{Next-day optimization of portfolio}
-
+\label{chap:4}
 The goal of this chapter is to implement obtained prediction models and utilize their prediction ability
 to construct an investment portfolio management framework. Within this chapter, an investment portfolio refers
 to the allocating capital among particular stock assets in order to achieve various objectives (e.g., maximize return, minimize volatility, etc.).
@@ -338,3 +338,14 @@ The Ridge model was chosen for this illustration because it did not completely e
     \caption{\centering Overview of use of certain stocks in Ridge model (Training-validation interval).}
     \label{fig:5.2}
 \end{figure}
+
+Figure \ref{fig:5.3} overviews the actual proportion of capital being allocated to the most used stocks. These three stocks made up in average $\mathbf{26.36 \> \%}$ of the portfolio. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/proportions.png}
+    \caption{\centering Overview of capital use of certain stocks in Ridge model (Training-validation interval).}
+    \label{fig:5.3}
+\end{figure}
+
+What is more, the three most included stocks made up the highest proportion of portfolio in average as well. In the respective order, IBM $\mathbf{13.93 \> \%}$, MSI $\mathbf{7.53 \> \%}$ and TYL $\mathbf{4.91 \> \%}$ in average.
