@@ -1,0 +1,39 @@
+\chapter*{Conclusion} 
+\addcontentsline{toc}{chapter}{Conclusion} 
+\markboth{Conclusion}{Conclusion} 
+
+In the thesis, we focused on two main goals. Firstly, to design and build a regression prediction model capable of predicting the next-day price
+of individual stocks from the chosen market segment. Secondly, we focused on employing the acquired models in subsequent portfolio optimization 
+and strategy building using the MVP framework.
+
+Chapter \ref{chap:1} introduces the fundamental concepts of ML and modeling to the reader. The chapter presents the foundations of all algorithms and frameworks used in the thesis
+and briefly overviews the concepts of ML theory, which are frequently referred to in the thesis.
+
+A specific training, validation, and testing splitting concept was adopted in the thesis. Taking into account the day-to-day prediction methodology, we adopted a rolling window, where 
+the latest available predictor data (acquired from the constantly long interval) are used to predict the next-day price of a particular stock. On top of that, we used a unified set of predictors, consisting 
+largely of the market data. Chapter \ref{chap:2} introduces the concepts of the rolling window, data preparation and the set of predictors used in the thesis.
+
+Subsequently, it was possible to further evaluate the adopted ML frameworks and optimize their settings in order to achieve the best prediction results. The results have shown that stocks in the IT segment,
+in the particular time interval, were difficult to predict. Naïve prediction has shown great potential and justified that stock price development aligns with the random walk \cite{fama1970efficient}. 
+
+The introduced metrics of dominance and MAPE have shown that vast majority of employed models were outperformed by the naïve prediction in terms of prediction accuracy.
+Only one framework (ARIMA model) outperformed the Naïve model, which shows that time series models are more likely to generalize the pattern than conventional ML models.
+This result is often not stated in a number of studies, which might suggest false statistical significance of the models \cite{krauss, konferencia1}.
+
+Subsequent analyses of the application of the models to the portfolio optimization were introduced in Chapter \ref{chap:4}. Evaluation results suggest that even though prediction of most the models were inferior to the Naïve benchmark,
+the performance of portfolios, backed by models, was above-average compared to conventional stock indices. Moreover, the portfolio backed by the Naïve model delivered comparable results to other non-naïve models.
+
+On the other hand, quite a counterintuitive fact arose in the analyses. While during the period between 2017 and 2022, models with the lowest dominance delivered the best-performing portfolios, during the period between 2023 and 2026 the opposite
+emerged. The portfolio backed by the Lasso model (which was evaluated as the least dominant model) was the best performer in terms of average annual return across all the considered models. Even so, the NASDAQ index outperformed the portfolios, which is opposite
+to the previous interval as well.
+
+Comparing both analyzed intervals, the results of the research suggest that the proposed strategy tends to be less volatile and profitable during periods of neither a bull nor a bear market. On the other hand, during a strong bull market (in this case, the technology segment),
+strategy performed worse than the NASDAQ index.
+
+Aligning with Palomar \cite{portfolio}, the actual predictions tend to be less important for the portfolio optimization than the actual covariance of returns -- realized volatility of the stocks.
+
+Such an analysis of any coherent group of stocks could be performed using the designed pipeline. For future developments, it would be beneficial to conduct such research for the whole US market, which might 
+create a trustworthy foundations for informed decision-making in the market. Lastly, by researching and implementing more sophisticated portfolio optimization frameworks, the overall performance of the investment 
+might improve.
+
+Lastly, regarding the goals of the thesis, all of the targeted aims were fully accomplished.
