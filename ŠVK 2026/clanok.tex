@@ -3,6 +3,8 @@
 %% ak pisete po slovensky, pouzijete namiesto horneho riadku
 %% \documentclass{svk_sk}
 
+% Skúsiť H -> h, prípade t/T
+
 \usepackage{algorithm}      % For the float environment (optional)
 \usepackage{algpseudocode}
 \usepackage{amssymb}
@@ -294,7 +296,7 @@ the same methodology of hyperparameter tuning.
 
 Figure \ref{fig:3} shows the combined dependence of MAPE on the rolling window parameter $p$ and the regularization parameter $\lambda$ (stock ENPH). Similar to the Lasso, 
 this pattern was observed for the vast majority of the analyzed stocks.
-\begin{figure}[H]
+\begin{figure}[t]
     \centering
     \includegraphics[width=0.9\linewidth]{images/enph_heat_ridge.png}
     \caption{\centering MAPE dependence on the rolling window training length parameter and regularization parameter (Ridge, stock ENPH).}
@@ -484,7 +486,7 @@ Even in this case, such declining course is observed in all three model framewor
 Even though pattern is universal for all the frameworks, each implementation was configured differently, as the optimal value was analyzed independently.
 
 In all the models, $\lambda_R$ was chosen as the highest value beyond which improvement in both CAGR and AV becomes negligible.
-In cases of Lasso and Ridge, General model variant was evaluated. Overview of configurations is in Table \ref{tab:11}.
+In cases of Lasso and Ridge, General model variant was evaluated as the differences between respective General and Stock-wise portfolios were negligible. Overview of configurations is in Table \ref{tab:11}.
 
 \begin{table}[H]
 \centering
@@ -494,12 +496,12 @@ In cases of Lasso and Ridge, General model variant was evaluated. Overview of co
 \hline
 ARIMA & 1000 \\
 \hline 
-Ridge (SM,GM) & 1200 \\
+Ridge & 1200 \\
 \hline
-Lasso (SM,GM) & 2000 \\
+Lasso & 2000 \\
 \hline
 \end{tabular}
-\caption{\centering Portfolio model configuration overview (SM -- Stock-wise model; GM -- General model).}
+\caption{\centering Portfolio model configuration overview.}
 \label{tab:11}
 \end{table}
 
@@ -516,17 +518,13 @@ Naïve & 22.38 & 17.01 & 1.32 \\
 \hline
 ARIMA & 22.25 & 16.94 & 1.31 \\
 \hline
-Ridge (SM) & 21.68 & 16.89 & 1.28 \\
+Ridge & 21.67 & 16.96 & 1.25 \\
 \hline
-Ridge (GM) & 21.67 & 16.96 & 1.25 \\
-\hline
-Lasso (SM) & 18.58 & 17.08 & 1.09 \\
-\hline
-Lasso (GM) & 18.67 & 17.1 & 1.09 \\
+Lasso & 18.67 & 17.1 & 1.09 \\
 \hline
 \end{tabular}
 }
-\caption{\centering Evaluation of tuned models on training-validation interval (SM -- Stock-wise model; GM -- General model).}
+\caption{\centering Evaluation of tuned models on training-validation interval.}
 \label{tab:4}
 \end{table}
 As a benchmark was used scenario of investing capital into two indices S\&P 500 and NASDAQ. Performance of these scenarios is 
@@ -577,17 +575,13 @@ Naïve & 16.48 & 25.20 & 0.65 \\ % DONE
 \hline
 ARIMA & 15.67 & 25.48 & 0.62 \\ % DONE
 \hline
-Ridge (SM) & 15.38 & 25.23 & 0.61 \\ % DONE
+Ridge & 15.29 & 25.24 & 0.6  \\ % DONE
 \hline
-Ridge (GM) & 15.29 & 25.24 & 0.6  \\ % DONE
-\hline
-Lasso (SM) & 16.99 & 25.25 & 0.67 \\ % DONE
-\hline
-Lasso (GM) & 17.07 & 25.26 & 0.68 \\ % DONE
+Lasso & 17.07 & 25.26 & 0.68 \\ % DONE
 \hline
 \end{tabular}
 }
-\caption{\centering Evaluation of tuned models on test interval (SM -- Stock-wise model; GM -- General model).}
+\caption{\centering Evaluation of tuned models on test interval.}
 \label{tab:6}
 \end{table}
 
@@ -631,6 +625,7 @@ The final evaluation of all the employed models is in Figure \ref{fig:8}.
     \label{fig:8}
 \end{figure}
 
+\newpage
 \section{Conclusions}
 The results of both prediction modeling and portfolio optimization indicate that the predictability of the IT segment is relatively low. This finding aligns with Fama \cite{fama1970efficient}, who suggests that stock prices tend to follow a random-walk pattern.
 
