@@ -171,50 +171,35 @@ a0paper%,
 	  \end{tiny}
 	\end{thebibliography} 
   \end{minipage}
-  \hfill\vline\hfill
   %
   % 2. minipage for logos
   % modify to show your partners and current conference logo!
-  \begin{minipage}[t][3.6cm]{.32\textwidth}
-	\vspace{.3cm}
-	$\quad$\textbf{\small\color{cernblue}ACKNOWLEDGEMENT}\\$\;$\\
-	\footnotesize
-    \hspace*{8.5pt}This way I would like to express my sincere gratitude 
-    
-    \hspace*{8.5pt}to the supervisor of this research, Dr. Rosa, for his guidance, 
-    
-    \hspace*{8.5pt}mentorship during this research and willingness to guide 
-    
-    \hspace*{8.5pt}me.
-	\begin{minipage}{.32\textwidth}
-	  \begin{center}
-		%\includegraphics[width=.75\textwidth]{logos/}
-	  \end{center}
-	\end{minipage}
-    \vspace*{-0.5cm}
-    \begin{minipage}{.1\textwidth}
-      \hspace{\textwidth}
-	\end{minipage}
-    \begin{minipage}{.33\textwidth}
-	  \begin{center}
-		%\includegraphics[width=\textwidth]{logos/}
-	  \end{center}
-	\end{minipage}
-    \begin{minipage}{.1\textwidth}
-      \hspace{\textwidth}
-	\end{minipage}
-    \begin{minipage}{.33\textwidth}
-	  \begin{center}
-		%\includegraphics[width=\textwidth]{logos/}
-	  \end{center}
-	\end{minipage}
-    \begin{minipage}{.1\textwidth}
-      \hspace{\textwidth}
-	\end{minipage}
-  \end{minipage}
   \hfill\vline\hfill
+  \begin{minipage}[t][3.6cm]{.32\textwidth}
+	\vspace{0.3cm}
+  $\quad$\textbf{\small\color{cernblue}GITHUB REPOSITORY} \vspace{0.15cm}\\ 
+	\begin{minipage}{.35\textwidth}
+	  \begin{center}
+      % DO NOT FORGET to replace link by link to your or cern website!
+      \qrcode[hyperlink,height=.72\textwidth]{https://github.com/sugy-w/Bachelor-Thesis}
+	  \end{center}
+	\end{minipage}
+	\begin{minipage}{.64\textwidth} 
+    \vspace{.3cm}
+	  \color{cernblue}
+	  \footnotesize
+    % insert your details!
+    Original research done for bachelor \\ 
+    thesis. Further sources are saved as a Git repository.
+	  %Fon: +xx xxxxx xxxxx\\
+	\end{minipage}
+	\vspace{0.25cm}
+	\color{cernblue}
+	\small
+  \end{minipage}
   %
   % 3. mini page for contact info
+  \hfill\vline\hfill
   \begin{minipage}[t][3.6cm]{.32\textwidth}
   \vspace{0.3cm}
   $\quad$\textbf{\small\color{cernblue}ABOUT THE AUTHOR} \vspace{0.15cm}\\ 
@@ -255,7 +240,7 @@ a0paper%,
   \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=10pt]
    \item Noisy and high-frequency data generated on the stock exchange markets have been point of interest for decades.
    \item Being able to trust-worthy predict day-to-day changes of stock assets would be extremely beneficial for the industry -- more informed decision in portfolio management, strategy evaluations, etc.
-   \item There are quite a few studies involing both classification and regression machine learning (ML) approaches to predict developments on the market; however, many of them apply ML techniques only on very limited number of \cite{ref1,ref2} or on stock indices \cite{ref3}. There is no comprehensive study on a whole market segment.  
+   \item There are quite a few studies involing both classification and regression machine learning (ML) approaches to predict developments on the market; however, many of them apply ML techniques only on very limited number of stocks \cite{ref1,ref2} or on stock indices \cite{ref3}.
    \item What is more is lack of studies applying prediction modelling in portfolio strategy optimization.
    \\
    \item This study evaluates prediction capabilities of selected ML algorithms and portfolio optimization framework on segment of \textbf{Information technology} (IT) among 500 biggest US companies by market cap
@@ -264,6 +249,7 @@ a0paper%,
 }
 %
 %
+% Toto bude potrebné pravdepodobne pozmeniť na celú metodiku a pod.
 \headerbox{Features for ML modelling}{name=vmeas, span=3, below=motivation, column=0}{
   \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=10pt]
     \item The amount of variables, which are directly or indirectly generated with day-to-day market running is enormous and qualified selecting is necessary. Selection methodology in this study is based of \textit{a priori} expectations of link between market and particular feature.  
@@ -297,9 +283,9 @@ a0paper%,
 \hline
 \textbf{Model Type} & \textbf{MAPE (\%)} & \textbf{Dominance (\%)} \\
 \hline
-ARIMA & 1.923 & 56.68 \\
-\hline
 Naïve benchmark & 1.729 &  \\
+\hline
+ARIMA & 1.923 & 56.68 \\
 \hline
 Ridge (Stock-wise mode) & 1.794 & 45.94 \\
 \hline
@@ -383,7 +369,7 @@ NASDAQ & 18.51 & 25.15 \\
     \item Time-dependence aware model (e.g. ARIMA) are capable of delivering comparatively better results, rather than conventional ML solutions.
     \item In order to build resilient investment strategy, extremely precise predictions of returns are not necessarily essential. 
     \vspace{0.3cm}
-    \item During market phase of neither bull or bear (Training-validation interval), such strategy is probably capable of delivering above-average results; however, during bull periods (2023 -- 2026, AI surge),
+    \item During market phase of neither bull or bear (Training-validation interval), proposed approach involving prediction models is probably capable of delivering above-average results; however, during bull periods (2023 -- 2026, AI surge),
     strategy could not compete with NASDAQ benchmark. Even though, general market (S\&P 500) was beaten (in terms of annual return).
     \item Resulting data-pipeline is universal, capable of analyzing any set of stocks, segment, etc.
   \end{itemize}  
