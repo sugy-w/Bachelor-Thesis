@@ -159,8 +159,7 @@ a0paper%,
       \vspace{-0.1cm}
 
       \bibitem{ref4}
-      Fama, E. F. (1970). Efficient capital mar-
-      kets: A review of theory and empirical work. Journal
+      Fama, E. F. (1970). Efficient capital markets: A review of theory and empirical work. Journal
       of Finance, 25(2):383–417.
       \vspace{-0.1cm}
 
@@ -250,32 +249,33 @@ a0paper%,
 %
 %
 % Toto bude potrebné pravdepodobne pozmeniť na celú metodiku a pod.
-\headerbox{Features for ML modelling}{name=vmeas, span=3, below=motivation, column=0}{
+\headerbox{Modeling pipeline}{name=vmeas, span=3, below=motivation, column=0}{
   \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=10pt]
-    \item The amount of variables, which are directly or indirectly generated with day-to-day market running is enormous and qualified selecting is necessary. Selection methodology in this study is based of \textit{a priori} expectations of link between market and particular feature.  
+    \item We adopted \textbf{rolling window} framework for next-day closing price prediction of stocks. Data from trading days $t-q, t-(q-1), \ldots, t-1$ are employed as predictors for the closing price on day $t$. 
+    \item This methodology ensures short-term resilience of models to market shifts and unexpected events. 
     \\
-    \item Among \textbf{stock indices}, S\&P 500 and NASDAQ Composite (NASDAQ) were chosen for their presumable prediction valuability.
-    \item From the set of raw goods -- \textbf{commodities} -- traded on the market, gold and crude oil were selected. 
-    \item Lastly, data regarding \textbf{foreign exchange market} -- exchange rates of selected major currencies (with American dollar), were considered.
-    \\
-    \item Apart from these, data quantifying \textbf{volatility} on the market and price developments of selected \textbf{US Treasury Bonds} were used.
+    \item Among the included predictor data, historical developments of the IT stocks, \textbf{stock indices} (S\&P 500, NASDAQ Composite), \textbf{commodities} (crude oil, gold), \textbf{major FOREX pairs} and \textbf{US Treasury Bonds} were included.
+    \item The whole analyzed period (between 2017 and 2026) was split into training-validation (September 2017 to December 2022) and testing interval (January 2023 to January 2026).
+    \item For each rolling window training period and for each stock (out of the total number of 65), ML models were trained and tuned. At the end, the most convenient (in terms of evaluation metrics) general hyperparameter setting was chosen.
+
   \end{itemize}
 }
 %
 %
 \headerbox{Prediction results \& Benchmarking}{name=resolution, span=3, column=0, below=vmeas}{
 \begin{itemize}[noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt, leftmargin=10pt]
-  \item We adopted \textbf{rolling window} framework for next-day closing price prediction of stocks. Data from trading days $t-q, t-(q-1), \ldots, t-1$ are employed as predictors for the closing price on day $t$. 
   \item Several studies lack qualified benchmarking of obtained predictions to some naïve or low-effort solutions. In accordance with Fama \cite{ref4}, we employed benchmarking naïve prediction, assuming price on next day is equal to the yesterday's one.
 \end{itemize}
 
-\vspace{0.4cm}
+\vspace{0.1cm}
 
 \hspace{0.3cm} \textbf{Dominance} corresponds to the fraction of predictions in average, when 
 
 \hspace{0.3cm} tuned model was more precise than naïve benchmark. Results of predictive 
 
-\hspace{0.3cm} hyper-tuned predictive models (on test sample) are as follows:
+\hspace{0.3cm} hyper-tuned predictive models (on both training-validation and test 
+
+\hspace{0.3cm} samples – results for testing are in corresponding brackets) are as follows:
 
 \begin{table}[H]
 \centering
@@ -283,17 +283,17 @@ a0paper%,
 \hline
 \textbf{Model Type} & \textbf{MAPE (\%)} & \textbf{Dominance (\%)} \\
 \hline
-Naïve benchmark & 1.729 &  \\
+Naïve benchmark & 1.69 (1.73) &  \\
 \hline
-ARIMA & 1.923 & 56.68 \\
+ARIMA & 1.90 (1.92) & 58.25 (56.68) \\
 \hline
-Ridge (Stock-wise mode) & 1.794 & 45.94 \\
+Ridge (Stock-wise mode) & 1.79 (1.79) & 45.15 (45.94) \\
 \hline
-Ridge (General model) & 1.798 & 45.88 \\
+Ridge (General model) & 1.79 (1.80) & 45.08 (45.88) \\
 \hline
-Lasso (General model) & 2.240 & 38.83 \\
+Lasso (General model) & 2.30 (2.24) & 36.16 (38.83) \\
 \hline
-Lasso (Stock-wise model) & 2.310 & 37.10 \\
+Lasso (Stock-wise model) & 2.27 (2.31) & 35.81 (37.10) \\
 \hline
 \end{tabular}
 %\caption{\centering  Evaluation of final-tuned models test interval.}
@@ -301,7 +301,12 @@ Lasso (Stock-wise model) & 2.310 & 37.10 \\
 \end{table}
 \hspace{0.3cm} Out-performing naïve benchmark is extremely difficult; however, ARIMA 
 
-\hspace{0.3cm} model was able to out-perform it in dominance.
+\hspace{0.3cm} out-performed it in dominance.
+
+\hspace{0.3cm} Results between training-validation and testing interval are stable – 
+
+\hspace{0.3cm} possibly no overfitting.
+
 }
 %
 %
@@ -333,7 +338,7 @@ Lasso (Stock-wise model) & 2.310 & 37.10 \\
 
 \hspace{0.3cm} Tuned portfolio models evaluations, on the interval between January 2023
 
-\hspace{0.3cm} and January 2026 (Testing interval), are as follows:
+\hspace{0.3cm} and January 2026 (Testing interval in corresponfing brackets), are given:
 
 \begin{table}[H]
 \centering
@@ -341,18 +346,18 @@ Lasso (Stock-wise model) & 2.310 & 37.10 \\
 \hline
 \textbf{Portfolio Type} & \textbf{Annual Return (\%)} & \textbf{Annual Volatility (\%)} \\
 \hline
-Naïve & 16.48 & 25.20 \\
+Naïve & 22.38 (16.48) & 17.01 (25.20) \\
 \hline
-ARIMA & 15.67 & 25.48 \\
+ARIMA & 22.25 (15.67) & 16.94 (25.48) \\
 \hline
-Ridge & 15.20 & 25.29 \\
+Ridge & 21.56 (15.30) & 16.75 (25.24) \\
 \hline
-Lasso & 16.88 & 25.53 \\
+Lasso & 20.15 (17.07) & 16.80 (25.26) \\
 \hline
 \hline
-S\&P 500 & 8.35 & 23.10 \\
+S\&P 500 & 7.69 \> (8.35) & 21.75 (23.10) \\
 \hline
-NASDAQ & 18.51 & 25.15 \\
+NASDAQ & 9.19 (18.51) & 25.52 (25.15) \\
 \hline
 \end{tabular}
 %\caption{\centering Evaluation of tuned models on test interval vs benchmark indices (SM -- Stock-wise model; GM -- General model).}
@@ -361,7 +366,7 @@ NASDAQ & 18.51 & 25.15 \\
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{logos/dev.png}
-    \caption{\centering Performance of $100 \> \$$ investment in proposed model and indices (Testing interval).}
+    \caption{\centering Performance of a $100 \> \$$ investment in proposed model and indices (Testing interval).}
 \end{figure}
 }
 \headerbox{Conclusions \& Discussion}{name=summary, span=3, below=portfolio, above=foottext, column=3}{
