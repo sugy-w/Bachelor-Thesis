@@ -21,7 +21,7 @@
 %% prikaz \inst sluzi ako odkaz do zoznamu institucii
 %% (vid. nizsie)
 
-%% ak je skolitel/ka prace sucastne autorom, oznacte ho/ju uvedenym sposobom
+%% ak je skolitel/ka prace sucasne autorom, oznacte ho/ju uvedenym sposobom
 %% ak praca ma skolitela, ktory ale nie je autorom, uvedte to cez nasledujuci prikaz
 \supervisor{Samuel Rosa \inst{1}
 \email{samuel.rosa@fmph.uniba.sk}}
@@ -85,7 +85,7 @@ of a unified set of features related to the stock market, day-to-day closing pri
 optimization. From a broader perspective, the paper presents a study of the predictability of an entire market segment in the
 US stock market.
 
-\section{Features used predictions}
+\section{Features used in predictions}
 
 The number of variables that are directly or indirectly generated through day-
 to-day market operations is vast, and one should consider subsetting them for
@@ -142,17 +142,16 @@ we included data on \textbf{US Treasury bonds}. According to Kumar et al. \cite{
 maturities are valuable market predictors; consequently, we selected a wide range of bond maturities for the feature set.
 We included the $13$-week maturity (short-term) and the $5$-year Treasury yields (long-term).
 
-Apart from that, we included the \textbf{Volatility Index} (VIX), which is a quantitative metric reflecting investor sentiment
-and serves as a gauge tracking the state of the US economy in terms of volatility and risk.
+Apart from that, we included the \textbf{Volatility Index} (VIX), which is a quantitative metric reflecting volatility of the whole US economy
+and serves as a gauge tracking the state of the economy in terms of risk.
 
 \section{Prediction methodologies}
+\label{sec:pm}
 
 \subsection{Rolling window}
 
 In order to properly process time series data into training, validation, and test sets, many approaches have been proposed \cite{forecast_book}.
-For the purposes of this paper and the \textbf{next-day prediction} -- where data from trading days
-$t-q, t-(q-1), \ldots, t-1$ (for the given $q$) are employed as predictors for the closing price on day $t$ -- elements
-of a rolling window are utilized.
+For the purposes of the \textbf{next-day prediction} employed in this paper we implemented approach on the premises of \textbf{rolling window}. 
 
 In our approach, we define a static time series interval that serves as a hybrid training-validation set. The interval is between $T_1$ and $T_2$ time points (with $T_2 - T_1 = M$).
 Within this interval reside two frames of variables.
@@ -161,20 +160,19 @@ Multivariate $\mathbf{X} \in \mathbb{R}^{M \times F}$, where $F$ denotes the num
 selected financial variables, shifted backward up to $q = 9$ days. That means that $\mathbf{X}[t]$ (the $t$-th row of $\mathbf{X}$) represents data 
 available from days $t-1, t-2, \ldots, t-9$. 
 
-Secondly, univariate $Y \in \mathbb{R}^M$ accumulates values of the target variable (next-day closing price) corresponding to the respective rows of $\mathbf{X}$. That means that
+Secondly, univariate $\mathbf{Y} \in \mathbb{R}^M$ accumulates values of the target variable (next-day closing price) corresponding to the respective rows of $\mathbf{X}$. That means that
 $Y[t]$ (the $t$-th value in the $Y$) is the closing price on day $t$.
 
 Furthermore, we define parameter $1 \leq p < M$ (training window length parameter), which is the length of the training subwindow, indicating how many next-day predictions the model 
-would be trained on. Lastly, parameter $w$ represents the forecasting horizon -- the number of time units into the future for which predictions are made (we define $w = 1$).
+would be trained on (see Algorithm \ref{alg:sliding_window}).  
 
 With respect to the adopted data preparation and the concepts of rolling window methodology, it is possible to generalize the process of train and validation sets split. Algorithm \ref{alg:sliding_window}
-shows which parts of the global $\mathbf{X}, Y$ are directly available at the certain step of prediction.
+shows which parts of the global $\mathbf{X}, \mathbf{Y}$ are directly available at the certain step of prediction.
 
 \begin{algorithm}[H]
 \caption{Rolling-window on $(T_1, T_2)$ interval}
 \label{alg:sliding_window}
 \begin{algorithmic}
-\State \# We assume $w \gets 1$
 \State \# The prediction target day is $t+p+1$
 \State \# We have available data up to day $t+p$
 \State Set look-back window length $p$ 
@@ -183,7 +181,7 @@ shows which parts of the global $\mathbf{X}, Y$ are directly available at the ce
     \State Retrieve closing prices into the target $Y$
     \For{$t = T_1$ to $T_2 - (p + 1)$}
         \State $\mathbf{X}_{\text{train}} \gets \mathbf{X}[t : t+p]$ 
-        \State $Y_{\text{train}} \gets Y[t : t+p]$
+        \State $\mathbf{Y}_{\text{train}} \gets \mathbf{Y}[t : t+p]$
         \State $\mathbf{X}_{\text{predict}} \gets \mathbf{X}[t+p+1]$ 
         \State \# $\mathbf{X}_\text{predict}$ is the latest available data 
         \State Train model $\hat{f}$ on $(\mathbf{X}_{\text{train}}, Y_{\text{train}})$
@@ -205,22 +203,27 @@ we chose to employ the \textbf{Lasso} and \textbf{Ridge} regression models.
 Both models are built on the premise of \textbf{least-squares estimation} with a penalty term, penalizing relatively large values of coefficients in regression. Let $\mathbf{X}$ be the design matrix, $\mathbf{Y}$ the vector of target variables, and $\bm{\hat{\beta}}$ the vector of estimated regression parameters. 
 The fit of the Lasso model is attained via the optimization problem given by:
 \begin{equation}
-    \arg \min_{\hat{\beta}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^\top(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_1,
+    \arg \min_{\hat{\beta}} \> (\mathbf{Y} - \textbf{X}\bm{\hat{\beta}})^\top(\mathbf{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_1,
 \end{equation}
 where $\lambda \geq 0$ is the so-called tuning parameter and $\|\bm{\hat{\beta}}\|_1 = \sum_{i=1}^{p} |\bm{\hat{\beta}}_{i}|$ is the L1 norm.
 
 Likewise, the Ridge regression is given as follows:
 \begin{equation}
-    \arg \min_{\hat{\beta}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^\top(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_2^2,
+    \arg \min_{\hat{\beta}} \> (\mathbf{Y} - \textbf{X}\bm{\hat{\beta}})^\top(\mathbf{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_2^2,
 \end{equation}
 where $\lambda \geq 0$ is again a tuning parameter and $\|\bm{\hat{\beta}}\|_2^2 = \sum_{i=1}^{p}\bm{\hat{\beta}}^2_{i}$ is the squared L2 norm.
 
 The core property of these algorithms is their inability to be time-aware; that is, they cannot capture temporal
-dependencies by default. One of the most widely used frameworks capable of addressing this is the \textbf{Autoregressive Integrated Moving Average} (ARIMA) model.
-For a detailed overview of the theory underlying this model, see \cite{forecast_book}.
+dependencies by default. One of the most widely used frameworks capable of addressing this is the \textbf{Autoregressive Integrated Moving Average} (ARIMA) model. % Tu možno dovysvetliť p, d, q aspoň
+For a detailed overview of the theory underlying this model, see \cite{forecast_book}. For the overview, subsequent analyses and hypertuning it is necessary to be aware of three parameters $p, d, q$.
+Parameter $p \in \mathbb{N}_0$ represents the number of past time points, on which prediction is dependent. Next, parameter $d$ denotes the order of \textbf{differencing}. Lastly, parameter $q$ denotes the number of past errors
+incorporated in improving future predictions.  
 
 These three modeling frameworks were used as the predictive engine
 for all the prediction analyses in this paper.
+
+Apart from these models we define \textbf{naïve benchmark} model. This framework is based on Fama's suggestion which presumes that stock price development corresponds to the random walk \cite{fama1970efficient}.
+The benchmark predicts the next day closing price to be equal to the latest known closing price.
 
 \section{Predictive analyses}
 
@@ -236,9 +239,8 @@ In order to measure the relative deviation from the actual value $Y_{t+1}$, the 
 \end{equation*}
 Further, the average value of the APE for an individual stock over the entire considered time interval, is evaluated (further referred to as \textbf{Mean Absolute Percentage Error} -- MAPE)
 
-Apart from that, we introduce a baseline benchmark to measure the model's significance. According to Fama \cite{fama1970efficient}, asset price development corresponds to the random walk.
-In accordance with that, such naïve benchmark can be introduced, that predicting the next-day price on day $t+1$ to be equal to the price on day $t$. With this, we quantify significance as proportion
-of predictions made by the non-naïve model that are closer (in terms of APE) to the actual closing price than naïve predictions. Further, this will be referred to as \textbf{model dominance}.
+Together with the naïve prediction model, we quantify significance of prediction as proportion
+of predictions made by the non-naïve model that are closer or equal (in terms of APE) to the actual closing price than naïve predictions. Further, this will be referred to as the \textbf{model dominance}.
 
 \subsection{Lasso regression}
 The Lasso regularization model is explicitly defined by two parameters: the previously introduced $p$ (the length of the training window) and the regularization parameter $\lambda$, which controls the penalty in the optimization.
@@ -342,16 +344,22 @@ those in the Lasso framework.
 In direct comparison, we observe a marginal improvement over the Lasso model. Although the
 framework is inferior to the naïve benchmark in terms of dominance, its use demonstrates measurable progress.
 
+% Prepísať v zmysle všetkých modelov (Po tomto)
 \subsection{ARIMA model}
 In the case of ARIMA, we employed a different approach to hyperparameter tuning compared to the previous two frameworks.
 For each rolling window, the initial state $p = 0, d = 0, q = 0$ is set. Incrementally, the algorithm
 explores the universe of possible settings by exploring the \textit{neighboring} states in the grid. All possible combinations
 of integer settings are fitted on the given training data, and Bayesian information criterion (BIC) is evaluated \cite{pmdarima}.
 
-Subsequently, the optimal setting based on BIC is chosen. This method is somewhat of a naïve optimizer and, in terms of time complexity, 
-computationally cumbersome. However, for the purposes of this research, this approach is suitable. 
+% Že sa jedná o zabudovaný parameter tuning -> preformulovať to v zmysle ako je to de facto!
+% rolling window, že koľko sa tu nechalo [AJ BAKALÁRKA!]
+% To p nie je úplná analógia, čiže má zmysel to v texte nejak stále povedať
 
-In this case, there is no need to present any dependence of MAPE or dominance
+% Detailnejšie do bakalárky musíme napísať
+Subsequently, the optimal setting based on BIC is chosen. This hypertuning method is similar to the earlier hypertuning done on the regularized
+regression models -- model is evaluated with various parameter settings on training data and the most suitable setting is chosen.
+
+This means, there is no need to present any dependence of MAPE or dominance
 on the chosen model parameters. For each rolling window and for each stock within
 it, the optimal settings of $p, d, q$ are chosen based on BIC and there is no need to optimize
 parameters separately or visualize dependencies similar to those in previous
@@ -367,6 +375,53 @@ approximately $66 \%$ of rolling windows across stocks, the $p, d, q$ optimizati
 pathological case where $(p,d,q) = (0,1,0)$, which is equivalent to the proposed naïve
 benchmark method.
 
+\subsection{Other prediction frameworks}
+Apart from the above mentioned and analyzed frameworks, we employed other frameworks as well.
+Apart from the analyzed, using similar hypertuning process k-Nearest neigbours (k-NN) and Random Forest regression (RFA) were used.
+Both methods are non-parametric ML methods, capable of capturing non-linear patterns, which might be the essential factor in price prediction.
+
+As a tuning process we employed grid-search of possible model settings and subsequent evaluation of MAPE acquired from the training-validation interval.
+Quite a similar phenomenon was observed in both models.
+
+Firstly, in k-NN model, the analysis involved evaluation of models with settings given by parameter $p$ (length of the training window) and $k$ (number of neigbours considered).
+In the k-NN case, model performed the same, regardless of the value of $p$. The only determining factor across all stocks and all rolling window steps was $k$. What is more, in all stocks,
+across the whole training-validation interval, the optimal value was $k = 1$. On top of that, the \textit{nearest} neigbours in all analyzed cases was the latest known value of closing price.
+The $k = 1$ setting actually implictly stands for the above-mentioned naïve prediction benchmark.
+
+Moving on to the RFA framework, the number of possible settings is bigger as the number of considered parameters is larger.
+Hypertuning showed that the most important ones are $p$ (length of the training window) as for other parameters (e.g., depth of trees, number of trees in a forest, etc.)
+significantly fluctuated (with no convergence) and across all the stocks, no clear generalization was possible.
+
+However, the optimal value of the parameter $p$ was uniformal across all the considered stocks. The optimal value was $p = 1$. This means, that forest (and its single trees) are trained on
+only a single time point (the latest one). Again, the hypertuning process implicitly yields naïve model as the optimal setting.
+\newline
+\par
+Summing up all the considered prediction frameworks, the overview of performance on the training-validation interval is shown in Table \ref{tab:200}.
+\begin{table}[H]
+\centering
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Model Type} & \textbf{MAPE (\%)} & \textbf{Dominance (\%)} \\
+\hline
+Naïve, k-NN, RFA & 1.69 & --- \\
+\hline
+ARIMA & 1.897 & 58.25 \\
+\hline
+Ridge (Stock-wise model) & 1.79 & 45.15 \\
+\hline
+Ridge (General model) & 1.791 & 45.08 \\
+\hline
+Lasso (General model) & 2.297 & 36.16 \\
+\hline
+Lasso (Stock-wise model) & 2.27 & 35.81 \\
+\hline
+\end{tabular}%
+}
+\caption{\centering Evaluation of tuned models on training-validation interval.}
+\label{tab:200}
+\end{table}
+
 \subsection{Test evaluation}
 The last step in the complex predictive analysis is evaluating performance of optimized models on previously unseen (test) data sets.
 Evaluation results for all the considered model variants are shown in Table \ref{tab:3}.
@@ -376,6 +431,8 @@ Evaluation results for all the considered model variants are shown in Table \ref
 \begin{tabular}{|c|c|c|}
 \hline
 \textbf{Model Type} & \textbf{MAPE (\%)} & \textbf{Dominance (\%)} \\
+\hline
+Naïve, k-NN, RFA & 1.72 & --- \\
 \hline
 ARIMA & 1.923 & 56.68 \\
 \hline
@@ -405,13 +462,14 @@ the allocation of capital across particular stocks in order to achieve various o
 Allocating capital across a set of stocks to balance the trade-off between asset
 volatility and portfolio return can be formulated as an optimization problem. There
 are several approaches to properly constructing a portfolio strategy, each requiring
-different types of information from the data \cite{portfolio}.
+different types of information from the data. The foundations of the adopted frameworks and concepts in this section are 
+defined according to Palomar \cite{portfolio}.
 
 Taking into account the availability of next-day return predictions as a suitable baseline
 \textbf{Markowitz mean-variance portfolio} (MVP) was chosen. However, its elementary form 
-tends to be impractical in practice \cite{portfolio}.
+tends to be impractical in practice.
 
-Its augmented form, introducing transaction costs, was adopted \cite{portfolio}. The complete definition of
+Its augmented form, introducing transaction costs, was adopted. The complete definition of
 the used framework is as follows:
 \begin{equation*}
 \begin{aligned}
@@ -430,7 +488,7 @@ matrix of assets, $\lambda_R$ is the risk-aversion hyperparameter, and $\lambda_
 Lastly, for $\mathbf{x} \in \mathbb{R}^t$, $\|\mathbf{x}\|_1 = \sum_{i=1}^{t} \|\mathbf{x}_i\|$ is the L1 or Manhattan norm.
 
 Such an extended MVP framework not only balances the return and variance of the possible portfolio, but also penalizes high volume of transactions, which
-in practice implies lower losses \cite{portfolio}.
+in practice implies lower losses.
 
 This allocation framework is used for daily re-allocations, which means that on every trading day, the optimization is run and weights of individual stock assets
 vary on a daily basis. In all subsequent analyses, configuration with $\lambda_T = 0.01$ is used.
@@ -440,14 +498,14 @@ Subsequently, it is necessary to define crucial evaluation metrics. Using these 
 
 Suppose portfolio is applied on time interval $[1, N]$ and value of the portfolio is a time series $V = V_1, V_2, \ldots, V_N$ 
 
-\textbf{Cumulative annual growth rate}, representing the average percentage return per year, is given as follows \cite{portfolio}:
+\textbf{Cumulative annual growth rate}, representing the average percentage return per year, is given as follows:
 \begin{equation}
     \label{eq:1}
     \text{CAGR}(V)=\left(\frac{V_N}{V_1}\right)^{\frac{1}{r}} - 1,
 \end{equation}
 where $r$ denotes number of trading years between $1$ and $N$ timepoints.
 
-Further, to quantify the risk and volatility of the portfolio \textbf{annualized volatility} (AV) can be adopted \cite{portfolio}. Let $r_t = \frac{V_t}{V_{t-1}} - 1$ denote return 
+Further, to quantify the risk and volatility of the portfolio \textbf{annualized volatility} (AV) can be adopted. Let $r_t = \frac{V_t}{V_{t-1}} - 1$ denote return 
 on day $t$. Volatility across the given time interval is calculated as the sample standard deviation of $r_1, r_2, \ldots, r_N$ (denoted as $\sigma$). Subsequently, annualized volatility is given as follows:
 \begin{equation}
     \label{eq:2}
@@ -455,12 +513,14 @@ on day $t$. Volatility across the given time interval is calculated as the sampl
 \end{equation}
 where $P$ is the number of trading days per year.
 
-Lastly, one compound metric, based on Equations \eqref{eq:1} and \eqref{eq:2}, can be derived \cite{portfolio}. \textbf{Sharpe ratio} represents the return a strategy earns per unit of risk and is given as:
+Lastly, one compound metric, based on Equations \eqref{eq:1} and \eqref{eq:2}, can be derived. \textbf{Sharpe ratio} represents the return a strategy earns per unit of risk and is given as:
 \begin{equation}
     \text{Sharpe ratio}(V) = \frac{CAGR(V)}{AV(V)}
 \end{equation} 
 
 \subsection{Optimization on training-validation interval}
+Tuned models in Section \ref{sec:pm} are used as a prediction engine for portfolio optimization. This means, that
+for particular trading day, models are employed to define the vector of expected returns $\bm{\mu}_t$.
 With obtained predictions, the only parameter of the optimization model to tune is $\lambda_R$, steering the risk-aversion.
 
 In Figure \ref{fig:5}, the dependence of CAGR on $\lambda_R$ (in the Lasso General model) is depicted.
@@ -474,7 +534,7 @@ It is possible to observe that larger $\lambda_R$ (a more conservative portfolio
 On top of that, in terms of CAGR dependence, a similar pattern was observed in all three analyzed model frameworks. Each portfolio, backed by predictions made by the particular model, exhibits
 growing returns with increasing values of $\lambda_R$.
 
-Speaking of AV, unified course is observed as well. Figure \ref{fig:6} shows dependence of AV on the value of $\lambda_R$.
+Speaking of AV, monotonic course is observed as well. Figure \ref{fig:6} shows dependence of AV on the value of $\lambda_R$.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{images/lambda_vol.png}
@@ -505,8 +565,8 @@ Lasso & 2000 \\
 \label{tab:11}
 \end{table}
 
-The evaluation of results on the training-validation interval is presented in Table \ref{tab:4}. The naïve strategy stands for portfolio optimization performed 
-with naïve benchmark prediction model.
+The evaluation of results on the training-validation interval (as the simulation of investment) is presented in Table \ref{tab:4}. The naïve strategy stands for portfolio optimization performed 
+with naïve benchmark prediction model. As a benchmark, conventional stock indices NASDAQ and S\&P 500 are considered as well.
 \begin{table}[H]
 \centering
 \resizebox{\columnwidth}{!}{%
@@ -522,19 +582,6 @@ Ridge & 21.67 & 16.96 & 1.25 \\
 \hline
 Lasso & 18.67 & 17.1 & 1.09 \\
 \hline
-\end{tabular}
-}
-\caption{\centering Evaluation of tuned models on training-validation interval.}
-\label{tab:4}
-\end{table}
-As a benchmark was used scenario of investing capital into two indices S\&P 500 and NASDAQ. Performance of these scenarios is 
-overviewed in Table \ref{tab:5}.
-\begin{table}[H]
-\centering
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{|c|c|c|c|}
-\hline
-\textbf{Index name} & \textbf{CAGR (\%)} & \textbf{AV (\%)} & \textbf{Sharpe ratio} \\
 \hline
 S\&P 500 & 7.69 & 21.75 & 0.35 \\
 \hline
@@ -542,8 +589,8 @@ NASDAQ & 9.19 & 25.52 & 0.36 \\
 \hline
 \end{tabular}
 }
-\caption{\centering Evaluation of benchmark models on training-validation interval.}
-\label{tab:5}
+\caption{\centering Evaluation of tuned models on training-validation interval.}
+\label{tab:4}
 \end{table}
 Directly comparing results obtained from indices and models, portfolios backed by predictions performed marginally better in all reported metrics.
 On one hand, during the analyzed period, segment of the IT experienced vast rise, which is expected, but 
@@ -562,7 +609,7 @@ Overview of ARIMA backed strategy and investments in S\&P 500 and NASDAQ are vis
 
 \subsection{Test evaluation}
 Optimized portfolio strategies were applied to the test interval as well. The results are presented in Table \ref{tab:6}, together
-with the performance of benchmark stock indices in the same time period in Table \ref{tab:7}.
+with the performance of benchmark stock indices in the same time period.
 
 \begin{table}[H]
 \centering
@@ -579,18 +626,6 @@ Ridge & 15.29 & 25.24 & 0.6  \\ % DONE
 \hline
 Lasso & 17.07 & 25.26 & 0.68 \\ % DONE
 \hline
-\end{tabular}
-}
-\caption{\centering Evaluation of tuned models on test interval.}
-\label{tab:6}
-\end{table}
-
-\begin{table}[H]
-\centering
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{|c|c|c|c|}
-\hline
-\textbf{Index name} & \textbf{CAGR (\%)} & \textbf{AV (\%)} & \textbf{Sharpe ratio} \\
 \hline
 S\&P 500 & 8.35 & 23.1 & 0.36 \\
 \hline
@@ -598,9 +633,10 @@ NASDAQ & 18.51 & 25.15 & 0.74 \\
 \hline
 \end{tabular}
 }
-\caption{\centering Evaluation of benchmark models on test interval.}
-\label{tab:7}
+\caption{\centering Evaluation of tuned models on test interval.}
+\label{tab:6}
 \end{table}
+
 Diametrically different evaluations of the frameworks is observed. On the shorter test interval,
 benchmark indices outperformed all the model-backed strategies in all metrics. What is more, the models exhibited the opposite
 behavior on this interval. While on the training-validation interval, models with the highest dominance
