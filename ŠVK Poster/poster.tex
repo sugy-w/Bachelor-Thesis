@@ -277,36 +277,40 @@ a0paper%,
 
 \hspace{0.3cm} samples – results for testing are in corresponding brackets) are as follows:
 
+% Multicolumn
 \begin{table}[H]
 \centering
-\begin{tabular}{c r r}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|c|c|c||c|c|}
 \hline
-\textbf{Model Type} & \textbf{MAPE (\%)} & \textbf{Dominance (\%)} \\
+\multirow{2}{*}{\textbf{Model Type}} 
+& \multicolumn{2}{c||}{\textbf{MAPE (\%)}} 
+& \multicolumn{2}{c|}{\textbf{Dominance (\%)}} \\
+\cline{2-5}
+ & Training-validation & Testing & Training-validation & Testing \\
 \hline
-Naïve benchmark & 1.69 (1.73) &  \\
-\hline
-ARIMA & 1.90 (1.92) & 58.25 (56.68) \\
-\hline
-Ridge (Stock-wise mode) & 1.79 (1.79) & 45.15 (45.94) \\
-\hline
-Ridge (General model) & 1.79 (1.80) & 45.08 (45.88) \\
-\hline
-Lasso (General model) & 2.30 (2.24) & 36.16 (38.83) \\
-\hline
-Lasso (Stock-wise model) & 2.27 (2.31) & 35.81 (37.10) \\
+Naïve benchmark & 1.69 & 1.73 & ---  & --- \\
+
+ARIMA & 1.90 & 1.92 & 58.25 & 56.68 \\
+
+Ridge (Stock-wise) & 1.79 & 1.79 & 45.15 & 45.94 \\
+
+Ridge (General) & 1.79 & 1.80 & 45.08 & 45.88 \\
+
+Lasso (General) & 2.30 & 2.24 & 36.16 & 38.83 \\
+
+Lasso (Stock-wise) & 2.27 & 2.31 & 35.81 & 37.10 \\
 \hline
 \end{tabular}
-%\caption{\centering  Evaluation of final-tuned models test interval.}
+}
 \label{tab:1}
 \end{table}
 \hspace{0.3cm} Out-performing naïve benchmark is extremely difficult; however, ARIMA 
 
 \hspace{0.3cm} out-performed it in dominance.
 
-\hspace{0.3cm} Results between training-validation and testing interval are stable – 
-
-\hspace{0.3cm} possibly no overfitting.
-
+\hspace{0.3cm} Results between training-validation and testing interval are similar.
+\vspace{0.35cm}
 }
 %
 %
@@ -336,31 +340,35 @@ Lasso (Stock-wise model) & 2.27 (2.31) & 35.81 (37.10) \\
 \end{aligned}
 \end{equation*}
 
-\hspace{0.3cm} Tuned portfolio models evaluations, on the interval between January 2023
+\hspace{0.3cm} Tuned portfolio models evaluations, on both training-validation and testing
 
-\hspace{0.3cm} and January 2026 (Testing interval in corresponfing brackets), are given:
+\hspace{0.3cm} intervals are given as:
 
 \begin{table}[H]
 \centering
-\begin{tabular}{c r r}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|c |c |c ||c |c|}
 \hline
-\textbf{Portfolio Type} & \textbf{Annual Return (\%)} & \textbf{Annual Volatility (\%)} \\
+\textbf{Portfolio Type} 
+& \multicolumn{2}{c||}{\textbf{Annual Return (\%)}} 
+& \multicolumn{2}{c|}{\textbf{Annual Volatility (\%)}} \\
+\cline{2-5}
+ & Training-validation & Testing & Training-validation & Testing \\
 \hline
-Naïve & 22.38 (16.48) & 17.01 (25.20) \\
+Naïve & 22.38 & 16.48 & 17.01 & 25.20 \\
+
+ARIMA & 22.25 & 15.67 & 16.94 & 25.48 \\
+
+Ridge & 21.56 & 15.30 & 16.75 & 25.24 \\
+
+Lasso & 20.15 & 17.07 & 16.80 & 25.26 \\
 \hline
-ARIMA & 22.25 (15.67) & 16.94 (25.48) \\
-\hline
-Ridge & 21.56 (15.30) & 16.75 (25.24) \\
-\hline
-Lasso & 20.15 (17.07) & 16.80 (25.26) \\
-\hline
-\hline
-S\&P 500 & 7.69 \> (8.35) & 21.75 (23.10) \\
-\hline
-NASDAQ & 9.19 (18.51) & 25.52 (25.15) \\
+S\&P 500 & 7.69 & 8.35 & 21.75 & 23.10 \\
+
+NASDAQ & 9.19 & 18.51 & 25.52 & 25.15 \\
 \hline
 \end{tabular}
-%\caption{\centering Evaluation of tuned models on test interval vs benchmark indices (SM -- Stock-wise model; GM -- General model).}
+}
 \label{tab:6}
 \end{table}
 \begin{figure}[H]
