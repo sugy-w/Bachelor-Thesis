@@ -11,8 +11,8 @@ universe of sources dealing with the issue \cite{clanok1, clanok2}.
 \par
 %
 In the thesis, we aim mainly to research the predictive power of various diversely sophisticated
-methods of machine learning on the particular market segment. Many papers tend to focus on a
-single stock or a very limited set of a few stocks \cite{clanok5, konferencia1}. Others tend to apply predictive modelling methods
+methods of machine learning on the particular market segment. Many papers focus on a
+single stock or a very limited set of a few stocks \cite{clanok5, konferencia1}. Others apply predictive modelling methods
 to stock indices (e.g. US S\&P 500 and NASDAQ Composite or German DAX) \cite{clanok4} however, there is 
 a small number of sources dealing with a market segment, analyzing single stocks included in it.
 \par
@@ -22,7 +22,7 @@ US and world’s stock economy state \cite{snp500}. The index itself is divided 
 thesis, we focused on the segment \textbf{Information technology}. However, the approach used in our analyses is adaptable to any subset of stocks –
 the only determining constraint is the respective database of stocks.
 \par
-As of late 2025, the Information technology (IT) segment consists of $68$ US-traded stocks. However, we excluded three stocks, as their brief period of trading yielded insufficient historical data for reliable modeling. In the year 2025, in terms of total capitalization, the IT group makes a total of
+As of late 2025, the Information technology (IT) segment consists of $68$ US-traded stocks. However, we excluded three stocks (tickers APP, CRWD and DDOG), as their brief period (at most $3$ years) of trading yielded insufficient historical data for reliable modeling. In the year 2025, in terms of total capitalization, the IT group makes a total of
 nearly 30 \% of the index, which makes it the most weighted sector, despite making only 13.6 \% of all included stocks \cite{cnbc}. This recent growth of its weight 
 could be explained by a lot of factors steering the market nowadays, but the general view on the topic suggests that recent boom of artificial 
 intelligence could be the most dominant engine of growth. This suggests that focusing on this segment is reasonable, as it could be considered the most important one nowadays.
@@ -48,7 +48,7 @@ Last but not least, we accumulate data regarding the number of an instrument's s
 the thesis, the value of this attribute is known for stocks only; for other instruments we use the value of zero.
 \par
 The last data attribute, applied only on stocks' data as well, is volume of \textbf{dividends} paid out. Certain companies oblige themselves
-to pay parts of their profit to their investors on a regular basis (e.g., Apple, Microsoft or Oracle) \cite{dividendy}. Some companies do not pay out dividends, even though this attribute was included in the database for all included stocks.
+to pay parts of their profit to their investors on a regular basis (e.g., Apple, Oracle) \cite{dividendy}. Some companies do not pay out dividends, even though the attribute was included in the database for all stocks.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{images/TermsVisual.png}
@@ -69,13 +69,13 @@ $\mathbf{X}[t]$ (the $t$-th row of $\mathbf{X}$) represents data available throu
 would result in larger time-complexity and necessity to optimize new parameter further. Secondly, we want to emphasize short-term market dynamics,
 which are commonly observed in financial time series and documented in the literature \cite{forecast_book}.} 
 
-Second, univariate $Y \in \mathbb{R}^M$ accumulates values of the target variable (next closing price) to the respective rows of $\mathbf{X}$. This means, that $Y[t]$ (the $t$-th value in the $Y$) is the value of the closing price on day $t$.
+Second, univariate $\mathbf{Y} \in \mathbb{R}^M$ accumulates values of the target variable (next closing price) to the respective rows of $\mathbf{X}$. This means, that $\mathbf{Y}[t]$ (the $t$-th value in the $Y$) is the value of the closing price on day $t$.
 \par
 Further, we define parameter $1 \leq p<M$, which is the length of the training subwindow, meaning how many \textit{next-day} predictions model would be trained on,
 and $w$, which denotes the forecasting horizon, i.e., the number of time units into the future for which predictions are made. For the purposes of this thesis and its next-day prediction methodology we define $w=1$.
 
 With respect to the adopted methodology, we can generalize the process of train and validation sets split, by creating a pseudocode demonstrating the relationship
-between input and target matrices. Algorithm \ref{alg:sliding_window} shows what parts of the global $\mathbf{X}, Y$ are directly available at the certain moment of model building.
+between input and target matrices. Algorithm \ref{alg:sliding_window} shows what parts of the global $\mathbf{X}, \mathbf{Y}$ are directly available at the certain moment of the model building.
 \begin{algorithm}[H]
 \caption{Rolling-window on $(T_1, T_2)$ interval}
 \label{alg:sliding_window}
@@ -85,13 +85,13 @@ between input and target matrices. Algorithm \ref{alg:sliding_window} shows what
 \State Set look-back window length $p$ 
 \State Retrieve the feature variables' values into the $\mathbf{X}$
 \For{each stock in database}
-    \State Retrieve closing prices into the target $Y$
+    \State Retrieve closing prices into the target $\mathbf{Y}$
     \For{$t = T_1$ to $T_2 - (p + 1)$}
         \State $\mathbf{X}_{\text{train}} \gets \mathbf{X}[t : t+p]$  \>\>\>\>\>\>\> \# Z-score scaled
-        \State $Y_{\text{train}} \gets Y[t : t+p]$
+        \State $\mathbf{Y}_{\text{train}} \gets \mathbf{Y}[t : t+p]$
         \State $\mathbf{X}_{\text{predict}} \gets \mathbf{X}[t+p+1]$ 
         \State \# $\mathbf{X}_\text{predict}$ corresponds to the latest available data 
-        \State Train model $\hat{f}$ on $(\mathbf{X}_{\text{train}}, Y_{\text{train}})$: so $\hat{Y}_{\text{train}}=\hat{f}(\mathbf{X}_{\text{train}})$ 
+        \State Train model $\hat{f}$ on $(\mathbf{X}_{\text{train}}, \mathbf{Y}_{\text{train}})$: so $\hat{Y}_{\text{train}}=\hat{f}(\mathbf{X}_{\text{train}})$ 
         \State Generate prediction: $\hat{f}(\mathbf{X}_{\text{predict}})$
     \EndFor
 \EndFor
@@ -141,7 +141,7 @@ The stock index is specifically designed to follow and replicate the performance
 by including such well-chosen indices, which copy a broader and more various scope of stocks on a given market, we may obtain valuable
 information regarding the current state of the US market.
 \par
-For these purposes, we decided to include into our database two major stock indices. The general index \textbf{Standard's and Poor 500}, commonly
+For these purposes, we decided to include into our database two major stock indices. The general index \textbf{Standard and Poor's 500}, commonly
 known as S\&P 500, is an index including the 500 biggest US-traded stocks based on total market capitalization. The index consists of a wide scope of various
 segments making it robust and universal in terms of mirroring the overall US market state.
 \par
@@ -175,8 +175,8 @@ traded through currencies $Y$, $Z$, etc., making the market far more speculative
 market is by far the largest market in the world \cite{forex1}.
 \par
 Being fully decentralized, meaning prices on this market are accepted worldwide, these data could be considered as a sufficient
-indicator of currency relative strength and, by that, an indicator of a particular government's and economic competitivness of a certain country. Taking this into account,
-we assume, that including such data inside our database would bring valuable information about the international competitivness of US economy towards other major economies 
+indicator of currency relative strength and, by that, an indicator of a particular government's and economic competitiveness of a certain country. Taking this into account,
+we assume, that including such data inside our database would bring valuable information about the international competitiveness of US economy towards other major economies 
 and quantitative information about relations among major economies, which is most likely an important predictor for stock price movements.
 \par
 By our focus on the US market, we chose to include currency pairs with the American dollar (\textbf{USD}) in all pairs. We chose to include so-called \textbf{major currency pairs},

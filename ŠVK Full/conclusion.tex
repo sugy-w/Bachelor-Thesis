@@ -17,23 +17,40 @@ Subsequently, it was possible to further evaluate the adopted ML frameworks and 
 in the particular time interval, were difficult to predict. Naïve prediction has shown great potential and justified that stock price development aligns with the random walk \cite{fama1970efficient}. 
 
 The introduced metrics of dominance and MAPE have shown that vast majority of employed models were outperformed by the naïve prediction in terms of prediction accuracy.
-Only one framework (ARIMA model) outperformed the Naïve model, which shows that time series models are more likely to generalize the pattern than conventional ML models.
+Only one framework (ARIMA model) outperformed the Naïve model, which shows that time series models might be more capable of generalizing the pattern than conventional ML models.
 This result is often not stated in a number of studies, which might suggest false statistical significance of the models \cite{krauss, konferencia1}.
 
-Subsequent analyses of the application of the models to the portfolio optimization were introduced in Chapter \ref{chap:4}. Evaluation results suggest that even though prediction of most the models were inferior to the Naïve benchmark,
+Subsequent analyses of the application of the models to the portfolio optimization were introduced in Chapter \ref{chap:4}. Evaluation results suggest that even though prediction of most of the models were inferior to the Naïve benchmark,
 the performance of portfolios, backed by models, was above-average compared to conventional stock indices. Moreover, the portfolio backed by the Naïve model delivered comparable results to other non-naïve models.
 
 On the other hand, quite a counterintuitive fact arose in the analyses. While during the period between 2017 and 2022, models with the lowest dominance delivered the best-performing portfolios, during the period between 2023 and 2026 the opposite
-emerged. The portfolio backed by the Lasso model (which was evaluated as the least dominant model) was the best performer in terms of average annual return across all the considered models. Even so, the NASDAQ index outperformed the portfolios, which is opposite
+emerged. The portfolio backed by the Lasso model (which was evaluated as the least dominant model) was the best performer (on the testing set) in terms of average annual return across all the considered models. Even so, the NASDAQ index outperformed the portfolios, which is opposite
 to the previous interval as well.
 
-Comparing both analyzed intervals, the results of the research suggest that the proposed strategy tends to be less volatile and profitable during periods of neither a bull nor a bear market. On the other hand, during a strong bull market (in this case, the technology segment),
+Comparing both analyzed intervals, the results of the research suggest that the proposed portfolio models (accompanied with the prediction modeling) tend to be less volatile and profitable during periods of neither a bull nor a bear market than Naïve portfolio or conventional indices. On the other hand, during a strong bull market (in this case, the technology segment),
 strategy performed worse than the NASDAQ index.
 
 Aligning with Palomar \cite{portfolio}, the actual predictions tend to be less important for the portfolio optimization than the actual covariance of returns -- realized volatility of the stocks.
+\newline
+\par
+Apart from the compared studies \cite{krauss,konferencia1,zhao}, possibilities of applying such predictions for portfolio management were researched. Selected studies focused solely on designing the prediction pipeline and prediction evaluation. Connecting this methodology with portfolio optimization increases the application value of the research.
 
+Used ML algorithms cannot comprehend the time-flow dependency properly \cite{forecast_book}. However, by using the ARIMA model we addressed the issue. Even though time series models are used in the research quite often, simpler frameworks are used more even with inferior performance \cite{review}. This suggests a suitable alternative to the conventional ML frameworks. 
+
+As stated earlier, prediction Naïve benchmark showed competitive results, in comparison with the other models. This shows that there exists a less computationally heavy prediction alternative, capable of outperforming advanced ML frameworks. Some studies tend to compare models between each other \cite{mei2018stock} or omit the comparison at all \cite{zhao}. The thesis shows potential
+false significance of the models compared to the low computationally heavy approaches. % Tu sa bude treba pobaviť
+
+Quantitative and qualitative comparison with the existing studies is limited. Direct comparison cannot be done, as there is no widely known study conducting similar rolling-window prediction on the whole market segment. However, several implicit conclusions can be done.
+Sezer et al. \cite{review} suggest that many studies show various best performing frameworks. This suggests that particular models might perform diversely on various assets across the history.
+
+Moreover, the ML workflow of applying models out-of-sample tends to be maintained \cite{krauss,review,zhao}. However, majority of studies used static time series splitting – static time points break the whole data segment into particular ML sets. Minority of studies implemented rolling window methodology \cite{review}. 
+\newline
+\par
 Such an analysis of any coherent group of stocks could be performed using the designed pipeline. For future developments, it would be beneficial to conduct such research for the whole US market, which might 
 create a trustworthy foundations for informed decision-making in the market. Lastly, by researching and implementing more sophisticated portfolio optimization frameworks, the overall performance of the investment 
 might improve.
+
+Apart from that, there is possibility of implementing more advanced frameworks – neural networks. Some studies \cite{review} suggest more reliable prediction results than conventional ML algorithms. However, we decided not to include neural networks in this research, as the data preparation implemented does not align with the requirements of other used frameworks. Altering the preparation process 
+just for the purposes of neural networks would bias the analyses. 
 
 Lastly, regarding the goals of the thesis, all of the targeted aims were fully accomplished.
