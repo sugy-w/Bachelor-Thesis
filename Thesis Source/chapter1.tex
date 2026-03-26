@@ -51,7 +51,7 @@ In practice, the goal is to choose the model complexity (e.g., by assuming a fun
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{images/bias-variance.png}
-    \caption{\centering Balancing the total error of the model through bias and variance of it.}
+    \caption{\centering Balancing the total error of the model through its bias and variance.}
     \label{fig:1.2}
 \end{figure}
 Familiar terms connected to bias and variance are the aforementioned overfitting and underfitting. Typically, in models with low complexity (high bias and low variance), a situation may occur in which the model performs poorly on both training and testing data – this is called underfitting.
@@ -135,7 +135,7 @@ The approach in Equation \eqref{eq:1.5} stands for \textbf{least-squares estimat
 Other estimation methods for $\hat{\beta}$ exist; however, only the least-squares approach is included in the chapter, as it is used in the subsequent computational implementation.
 
 % Presné riešeníčko ešte
-Apart from the approximation methods, it is possible to derive closed form of the solution to the Equation \eqref{eq:1.5} \cite{skiena}. Straightforwardly, the value of the derivative with respect to the $\bm{\hat{\beta}}$ of the Equation \eqref{equation:1.4}
+Apart from the approximation methods, it is possible to derive the closed form of the solution to the Equation \eqref{eq:1.5} \cite{skiena}. Straightforwardly, the value of the derivative with respect to the $\bm{\hat{\beta}}$ of the Equation \eqref{equation:1.4}
 is set to zero as
 \begin{equation*}
     \frac{\partial}{\partial \bm{\hat{\beta}}} \|\bm{Y} - \textbf{X}\bm{\hat{\beta}}\|_2^2 = -2 \mathbf{X}^{\top}(\bm{Y} - \mathbf{X}\bm{\hat{\beta}}) = 0
@@ -238,7 +238,7 @@ is called the \textbf{decision tree algorithm} \cite{islp}.
 \newline
 \par
 Building an approximation solely on one decision tree might result in overfitting. Since a single tree
-is built using greedy approach, even small perturbation of the training dataset might potentially result
+is built using greedy approach, even a small perturbation of the training dataset might potentially result
 in substantially different tree structures and, consequently, very different predictions.
 
 This sensitivity arises from the locally optimal splits in nodes, which depend heavily on the sample of data used in training.

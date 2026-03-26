@@ -291,11 +291,14 @@ an approach based on the principles of grid search was used.
 For each particular rolling window, initial state is set as $p = 0, d = 0, q = 0$. Incrementally, algorithm evaluates neighboring settings,
 such as $p+1, q+1, d+1$. For each of the combinations (up to the defined upper limit of each parameter), model is fitted according to the maximum likelihood estimation (according to the Equation \eqref{MLE}).
 For each fitting, Bayesian information criterion (BIC) is evaluated and finally, based on this metric, the best-performing setting is selected \cite{pmdarima}.
+This is a similar hypertuning method to the ones applied before. 
 
-This method is somewhat naïve optimizer and, in terms of time complexity, computationally cumbersome. However, for the purposes of this thesis, this approach is suitable. 
+This means, there is no need to present any dependence of MAPE or dominance on the chosen model
+parameters. For each rolling window and for each
+stock within it, the optimal settings of $p,d,q$ are chosen based on BIC and there is no need to optimize
+parameters separately or visualize dependencies similar to those in previous sections.
 
-In this case, there is no need to present any dependence of MAPE or dominance on the chosen model parameters. For each rolling window and for each stock within it,
-optimal settings of $p, d, q$ are chosen based on BIC and there is no need to optimize parameters separately and visualize dependencies similar to the ones in previous sections.
+Lastly, it is suitable to outline the use of the parameter $p$ (length of the training window). Its value was set constant over the entire interval as $p = 20$ and the ARIMA tuner was bounded not to analyze past values beyond this timepoint. 
 
 On the training-validation interval, this optimized model achieved an average MAPE $\textbf{1.897 \%}$ and dominance of $\textbf{58.25 \%}$.
 Although the model was not able to outperform naïve benchmark or even Ridge in terms of average MAPE, it performed best overall in terms of model dominance.
