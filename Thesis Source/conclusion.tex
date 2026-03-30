@@ -18,7 +18,7 @@ in the particular time interval, were difficult to predict. Naïve prediction ha
 
 The introduced metrics of dominance and MAPE have shown that vast majority of employed models were outperformed by the naïve prediction in terms of prediction accuracy.
 Only one framework (ARIMA model) outperformed the Naïve model, which shows that time series models might be more capable of generalizing the pattern than conventional ML models.
-This result is often not stated in a number of studies, which might suggest false statistical significance of the models \cite{krauss, konferencia1}.
+This result is often not stated in a number of studies, which might lead to an overestimation of the models' practical utility \cite{krauss, konferencia1}.
 
 Subsequent analyses of the application of the models to the portfolio optimization were introduced in Chapter \ref{chap:4}. Evaluation results suggest that even though prediction of most of the models were inferior to the Naïve benchmark,
 the performance of portfolios, backed by models, was above-average compared to conventional stock indices. Moreover, the portfolio backed by the Naïve model delivered comparable results to other non-naïve models.
@@ -33,12 +33,12 @@ strategy performed worse than the NASDAQ index.
 Aligning with Palomar \cite{portfolio}, the actual predictions tend to be less important for the portfolio optimization than the actual covariance of returns -- realized volatility of the stocks.
 \newline
 \par
-Apart from the compared studies \cite{krauss,konferencia1,zhao}, possibilities of applying such predictions for portfolio management were researched. Selected studies focused solely on designing the prediction pipeline and prediction evaluation. Connecting this methodology with portfolio optimization increases the application value of the research.
+Apart from the compared studies \cite{krauss,konferencia1,zhao}, possibilities of applying such predictions for portfolio management were researched. These studies focused solely on designing the prediction pipeline and prediction evaluation. Connecting this methodology with portfolio optimization increases the application value of the research.
 
 Used ML algorithms cannot comprehend the time-flow dependency properly \cite{forecast_book}. However, by using the ARIMA model we addressed the issue. Even though time series models are used in the research quite often, simpler frameworks are used more even with inferior performance \cite{review}. This suggests a suitable alternative to the conventional ML frameworks. 
 
 As stated earlier, prediction Naïve benchmark showed competitive results, in comparison with the other models. This shows that there exists a less computationally heavy prediction alternative, capable of outperforming advanced ML frameworks. Some studies tend to compare models between each other \cite{mei2018stock} or omit the comparison at all \cite{zhao}. The thesis shows potential
-false significance of the models compared to the low computationally heavy approaches. % Tu sa bude treba pobaviť
+false validity of the models compared to the computationally inexpensive approaches.
 
 Quantitative and qualitative comparison with the existing studies is limited. Direct comparison cannot be done, as there is no widely known study conducting similar rolling-window prediction on the whole market segment. However, several implicit conclusions can be done.
 Sezer et al. \cite{review} suggest that many studies show various best performing frameworks. This suggests that particular models might perform diversely on various assets across the history.
