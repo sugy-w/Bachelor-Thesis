@@ -150,7 +150,7 @@ and serves as a gauge tracking the state of the economy in terms of risk.
 \subsection{Rolling window}
 
 In order to properly process time series data into training, validation, and test sets, many approaches have been proposed \cite{forecast_book}.
-For the purposes of the \textbf{next-day prediction} employed in this paper we implemented approach on the premises of \textbf{rolling window}. 
+For the purposes of the \textbf{next-day prediction} employed in this paper, we adopted concepts of \textbf{rolling window} approach. 
 
 In our approach, we define a static time series interval that serves as a hybrid training-validation set. The interval is between $T_1$ and $T_2$ time points (with $T_2 - T_1 = M$).
 Within this interval reside two frames of variables.
@@ -379,7 +379,7 @@ benchmark method.
 
 \subsection{Other prediction frameworks}
 Apart from the above mentioned and analyzed frameworks, we employed other frameworks as well.
-Apart from the analyzed, using similar hypertuning process k-Nearest neigbours (k-NN) and Random Forest regression (RFA) were used.
+Using the similar hypertuning process, k-Nearest neigbours (k-NN) and Random Forest regression (RFA) were optimized and used.
 Both methods are non-parametric ML methods, capable of capturing non-linear patterns, which might be the essential factor in the price prediction.
 
 As a tuning process we employed grid-search of possible model settings and subsequent evaluation of MAPE acquired from the training-validation interval.
