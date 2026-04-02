@@ -43,7 +43,7 @@ One example is assuming that $f$ belongs to a certain functional class; however,
 It refers to the error that occurs when the true $f$ is much more complex than the estimated $\hat{f}$, resulting in systematically incorrect assumptions by the model, regardless of the number of training samples. 
 
 Variance is the error arising from the model's sensitivity to perturbations in the training dataset. The problem occurs when a particular training set yields a trained model, while another, slightly perturbed dataset,
-yields a marginally different model, which usually leads to unstable generalization performance. 
+yields a significantly different model, which usually leads to unstable generalization performance. 
 More formally, variance refers to the amount by which $\hat{f}$ would change if the model were built using different training datasets. In the ideal case, the estimation of $f$ should not vary between training sets – the model should generalize rather than memorize.
 
 In practice, the goal is to choose the model complexity (e.g., by assuming a functional type or by selecting a particular model) to achieve lowest possible bias and variance simultaneously (see Figure \ref{fig:1.2}). 
@@ -106,7 +106,7 @@ where
 
 In order to derive one of the methods to approximate the parameters $\bm{\beta}$, it is necessary to define
 \textbf{residuals}. A residual represents the deviation of the obtained approximation by the model from the true value of the target (Figure \ref{fig:1.1}). When the model, defined by
-certain $\hat{\beta}$, approximates $Y$ as $\hat{Y}$, then $Y - \hat{Y}$ is the residual.
+certain approximed $\bm{\hat{\beta}}$, approximates particular $Y$ as $\hat{Y}$, then $Y - \hat{Y}$ is the residual.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{images/residuals.png}
@@ -114,7 +114,7 @@ certain $\hat{\beta}$, approximates $Y$ as $\hat{Y}$, then $Y - \hat{Y}$ is the 
     \label{fig:1.1}
 \end{figure}
 Using the residuals, we can measure the goodness of fit. We aim to define the linear relation to be as close as possible to the training data. In matrix notation, we can represent the residuals 
-for all $n$ available observations as $Y - \textbf{X}\bm{\hat{\beta}}$. To ensure that large errors are penalised more heavily and all of the residuals 
+for all $n$ available observations as $\mathbf{Y} - \textbf{X}\bm{\hat{\beta}}$. To ensure that large errors are penalised more heavily and all of the residuals 
 contribute positively, regardless of their sign, the general error function is defined as
 \begin{equation}
     \label{equation:1.4}
@@ -122,7 +122,7 @@ contribute positively, regardless of their sign, the general error function is d
 \end{equation}
 or in an equivalent way as sum of squared residuals as
 \begin{equation*}
-    \sum_{i=1}^{n}(Y_i-\hat{Y}_i)^2
+    \sum_{i=1}^{n}(Y_i-\hat{Y}_i)^2,
 \end{equation*}
 where $\hat{Y}_i$ denotes the model's approximation of $Y_i$.
 
@@ -150,14 +150,13 @@ Such solution arises from the convexity of the Equation \eqref{equation:1.4}.
 \section{Regularized variants of linear regression}
 
 Linear regression might overfit certain types of datasets. This problem arises with
-large values of the parameters in $\bm{\beta}$. Relatively large values of the parameters result in significant changes in predictions
-$\hat{Y}$, even under slight input perturbations, thus making the predictions potentially imprecise. There exist a plenty of methods involving explicit feature selection, resulting
-in omitting the features with large $\hat{\beta}$; however, by using \textbf{regularized methods}, the approach of feature selection could be avoided \cite{islp,skiena}.
+large values of the parameters in $\bm{\beta}$. Relatively large values of the parameters result in significant changes in predictions, even under slight input perturbations, thus making the predictions potentially imprecise. There exist a plenty of methods involving explicit feature selection, resulting
+in omitting the features with large $\hat{\beta}_i$; however, by using \textbf{regularized methods}, the approach of feature selection could be avoided \cite{islp,skiena}.
 
-Continue with Equation \eqref{eq:1.5} and let us add a specific term taking into account the sum of absolute values of the single parameters $\hat{\beta}$  
+Continue with Equation \eqref{eq:1.5} and let us add a specific term taking into account the sum of absolute values of the single parameters in $\bm{\hat{\beta}}$  
 \begin{equation}
     \label{equation:1.6}
-     \arg \min_{\hat{\beta}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^\top(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_1,
+     \arg \min_{\bm{\hat{\beta}}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^\top(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_1,
 \end{equation}
 where $\lambda \geq 0$ is a so-called tuning parameter and $\|\bm{\hat{\beta}}\|_1 = \sum_{i=1}^{p}|\bm{\hat{\beta_{i}}}|$ is a L1 norm. Equation \eqref{equation:1.6} trades off two criteria – on the one hand, equally as in linear regression, the model seeks
 $\bm{\hat{\beta}}$ which fits the data the best, but on the other hand, the model seeks a fit with the smallest possible sum of absolute values of the elements in $\bm{\hat{\beta}}$.
@@ -170,9 +169,9 @@ However, Lasso regularization, while optimizing, might set some of the parameter
 Building up on the method introduced by Equation \eqref{equation:1.6}, it is possible to use another type of norm to penalize values of the parameters in $\bm{\hat{\beta}}$.
 \begin{equation}
     \label{equation:1.7}
-    \arg \min_{\hat{\beta}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^\top(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_2^2,
+    \arg \min_{\bm{\hat{\beta}}} \> (\bm{Y} - \textbf{X}\bm{\hat{\beta}})^\top(\bm{Y} - \textbf{X}\bm{\hat{\beta}}) + \lambda \|\bm{\hat{\beta}}\|_2^2,
 \end{equation}
-where $\lambda \geq 0$ is again a tuning parameter and $\|\bm{\hat{\beta}}\|_2^2 = \sum_{i=1}^{p}\bm{\hat{\beta}}^2_{i}$ is a L2 norm. The approach in Equation \eqref{equation:1.7} is then called \textbf{Ridge regularization} of linear regression.
+where $\lambda \geq 0$ is again a tuning parameter and $\|\bm{\hat{\beta}}\|_2^2 = \sum_{i=1}^{p}\bm{\hat{\beta}}^2_{i}$ is a squared L2 norm. The approach in Equation \eqref{equation:1.7} is then called \textbf{Ridge regularization} of linear regression.
 The goal of this optimization problem aligns with that in Lasso, preserving the trade-off between fit and minimal parameters in $\bm{\hat{\beta}}$. 
 
 Apart from the Lasso, Ridge generally does not make the parameters equal to zero, meaning it does not implicitly perform feature selection \cite{islp}.
@@ -186,10 +185,10 @@ The main idea, which forms the foundation of this method, is based on the assump
 are close to each other (for some distance definition), tend to be more similar in terms of the target variable $Y$ \cite{skiena}. This method can solve both regression and classification tasks; however, 
 only the regression setup is explained, as only this is used in the thesis.
 
-Suppose we have the training dataset as earlier, $\{ Y_i, \bm{X}_i \}_{i=1}^{n}$, where the stacked vector $\bm{X}_i = (X_{i, 1}, X_{i, 2}, \ldots, X_{i, p})^\top$.
-Further, we have a new datapoint with vector of predictors $\bm{\hat{X}}$, but without the linked value of the target $Y$. Lastly, we define a distance metric $\|.\|$ and a parameter $k \leq n$.
+Suppose we have the training dataset as earlier, $\{ Y_i, \mathbf{X}_i \}_{i=1}^{n}$, where the stacked vector $\mathbf{X}_i = (X_{i, 1}, X_{i, 2}, \ldots, X_{i, p})^\top$.
+Further, we have a new datapoint with vector of predictors $\mathbf{\hat{X}}$, but without the linked value of the target $Y$. Lastly, we define a distance metric $\|.\|$ and a parameter $k \leq n$.
 
-Let $N \subseteq \{i\}_{i=1}^{n}$ be the set of indices of the $k$ nearest training feature vectors $\bm{X}_i$ to the $\bm{\hat{X}}$, in terms of $\|.\|$ distance. Then, the approximation of the target $Y$ is 
+Let $N \subseteq \{i\}_{i=1}^{n}$ be the set of indices of the $k$ nearest training feature vectors $\mathbf{X}_i$ to the $\mathbf{\hat{X}}$, in terms of $\|.\|$ distance. Then, the approximation of the target $Y$ is 
 \begin{equation}
     Y \approx \frac{1}{k}\sum_{i \in N} Y_i    
 \end{equation}
@@ -205,7 +204,7 @@ be predictors with larger or lower importance.
 To preserve the high interpretability of space partitioning and allowing for weighting of individual predictors, 
 data structure \textbf{binary tree} comes as a very natural candidate. The idea of using a tree
 is to recursively partition training dataset into tree's nodes, representing certain space partition, and effectively terminate the tree at certain 
-depth, with leaf nodes whose data points define the resulting target approximation.
+depth, with leaf nodes, whose data points define the resulting target approximation.
 
 Similarly to the k-NN case, this algorithm is capable of solving both regression and classification tasks; however,
 only the regression setup in explained.
@@ -219,7 +218,7 @@ The building of the tree is a greedy algorithm, which means that, at each step o
 partition criterion locally optimally according to the current set of datapoints.
 
 Let $S$ be the set of datapoints in a given node. The aim is to define $S_{left}, S_{right}$ belonging to left and right child nodes respectively, based on the division criterion.
-In regression, the goal is to divide $S$, to make $S_{left}, S_{right}$ \textit{as homogeneous as possible}. We can define the weighted average of $Y$ variances, in respective sets as
+In regression, the goal is to divide $S$, to make $S_{left}, S_{right}$ \textit{as homogeneous as possible}. We can define the weighted average of target variable variances, in respective sets as
 \begin{equation}
     \text{Split}(X_j, w) = \frac{|S_{left}|}{|S|}\text{Var}(S_{left}) + \frac{|S_{right}|}{|S|}\text{Var}(S_{right})
 \end{equation}
@@ -232,8 +231,8 @@ This means that in all nodes of the structure, the algorithm solves
 \end{equation}
 and performs the split until a termination criterion is satisfied (e.g., maximum depth of the tree, minimum points in leaves, etc.).
 
-With such a data structure built, a certain input $\bm{\hat{X}}$ belongs to 
-particular leaf node. The approximation of $Y$ corresponding to the $\bm{\hat{X}}$ is then the arithmetic mean of the leaf's training $Y$ values. This approximation method
+With such a data structure built, a certain input $\mathbf{\hat{X}}$ belongs to 
+particular leaf node. The approximation of $Y$ corresponding to the $\mathbf{\hat{X}}$ is then the arithmetic mean of the leaf's training target values. This approximation method
 is called the \textbf{decision tree algorithm} \cite{islp}.
 \newline
 \par
@@ -269,7 +268,7 @@ Let there be a univariate time series of length $T$ as $\{Y_t\}_{t=1}^{\top}$. T
 that future data points of the time series are dependent on the earlier points in series. Rigorously speaking, let there be $p \in \mathbb{N}_0$ and
 \begin{equation}
     \label{eq:ARIMA1}
-    Y_t = \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \ldots + \phi_{p} Y_{t-p} + \epsilon_t
+    Y_t = \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \ldots + \phi_{p} Y_{t-p} + \epsilon_t,
 \end{equation}
 where $\epsilon_t$ is the irreducible noise term and $\phi_1, \phi_2, \ldots, \phi_p$ are \textbf{autoregressive coefficients}. Time series tend to be non-stationary, which means that their statistical properties tend 
 to change over time. For this purpose, let there be an operator $B$, which satisfies $B Y_t = Y_{t-1}$. Then, the term of \textbf{differencing} of the $d$-th order is defined as
@@ -283,7 +282,7 @@ Lastly, the idea of ARIMA relies on the property of the \textbf{moving average},
 the value of $Y_t$ as a linear combination of forecast errors made in the past:
 \begin{equation}
     \label{eq:ARIMA3}
-    Y_t = \epsilon_t + \theta_1 \epsilon_{t-1} + \theta_2 \epsilon_{t-2} + \ldots + \theta_q \epsilon_{t-q}
+    Y_t = \epsilon_t + \theta_1 \epsilon_{t-1} + \theta_2 \epsilon_{t-2} + \ldots + \theta_q \epsilon_{t-q},
 \end{equation}
 where $\theta_1, \theta_2, \ldots, \theta_q$ are \textbf{moving average coefficients}. ARIMA tends to incorporate deviations encountered in the past to improve future predictions.
 
@@ -297,7 +296,7 @@ the joint likelihood of the observed time series can be written as
 
 \begin{equation}
     \label{MLE}
-    \mathcal{L}(\bm{\phi}, \bm{\theta}, \sigma^2 | Y_1, Y_2, \ldots, Y_T)
+    \mathcal{L}(\bm{\phi}, \bm{\theta}, \sigma^2 | Y_1, Y_2, \ldots, Y_T),
 \end{equation}
 
 where $\bm{\phi}=(\phi_1, \phi_2, \ldots, \phi_p)^\top$ and $\bm{\theta}=(\theta_1, \theta_2, \ldots, \theta_q)^\top$. These parameters are estimated by solving 
