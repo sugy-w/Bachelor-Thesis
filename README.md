@@ -70,12 +70,12 @@ This work provides a fully reproducible quantitative research pipeline (the only
 
 | Model         | MAPE (%)  | Dominance (%) |
 |--------------|--------|--------|
-| ARIMA  | 1.897 | 58.25 |
-| Ridge (SM)        | 1.79 | 45.15 |
-| Ridge (GM)          | 1.791 | 45.08 |
-| Linear regression          | 1.844 | 44.82 |
-| Lasso (GM)          | 2.297 | 36.16 |
-| Lasso (SM)          | 2.27 | 35.81 |
+| ARIMA  | 1.923 | 56.68 |
+| Ridge (SM)        | 1.918 | 42.57 |
+| Ridge (GM)          | 1.904 | 43.48 |
+| Linear regression          | 1.903 | 43.89 |
+| Lasso (GM)          | 2.18 | 39.12 |
+| Lasso (SM)          | 2.36 | 36.55 |
 | Benchmark (Naïve, k-NN, RFA)          | 1.69 |  |
 
 ## 📈 Results of predictions (Test)
