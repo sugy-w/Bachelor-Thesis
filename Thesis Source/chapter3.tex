@@ -1,21 +1,21 @@
 \chapter{Predictive analyses on IT segment}
 \label{chap:3}
 
-This chapter presents obtained modelling results. For each of the models used, in-depth parameter tuning and evaluation 
+This chapter presents obtained modeling results. For each of the models used, in-depth parameter tuning and evaluation 
 on both the training-validation and test datasets are performed. 
 
-In the subsequent analyses and hypertuning, we used data of the stock Enphase Energy Inc. (ENPH) as a tuning stock. This stock experienced major surge and downturns in the time interval
+In the subsequent analyses and hypertuning, we used data of the stock Enphase Energy Inc. (ENPH) as a tuning stock. This stock experienced major surge and downturns in the training-validation time interval
 and we assume that this creates a representative data sample. 
 
 \section{Evaluation metrics} 
 
 Throughout the thesis, particular performance metrics are used. Suppose that on the day $t$
-we acquired closing price data denoted as $Y_t$; therefore, based on the methodology introduced earlier (Section \ref{rolling}),
+we acquired closing price data denoted as $Y_t$; therefore, based on the methodology introduced earlier (see Section \ref{rolling}),
 we obtain a prediction for the day $t+1$ (using the model trained on the data available through days $t, t-1, \ldots, t-(p+1)$) denoted as $\hat{Y}_{t+1}$.
 
 Firstly, in order to measure deviation from the actual $Y_{t+1}$, metric \textbf{absolute percentage error} (APE) is used.
 The percentage relativization was chosen in order to unify the scale among all the stocks, making the prediction error comparable
-across the stocks and more interpretable. The complete definition of the metric is given as
+across the stocks and more interpretable. The complete definition of the metric is given as:
 \begin{equation*}
     \text{APE}(\hat{Y}_{t+1}, Y_{t+1})=\frac{|Y_{t+1}-\hat{Y}_{t+1}|}{Y_{t+1}}.
 \end{equation*}
@@ -69,7 +69,7 @@ is used.
     \label{fig:3.1}
 \end{figure}
 \subsection{Optimization of $p$}
-The only a priori model parameter present in the linear regression is the number of observations included in the training dataset (denoted as $p$). Analysis of the dependence of MAPE on the parameter $p$
+The only \textit{a priori} model parameter present in the linear regression is the number of observations included in the training dataset (denoted as $p$). Analysis of the dependence of MAPE on the parameter $p$
 for the selected ENPH stock, is shown in Figure \ref{fig:3.2}. 
 \begin{figure}[H]
     \centering
@@ -79,13 +79,13 @@ for the selected ENPH stock, is shown in Figure \ref{fig:3.2}.
 \end{figure}
 
 In Figure \ref{fig:3.2}, local minimum is observed at $p=4$. In most of the included stocks we observed a similar convex development of MAPE dependence on $p$. What is more,
-the minimum, in the vast majority of stocks, is observed in $p=4$, rarely at $p=5$. The value of $p=4$ was chosen, based on the optimization on the training-validation 
+the minimum, in the vast majority of stocks, is observed in $p=4$, rarely at $p=5$. The value of $p=4$ was chosen, based on the overall optimization on the training-validation 
 interval.
 
-Such a defined model achieved (on the training-validation interval) average MAPE of $\textbf{1.844 \%}$ and dominance of $\textbf{44.82 \%}$ on average for all the stocks. In terms of interpretation,
+Such a defined model achieved (on the training-validation interval) average MAPE of $\textbf{1.825 \%}$ and dominance of $\textbf{45.05 \%}$ on average for all the stocks. In terms of interpretation,
 this means that linear regression is inferior, in terms of prediction accuracy, to the naïve benchmark on the given interval.
 
-It is possible to analyze performance of the model for the given set of stocks. In Figure \ref{fig:3.5} is the overview of distributions of APE of predictions across all the stock on the training-validation interval.
+It is possible to analyze performance of the model for the given set of stocks. In Figure \ref{fig:3.5} is the overview of distributions of APE of predictions across all the stocks on the training-validation interval.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.645\linewidth]{images/distr_lr.png}
@@ -131,15 +131,15 @@ are summarized in Table \ref{tab:mape_lambda}.
 \hline
 \textbf{Model Type} & \textbf{MAPE (\%)} & \textbf{Dominance (\%)} \\
 \hline
-General model & 2.297 & 36.16 \\
+General model & 2.297 & 36.162 \\
 \hline
-Stock-wise model & 2.27 & 35.81 \\
+Stock-wise model & 2.291 & 36.156 \\
 \hline
 \end{tabular}
 \caption{MAPE and dominance values for different settings of the model (Lasso).}
 \label{tab:mape_lambda}
 \end{table}
-Generally speaking, compared to the linear regression, there is a marginal worsening in terms of both metrics. What is interesting is the behavior of both metrics. The General model has achieved comparatively worse MAPE; however,
+Generally speaking, compared to the linear regression, there is a significant worsening in terms of both metrics. What is interesting is the behavior of both metrics. The General model has achieved comparatively worse MAPE; however,
 its dominance is slightly higher than that of the Stock-wise model.
 
 Lastly, Figure \ref{fig:3.6} visualizes the performance of the optimized model for individual stocks. The visualization shows performance of the General model
@@ -167,7 +167,7 @@ In Figure \ref{fig:3.7}, the dependence of MAPE for the chosen ENPH stock on the
     \label{fig:3.7}
 \end{figure}
 Directly compared to the MAPE development in Figure \ref{fig:3.3}, there is clear evidence of the optimal value of $p$ being 
-in the segment of $p \in [4, 6]$. The rise of error with the increasing value of $p$ is much more visible and stable for various values of $\lambda$.
+in the segment of $p \in [4, 6]$. The rise of error with the increasing value of $p$ is much more visible and stable among various values of $\lambda$.
 With further experiments, value of $p=4$ was chosen for later analyses – the lowest value was chosen to save computational time. Analogous to the problem of choosing value of $p$ in Lasso regression,
 a certain subinterval of near-optimal values was localized. 
 
@@ -181,16 +181,16 @@ lies in the interval $\lambda \in [170, 260]$.
 \end{figure}
 Similar to the approach in Lasso regularization, using two model settings was chosen. The average value of optimal $\lambda$ for the analysed stocks 
 is $\overline{\lambda}=211.85$ (General model). Similarly, a model using the optimal value of $\lambda$ for each stock independently was also implemented (Stock-wise model).
-The final evaluation of these models is accumulated in Table \ref{tab:mape_lambda2}.
+The final evaluation of these models is overviewed in Table \ref{tab:mape_lambda2}.
 \begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|}
 \hline
 \textbf{Model Type} & \textbf{MAPE (\%)} & \textbf{Dominance (\%)} \\
 \hline
-General model & 1.791 & 45.08 \\
+General model & 1.784 & 45.3 \\
 \hline
-Stock-wise model & 1.79 & 45.15 \\
+Stock-wise model & 1.783 & 45.43 \\
 \hline
 \end{tabular}
 \caption{MAPE and dominance values for different settings of the model (Ridge).}
@@ -200,7 +200,7 @@ Compared to the evaluation of linear regression, progress was achieved in both m
 and MAPE. Interestingly, compared to the case of Lasso, where counter-intuitive behavior of MAPE and dominance was observed, the opposite behavior
 is seen in Ridge models. General model tends to have higher MAPE and lower dominance, which is more intuitive.
 
-Last but not least, an overview of APE distributions for individual stocks in the models is depicted in Figure \ref{fig:3.9} (General model). Similar to the Lasso case, the distinctions between
+Last but not least, an overview of APE distributions for individual stocks in the models are depicted in Figure \ref{fig:3.9} (General model). Similar to the Lasso case, the distinctions between
 General and Stock-wise models are negligible. 
 \begin{figure}[H]
     \centering
@@ -232,10 +232,10 @@ Figure \ref{fig:3.10} shows the effect of dependence of MAPE on given values of 
     \label{fig:3.10}
 \end{figure}
 There is a clear trend showing that the most influential parameters is $k$, number of neighbours. The most interesting observation is the almost constant MAPE
-across all the considered values of $p$. This appears to be highly counter-intuitive quality; however, further analyses have shown that it could be explained 
+across all the considered values of $p$ (with constant $k$). This appears to be highly counter-intuitive quality; however, further analyses have shown that it could be explained 
 as a form of pathological behavior of k-NN algorithm. 
 
-Across all stocks k-NN tends to reach its optimal setting when $k = 1$. In all rolling window steps across all the stocks, the closest '{}neighbour'
+Across all stocks, k-NN tends to reach its optimal setting when $k = 1$. In all rolling window steps, across all the stocks, the closest '{}neighbour'
 to the prediction input is the observation from the \textbf{most recent previous day}. As k-NN has optimal setting in $k = 1$ regardless of $p$, k-NN algorithm effectively performs
 as the proposed naïve benchmark model. Consequently, k-NN cannot outperform it. Such setting ($k=1, p=4$) has achieved average MAPE across the stocks $\textbf{1.69 \%}$ (the same as in the naïve model).
 
@@ -266,7 +266,7 @@ of MAPE, for a single stock, on the parameter $p$ – the length of the training
     \caption{\centering Dependence of MAPE on the length of the training window $p$ (Random Forest, stock ENPH).}
     \label{fig:3.12}
 \end{figure}
-A distinct feature, similar to the one explored in the Section \ref{knn}, can be observed. For all individual stocks in the datasets,
+A distinct feature, similar to the one explored in Section \ref{knn}, can be observed. For all individual stocks in the datasets,
 RFA tends to perform the best, in terms of MAPE, when $p = 1$. Effectively, this means that training phase consists of only the most recent known data entry – the previous trading day.
 Consequently, RFA tends to fall into explained pathological case, equivalent to the proposed naïve benchmark.
 
@@ -279,8 +279,9 @@ shows dependence of model dominance on the parameter $p > 1$ – the best settin
     \caption{\centering Dependence of model dominance on training window length (stock ENPH).}
     \label{fig:3.13}
 \end{figure}
-According to the analyses, this means that evaluation of MAPE is the same as in the k-NN framework and naïve model. The value of average MAPE per stock (in the optimal model) is $\textbf{1.69 \%}$. 
-
+According to the analyses, this means that evaluation of MAPE is the same as in the k-NN framework and naïve model. The value of average MAPE per stock (in the optimal model) is $\textbf{1.69 \%}$.
+The respective distributions of particular APEs is equivalent to the Figure \ref{fig:3.11}.
+% Tu sme skončili, počkáme na výsledky
 \section{ARIMA model}
 
 As mentioned in Section \ref{sub:arima}, ARIMA framework is capable of capturing time dependencies by default. This 
@@ -312,7 +313,7 @@ To complete the picture of performance, distribution of APE across the stocks is
 At this point, it is possible to clearly outline that performance of given ML frameworks varies from stock to stock. As stated before, stocks tend to have various predictability in different ML algorithms, even though input features remain the same. On the other hand, it is possible to observe one common feature among all APE distribution visualizations.
 In all analyzed distributions, three common stocks are present in the top ranks in order of maximal APE – particularly EPAM Systems Inc. (EPAM), Super Micro Computer (SMCI) and Gen Digital Inc. (GEN).
 
-In all these stocks, a few model predictions were marginally off, with APE exceeding $40 \%$ (at most over $80 \%$).
+In all these stocks, a few model predictions were significantly off, with APE exceeding $40 \%$ (at most over $80 \%$).
 Such large deviations typically occur during periods of abnormal price movement or heightened volatility. In these situations, the underlying dynamics of the stock price change abruptly and cannot be adequately captured by models trained primarily on historical patterns.
 However, such cases represent small fraction of events on the market and should be interpreted as outliers and not systematic bias.
 
@@ -327,60 +328,40 @@ However, such cases represent small fraction of events on the market and should 
 In the previous sections, the process of parameter tuning was outlined in detail and, based on the introduced metrics, evaluated in order to optimize
 model performance. As introduced earlier, the same rolling-window-based prediction approach will be used on the test interval as well (see Section \ref{testing_sub}).
 
-The evaluation of all implemented algorithms on the test interval is shown in Table \ref{tab:test}. For completeness and easier interpretation purposes,
-Table \ref{tab:trainval} also summarizes the results obtained on training-validation interval as well. Values of model dominance for k-NN and RFA are blank as they
+The evaluation of all implemented algorithms on both training-validation and test interval is shown in Table \ref{tab:trainval}. Values of model dominance for k-NN and RFA are blank as they
 have no interpretative value – models are equivalent to the naïve benchmark. 
 \begin{table}[H]
 \centering
-\begin{tabular}{|c|c|c|}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|c |c |c ||c | c |}
 \hline
-\textbf{Model Type} & \textbf{MAPE (\%)} & \textbf{Model Dominance (\%)} \\
+\textbf{Model Type} & \multicolumn{2}{c||}{\textbf{MAPE (\%)}} 
+& \multicolumn{2}{c|}{\textbf{Model Dominance (\%)}} \\
+\cline{2-5}
+ & Training-validation & Testing & Training-validation & Testing \\
 \hline
-ARIMA & 1.897 & 58.25 \\
 \hline
-Ridge (Stock-wise model) & 1.79 & 45.15 \\
+ARIMA & 1.897 & 1.923 & 58.25 & 56.68 \\
 \hline
-Ridge (General model) & 1.791 & 45.08 \\
+Ridge (Stock-wise model) & 1.783 & 1.923 & 45.4 & 42.57 \\
 \hline
-Linear regression & 1.844 & 44.82 \\
+Ridge (General model) & 1.784 & 1.904 & 45.3 & 43.48 \\
 \hline
-Lasso (General model) & 2.297 & 36.16 \\
+Linear regression & 1.825 & 1.903 & 45.05 & 43.89 \\
 \hline
-Lasso (Stock-wise model) & 2.27 & 35.81 \\
+Lasso (General model) & 2.297 & 2.18 & 36.16 & 39.12 \\
 \hline
-Benchmark (Naïve, k-NN, RFA)  & 1.69 & \\
+Lasso (Stock-wise model) & 2.291 & 2.36 & 36.16 & 36.55 \\
+\hline
+Benchmark (Naïve, k-NN, RFA)  & 1.69 & 1.72 & -- & -- \\
 \hline
 \end{tabular}
-\caption{ Evaluation of tuned models on the training-validation interval.}
+}
+\caption{\centering Evaluation of tuned models on the training-validation and the testing intervals.}
 \label{tab:trainval}
 \end{table}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{|c|c|c|}
-\hline
-\textbf{Model Type} & \textbf{MAPE (\%)} & \textbf{Model Dominance (\%)} \\
-\hline
-ARIMA & 1.923 & 56.68 \\
-\hline
-Ridge (Stock-wise model) & 1.794 & 45.94 \\
-\hline
-Ridge (General model) & 1.798 & 45.88 \\
-\hline
-Linear regression & 1.848 & 43.47 \\
-\hline
-Lasso (General model) & 2.24 & 38.83 \\
-\hline
-Lasso (Stock-wise model) & 2.31 & 37.1 \\
-\hline
-Benchmark (Naïve, k-NN, RFA) & 1.72 & \\
-\hline
-\end{tabular}
-\caption{ Evaluation of tuned models on the test interval.}
-\label{tab:test}
-\end{table}
-
-As seen in Tables \ref{tab:trainval} and \ref{tab:test}, in both cases the metrics tend to reach similar values. This suggests that the models have not
+As seen in Table \ref{tab:trainval}, in both cases the metrics tend to reach similar values. This suggests that the models have not
 suffered from overfitting. Apart from that, it is interesting to observe similar values of both metrics on differently wide intervals.
 This may indicate that models are relatively stable for various forecast horizons.
 

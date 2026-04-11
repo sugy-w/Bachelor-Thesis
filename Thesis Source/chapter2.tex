@@ -33,7 +33,7 @@ as features and target variables. These attributes could be further generalized 
 itself – as it will be applied to non-stock data as well.
 \par
 For the purposes of defining desired terminology, let's define a time interval on which we analyse an instrument's attribute movement as $[t_1, t_2]$, where
-naturally $t_1 < t_2$. Defined attributes, which are attached to a single time breakpoints, could be universally defined for any time interval with various frequency.
+naturally $t_1 < t_2$. The terminology, could be universally defined for any time interval with various frequency.
 \par
 At the breakpoint $t_1$ we define the \textbf{opening value}, which denotes the value of the attribute at the very beginning of the interval. For the purposes of this thesis,
 where we aim to use a daily frequency of data, this value denotes the value of the attribute at the very start of the trading day. In the opposite manner, at the breakpoint $t_2$ we define the 
@@ -42,7 +42,7 @@ where we aim to use a daily frequency of data, this value denotes the value of t
 During the process of value evolving throughout the interval, we observe the global minimum and maximum of the attribute's value, which we denote \textbf{low value} and \textbf{high value}, respectively.
 Such data give us an indication of volatility during the interval and subsequently the sentiment of the market regarding the attribute.
 
-The visualisation of the terms for a sample interval of a Microsoft stock between the beginning of June 2025 and the beginning of September 2025 is pictured in Figure \ref{fig:2.1}.
+The visualization of the terms for a sample interval of a Microsoft stock between the beginning of June 2025 and the beginning of September 2025 is pictured in Figure \ref{fig:2.1}.
 \par
 Last but not least, we accumulate data regarding the number of an instrument's stocks traded (either sold or bought) during the time interval. This is denoted as \textbf{volume}, and in terms of
 the thesis, the value of this attribute is known for stocks only; for other instruments we use the value of zero.
@@ -52,7 +52,7 @@ to pay parts of their profit to their investors on a regular basis (e.g., Apple,
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{images/TermsVisual.png}
-    \caption{\centering Visualisation of the defined attribute's movement terms on Microsoft stock price.}
+    \caption{\centering Visualization of the defined attribute's movement terms on Microsoft stock price.}
     \label{fig:2.1}
 \end{figure}
 \section{Rolling window and prediction methodology}
@@ -67,9 +67,9 @@ Multivariate $\mathbf{X} \in \mathbb{R}^{M \times F}$, where $F$ denotes the num
 as an input variable. Included features in $\mathbf{X}$ are values of selected financial variables, shifted backwards up to $q=9$ days. This means, that 
 $\mathbf{X}[t]$ (the $t$-th row of $\mathbf{X}$) represents data available through days $t-1, t-2, \ldots, t-9$. \footnote{We chose the value of $q$ due to few reasons constant. Firstly, variable $q$ 
 would result in larger time-complexity and necessity to optimize new parameter further. Secondly, we want to emphasize short-term market dynamics,
-which are commonly observed in financial time series and documented in the literature \cite{forecast_book}.} 
+which are commonly observed in financial time series and documented in the literature \cite{forecast_book}.} To ensure that the data in the $\mathbf{X}$ are not biased, each particular row is transformed via Z-score standardization.
 
-Second, univariate $\mathbf{Y} \in \mathbb{R}^M$ accumulates values of the target variable (next closing price) to the respective rows of $\mathbf{X}$. This means, that $\mathbf{Y}[t]$ (the $t$-th value in the $Y$) is the value of the closing price on day $t$.
+Secondly, univariate $\mathbf{Y} \in \mathbb{R}^M$ accumulates values of the target variable (next closing price) of the particular stock, to the respective rows of $\mathbf{X}$. This means, that $\mathbf{Y}_t$ (the $t$-th value in the $Y$) is the value of the closing price on day $t$.
 \par
 Further, we define parameter $1 \leq p<M$, which is the length of the training subwindow, meaning how many \textit{next-day} predictions model would be trained on,
 and $w$, which denotes the forecasting horizon, i.e., the number of time units into the future for which predictions are made. For the purposes of this thesis and its next-day prediction methodology, we define $w=1$.
@@ -88,7 +88,7 @@ between input and target matrices. Algorithm \ref{alg:sliding_window} shows what
     \State Retrieve closing prices into the target $\mathbf{Y}$
     \For{$t = T_1$ to $T_2 - (p + 1)$}
         \State $\mathbf{X}_{\text{train}} \gets \mathbf{X}[t : t+p]$  \>\>\>\>\>\>\> \# Z-score scaled
-        \State $\mathbf{Y}_{\text{train}} \gets \mathbf{Y}[t : t+p]$
+        \State $\mathbf{Y}_{\text{train}} \gets (\mathbf{Y}_t, \mathbf{Y}_{t+1}, \ldots, \mathbf{Y}_{t+p})$
         \State $\mathbf{X}_{\text{predict}} \gets \mathbf{X}[t+p+1]$ \>\> \# Z-score scaled
         \State \# $\mathbf{X}_\text{predict}$ corresponds to the latest available data 
         \State Train model $\hat{f}$ on $(\mathbf{X}_{\text{train}}, \mathbf{Y}_{\text{train}})$: so $\mathbf{Y}_{\text{train}}\approx\hat{\mathbf{Y}}_{\text{train}}=\hat{f}(\mathbf{X}_{\text{train}})$ 
@@ -126,7 +126,10 @@ day-to-day market running, is quite enormous, and one should consider subsetting
 for machine learning purposes wisely. In this section, we aim to show and justify the 
 process of our general feature selection, mostly based on \textit{a priori} knowledge of processes within
 financial markets and the variable's most likely effect on stock markets.
-\par
+
+For all of the mentioned variables in this section and for all considered shifted historical dates (up to $q = 9$ backwards), the respective \textbf{open}, \textbf{close}, \textbf{low}, and \textbf{high} values are present in the resulting feature matrix $\mathbf{X}$.
+On top of that, where appropriate, the \textbf{volume} and \textbf{dividends} variables are also included.  
+
 For the sake of completeness, data were obtained from the API, directly fetching data
 available on Yahoo Finance – available through the Python library abstraction provided by the \texttt{yfinance} library \cite{yfinance, yahoo}.
 
@@ -214,3 +217,12 @@ is considered to be relatively stable market state. Value development between th
 
 It is surely interesting to address the sudden VIX surge during the April 2025. This sudden increase was basically day-to-day and denotes 
 phase of repeated issuing and cancelling of international tarrifs. As we can see, this political move damaged investors' exposure to the US market then.
+
+\section{Data preparation summary}
+
+Taking into account the process, how historical data are processed into the feature $\mathbf{X}$ matrix, it is possible to conclude the total number of features per single row.
+We consider $q = 9$ shifts backwards and in total $14$ distinct financial variables. For each variable and shift, present in the database, we include in total $5$ metrics (Open, Close, High, Low and Volume).
+This together yields in total $630$ features included in the feature matrix $\mathbf{X}$.
+
+Consequently, it is suitable to state that this feature $\mathbf{X}$ is used throughout the whole interval and for all of the analyzed stocks. The key variable in the modeling process is the target vector $\mathbf{Y}$
+which consists of closing prices of the particular stock (among the $65$ considered).

@@ -21,7 +21,7 @@ where $\epsilon$ is a random noise independent of $X_1, X_2, \ldots, X_p$. Algor
 aim to estimate the function $f$ by using a so-called \textbf{training dataset} of observed data. 
 
 Suppose we have $n$ observations of the introduced predictors and the corresponding target $Y$ as $\{ Y_i, X_{i, 1}, X_{i, 2}, \ldots, X_{i, p} \}_{i=1}^{n}$, where $X_{i, q}$ denotes value of the $q$-th predictor in the $i$-th observation.
-Then, ML algorithms use this dataset to approximate function $\hat{f}$, such that $\hat{f}(X_{i, 1}, X_{i, 2}, \ldots, X_{i, p}) = \hat{Y}_i \approx Y_i$, for all $i=1, 2, \ldots, n$. With the obtained $\hat{f}$, we can make predictions of $Y$ for new (unseen before) values of predictors $X_1, X_2, \ldots, X_p$.
+Then, ML algorithms use this dataset to approximate function $f$ by function $\hat{f}$, such that $\hat{f}(X_{i, 1}, X_{i, 2}, \ldots, X_{i, p}) = \hat{Y}_i \approx Y_i$, for all $i=1, 2, \ldots, n$. With the obtained $\hat{f}$, we can make predictions of $Y$ for new (unseen before) values of predictors $X_1, X_2, \ldots, X_p$.
 \newline
 \par
 Based on the methodology used to find $\hat{f}$, we can distinguish two methods – parametric and non-parametric. 
@@ -30,7 +30,7 @@ about the functional form of $f$ (e.g., linear, polynomial, etc.). Then, using s
 such methods used in this thesis are linear regression or its regularized variants. 
 
 On the other hand, \textbf{non-parametric methods} do not assume any specific functional form of $f$. Instead, they rely on patterns included in the data itself to roughly approximate $f$. Generalisation to unseen data
-is achieved by identifying patterns and similarities in the training data, without explicitly defining $\hat{f}$. An example of such a method used in this thesis is the k-nearest neighbours algorithm or the random forest algorithm.
+is achieved by identifying patterns and similarities in the training data, without explicitly defining a parametric class of functions $\hat{f}$. An example of such a method used in this thesis is the k-nearest neighbours algorithm or the random forest algorithm.
 
 Lastly, based on the character of the $Y$, we can distinguish regression and classification tasks. In \textbf{regression} tasks, $Y$ is a continuous variable, while in \textbf{classification} tasks, $Y$ is a categorical variable.
 
@@ -63,9 +63,8 @@ Linear regression is one of the most fundamental methods in ML. It is a parametr
 Given a training dataset of $n$ observations $\{ Y_i, X_{i, 1}, X_{i, 2}, \ldots, X_{i, p} \}_{i=1}^{n}$, we can formulate the linear relationship 
 as 
 \begin{equation}
-    Y_i = \beta_0 + \beta_1X_{i, 1} + \ldots + \beta_pX_{i, p} + \epsilon_i, \>\>\>\>\>\>\>\>\>\>\>i=1, 2, \ldots, n
+    Y_i = \beta_0 + \beta_1X_{i, 1} + \ldots + \beta_pX_{i, p} + \epsilon_i, \>\>\>\>\>\>\>\>\>\>\>i=1, 2, \ldots, n,
 \end{equation}
-
 with $\epsilon_i$ representing an independent noise. Formulating these equations to a more convenient matrix notation, we obtain
 
 \begin{equation}
@@ -81,27 +80,27 @@ where
                     \vdots \\
                     Y_n
                  \end{bmatrix}
-    \>\>\>\>\>\>\>\>\>\>\> 
+    ,\>\>\>\>\>\>\>\>\>\>\> 
     \textbf{X} = \begin{bmatrix}
                     1 & X_{1, 1} & \ldots & X_{1, p} \\
                     1 & X_{2, 1} & \ldots & X_{2, p} \\
                     \vdots & \vdots & \ddots & \vdots \\
                     1 & X_{n, 1} & \ldots & X_{n, p}
                  \end{bmatrix}
-    \>\>\>\>\>\>\>\>\>\>\>
+    ,\>\>\>\>\>\>\>\>\>\>\>
     \bm{\beta} = \begin{bmatrix}
                             \beta_0 \\
                             \beta_1 \\
                             \vdots \\
                             \beta_p
                        \end{bmatrix}
-    \>\>\>\>\>\>\>\>\>\>\>
+    ,\>\>\>\>\>\>\>\>\>\>\>
     \bm{\epsilon} = \begin{bmatrix}
                             \epsilon_1 \\
                             \epsilon_2 \\
                             \vdots \\
                             \epsilon_n
-                       \end{bmatrix}
+                       \end{bmatrix}.
 \end{equation*}
 
 In order to derive one of the methods to approximate the parameters $\bm{\beta}$, it is necessary to define
@@ -129,7 +128,7 @@ where $\hat{Y}_i$ denotes the model's approximation of $Y_i$.
 Based on the Equation \eqref{equation:1.4}, we can derive an optimization approach to derive $\hat{\beta}\approx\beta$ as
 \begin{equation}
     \label{eq:1.5}
-    \arg \min_{\hat{\beta}} \> \|\bm{Y} - \textbf{X}\bm{\hat{\beta}}\|_2^2
+    \arg \min_{\hat{\beta}} \> \|\bm{Y} - \textbf{X}\bm{\hat{\beta}}\|_2^2.
 \end{equation}
 The approach in Equation \eqref{eq:1.5} stands for \textbf{least-squares estimation}. 
 Other estimation methods for $\hat{\beta}$ exist; however, only the least-squares approach is included in the chapter, as it is used in the subsequent computational implementation.
@@ -140,12 +139,12 @@ is set to zero as
 \begin{equation*}
     \frac{\partial}{\partial \bm{\hat{\beta}}} \|\bm{Y} - \textbf{X}\bm{\hat{\beta}}\|_2^2 = -2 \mathbf{X}^{\top}(\bm{Y} - \mathbf{X}\bm{\hat{\beta}}) = 0
 \end{equation*}
-then, solving for $\bm{\hat{\beta}}$ yields
+and then, solving for $\bm{\hat{\beta}}$ yields
 
 \begin{equation}
     \mathbf{X}^{\top}\mathbf{X}\bm{\hat{\beta}} = \mathbf{X}^{\top}\mathbf{Y} \Rightarrow \bm{\hat{\beta}} = (\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathbf{Y}.
 \end{equation}
-Such solution arises from the convexity of the Equation \eqref{equation:1.4}.
+Such solution arises from the convexity in $\mathbf{\beta}$ of the function in Equation \eqref{equation:1.4}.
 
 \section{Regularized variants of linear regression}
 
@@ -160,7 +159,7 @@ Continue with Equation \eqref{eq:1.5} and let us add a specific term taking into
 \end{equation}
 where $\lambda \geq 0$ is a so-called tuning parameter and $\|\bm{\hat{\beta}}\|_1 = \sum_{i=1}^{p}|\bm{\hat{\beta_{i}}}|$ is a L1 norm. Equation \eqref{equation:1.6} trades off two criteria – on the one hand, equally as in linear regression, the model seeks
 $\bm{\hat{\beta}}$ which fits the data the best, but on the other hand, the model seeks a fit with the smallest possible sum of absolute values of the elements in $\bm{\hat{\beta}}$.
-This method is called \textbf{Lasso regularization} of linear regression and fully aligns with the objectives of explicitly preserving all the features, while limiting the possibility of overfitting 
+This method is called \textbf{Lasso regularization} (Least Absolute Shrinkage and Selection Operator) of linear regression and fully aligns with the objectives of explicitly preserving all the features, while limiting the possibility of overfitting 
 by minimizing the parameters in $\bm{\hat{\beta}}$.
 
 However, Lasso regularization, while optimizing, might set some of the parameters exactly to zero, which results in an implicit \textbf{feature selection} process and the elimination of potentially invaluable features \cite{islp}. 
@@ -190,7 +189,7 @@ Further, we have a new datapoint with vector of predictors $\mathbf{\hat{X}}$, b
 
 Let $N \subseteq \{i\}_{i=1}^{n}$ be the set of indices of the $k$ nearest training feature vectors $\mathbf{X}_i$ to the $\mathbf{\hat{X}}$, in terms of $\|.\|$ distance. Then, the approximation of the target $Y$ is 
 \begin{equation}
-    Y \approx \frac{1}{k}\sum_{i \in N} Y_i    
+    Y \approx \frac{1}{k}\sum_{i \in N} Y_i.    
 \end{equation}
 This method is non-parametric and aims to uncover patterns solely using the given training dataset. This method is called the \textbf{k-nearest neighbours} algorithm (k-NN). 
 
@@ -220,7 +219,7 @@ partition criterion locally optimally according to the current set of datapoints
 Let $S$ be the set of datapoints in a given node. The aim is to define $S_{left}, S_{right}$ belonging to left and right child nodes respectively, based on the division criterion.
 In regression, the goal is to divide $S$, to make $S_{left}, S_{right}$ \textit{as homogeneous as possible}. We can define the weighted average of target variable variances, in respective sets as
 \begin{equation}
-    \text{Split}(X_j, w) = \frac{|S_{left}|}{|S|}\text{Var}(S_{left}) + \frac{|S_{right}|}{|S|}\text{Var}(S_{right})
+    \text{Split}(X_j, w) = \frac{|S_{left}|}{|S|}\text{Var}(S_{left}) + \frac{|S_{right}|}{|S|}\text{Var}(S_{right}),
 \end{equation}
 where $|S_{*}|$ denotes the cardinality of the set $S_{*}$ and $Var(S_{*})$ denotes variance of the target values within $S_{*}$. This metric is explicitly defined by $S$ and the chosen $X_j$, $w$.
 With this definition, we can measure homogeneity of the resulting split, making variance of both $S_{left}$ and $S_{right}$ as low as possible.
@@ -264,7 +263,7 @@ frameworks \cite{forecast_book}. One of the most widely used frameworks is the \
 The ARIMA model relies on capturing short-term and often temporal patterns in the time series. Apart from the ML algorithms explained earlier, 
 ARIMA is time-aware, meaning its framework directly works with the concept of time flow and the dependency of target variable on it \cite{forecast_book}. 
 
-Let there be a univariate time series of length $T$ as $\{Y_t\}_{t=1}^{\top}$. The idea of the ARIMA model relies on the concept of autoregressivity, which means
+Let there be a univariate time series of length $n$ as $\{Y_i\}_{i=1}^{n}$. The idea of the ARIMA model relies on the concept of autoregressivity, which means
 that future data points of the time series are dependent on the earlier points in series. Rigorously speaking, let there be $p \in \mathbb{N}_0$ and
 \begin{equation}
     \label{eq:ARIMA1}
@@ -276,6 +275,7 @@ to change over time. For this purpose, let there be an operator $B$, which satis
     \label{eq:ARIMA2}
     \Delta^d Y_t=(1-B)^d Y_t.
 \end{equation}
+In the specific case, when $d = 1$, such differencing yields the first-order difference $\Delta^1Y_t=Y_t-Y_{t-1}$.
 Differencing removes the trend of the time series, stabilizes it, and decreases its non-stationarity.
 
 Lastly, the idea of ARIMA relies on the property of the \textbf{moving average}, which means that ARIMA models
@@ -287,9 +287,9 @@ the value of $Y_t$ as a linear combination of forecast errors made in the past:
 where $\theta_1, \theta_2, \ldots, \theta_q$ are \textbf{moving average coefficients}. ARIMA tends to incorporate deviations encountered in the past to improve future predictions.
 
 By combining properties introduced in Equations \eqref{eq:ARIMA1}, \eqref{eq:ARIMA2} and \eqref{eq:ARIMA3}, and using the
-chosen parameters $p, d, q$, we obtain the complete model defined as ARIMA$_{(p, d, q)}$ \cite{forecast_book}.
+chosen parameters $p, d, q$, we obtain the complete model defined as ARIMA$_{(p, d, q)}$ \cite{forecast_book}:
 \begin{equation}
-    \Delta^d Y_t = \phi_1 \Delta^d Y_{t-1} + \ldots + \phi_p \Delta^d Y_{t-p} + \epsilon_t + \theta_1 \epsilon_{t-1} + \ldots + \theta_q \epsilon_{t-q}
+    \Delta^d Y_t = \phi_1 \Delta^d Y_{t-1} + \ldots + \phi_p \Delta^d Y_{t-p} + \epsilon_t + \theta_1 \epsilon_{t-1} + \ldots + \theta_q \epsilon_{t-q}.
 \end{equation}
 The model relies on the assumption that $\epsilon_t \stackrel{\text{i.i.d.}}{\sim} \mathcal{N}(0, \sigma^2)$. Under this assumption, 
 the joint likelihood of the observed time series can be written as
@@ -302,7 +302,7 @@ the joint likelihood of the observed time series can be written as
 where $\bm{\phi}=(\phi_1, \phi_2, \ldots, \phi_p)^\top$ and $\bm{\theta}=(\theta_1, \theta_2, \ldots, \theta_q)^\top$. These parameters are estimated by solving 
 
 \begin{equation*}
-    \arg \max_{\bm{\phi}, \bm{\theta}, \sigma^2} \> \mathcal{L}(\bm{\phi}, \bm{\theta}, \sigma^2)
+    \arg \max_{\bm{\phi}, \bm{\theta}, \sigma^2} \> \mathcal{L}(\bm{\phi}, \bm{\theta}, \sigma^2).
 \end{equation*}
 
 Such a model is then capable of predicting the future development of the time series variable, solely using its past development.
