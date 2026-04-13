@@ -8,7 +8,7 @@
 
 ---
 
-## 🔍 Project Overview
+## Project Overview
 
 This project investigates predictability of the IT segment (65 stocks) across the index S&P 500. Among these stocks, we implemented list of various ML frameworks,
 using the modified rolling window data-preparatory approach constructed prediction pipeline which predicts next-day closing price of the analyzed stocks.
@@ -26,7 +26,7 @@ This work provides a fully reproducible quantitative research pipeline (the only
 
 ---
 
-## 🧠 Models Implemented
+## Models Implemented
 
 - ARIMA  
 - k-Nearest Neighbors (kNN)  
@@ -38,7 +38,7 @@ This work provides a fully reproducible quantitative research pipeline (the only
 
 ---
 
-## 📊 Data
+## Data
 
 - **Source:** Yahoo Finance
 - **Frequency:** Daily
@@ -54,7 +54,7 @@ This work provides a fully reproducible quantitative research pipeline (the only
 
 ---
 
-## 🏗 Methodology
+## Methodology
 
 1. Data collection and cleaning  
 2. Exploratory data analysis  
@@ -66,7 +66,7 @@ This work provides a fully reproducible quantitative research pipeline (the only
 
 ---
 
-## 📈 Results of predictions (Test)
+## Results of predictions (Test)
 
 | Model         | MAPE (%)  | Dominance (%) |
 |--------------|--------|--------|
@@ -78,7 +78,7 @@ This work provides a fully reproducible quantitative research pipeline (the only
 | Lasso (SM)          | 2.36 | 36.55 |
 | Benchmark (Naïve, k-NN, RFA)          | 1.69 |  |
 
-## 📈 Results of predictions (Test)
+## Results of predictions (Test)
 
 | Model         | CAGR (%)  | AV (%)   | Sharpe ratio   |
 |--------------|--------|--------| --------|
@@ -102,7 +102,7 @@ This work provides a fully reproducible quantitative research pipeline (the only
 
 ---
 
-## 🚀 How to Run?
+## How to Run?
 
 ### 1. Clone Repository
 
@@ -119,7 +119,7 @@ pip3 install -r requirements.txt
 
 ---
 
-## 🛠 Technologies Used
+## Technologies Used
 
 - Python 3.13  
 - NumPy  
@@ -132,7 +132,7 @@ pip3 install -r requirements.txt
 
 ---
 
-## 🔬 Reproducibility
+## Reproducibility
 
 - Explicit train/test split  
 - Documented preprocessing (see the Thesis) 
@@ -142,13 +142,22 @@ All results can be reproduced using the provided scripts and data.
 
 ---
 
-## 📜 Thesis Abstract
-
-Here will be abstract, when done!
+## Thesis Abstract
+The goal of the presented bachelor thesis is to evaluate the predictability of the
+Information Technology (IT) segment of stocks traded on the US stock markets be-
+tween September 2017 and January 2026. Using a unified data-pipeline of selected
+features, we employ particular regression machine learning algorithms to predict the
+next-day closing price of individual stocks. The used frameworks are Linear regression,
+Lasso and Ridge regularized regressions, k-Nearest Neighbours, Random Forest Re-
+gression, and the ARIMA model. Our results indicate the fairly difficult predictability
+of the vast majority of stocks in IT segment. Furthermore, we employ these models
+in portfolio optimization based on the Markowitz mean-variance model. The study
+empirically demonstrates that obtained predictions have relatively limited impact on
+portfolio performance in comparison with market benchmarks.
 
 ---
 
-## 📌 Key Contributions
+## Key Contributions
 
 - Implementation of a rolling-window evaluation framework  
 - Direct comparison of econometric and machine learning models  
