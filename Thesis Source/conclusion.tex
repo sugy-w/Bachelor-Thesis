@@ -14,14 +14,14 @@ the latest available predictor data (acquired from the constantly long interval)
 largely of the market data. Chapter \ref{chap:2} introduces the concepts of the rolling window, data preparation and the set of predictors used in the thesis.
 
 Subsequently, it was possible to further evaluate the adopted ML frameworks and optimize their settings in order to achieve the best prediction results. The results have shown that stocks in the IT segment,
-in the particular time interval, were difficult to predict. Naïve prediction has shown great potential and justified that stock price development aligns with the random walk \cite{fama1970efficient}. 
+in the particular time interval, were difficult to predict. Naïve prediction has shown great potential and justified that stock price development aligns more with the random walk \cite{fama1970efficient}. 
 
 The introduced metrics of dominance and MAPE have shown that vast majority of employed models were outperformed by the naïve prediction in terms of prediction accuracy.
-Only one framework (ARIMA model) outperformed the Naïve model, which shows that time series models might be more capable of generalizing the pattern than conventional ML models.
+Only one framework (ARIMA model) outperformed the Naïve model in terms of dominance, which shows that time series models might be more capable of generalizing the pattern than conventional ML models.
 This result is often not stated in a number of studies, which might lead to an overestimation of the models' practical utility \cite{krauss, konferencia1}.
 
 Subsequent analyses of the application of the models to the portfolio optimization were introduced in Chapter \ref{chap:4}. Evaluation results suggest that even though prediction of most of the models were inferior to the Naïve benchmark,
-the performance of portfolios, backed by models, was above-average compared to conventional stock indices. Moreover, the portfolio backed by the Naïve model delivered comparable results to other non-naïve models.
+the performance of portfolios, backed by models, was above-average compared to the conventional stock indices. Moreover, the portfolio backed by the Naïve model delivered comparable results to other non-naïve models.
 
 On the other hand, quite a counterintuitive fact arose in the analyses. While during the period between 2017 and 2022, models with the lowest dominance delivered the best-performing portfolios, during the period between 2023 and 2026 the opposite
 emerged. The portfolio backed by the Lasso model (which was evaluated as the least dominant model) was the best performer (on the testing set) in terms of average annual return across all the considered models. Even so, the NASDAQ index outperformed the portfolios, which is opposite
@@ -35,7 +35,7 @@ Aligning with Palomar \cite{portfolio}, the actual predictions tend to be less i
 \par
 Apart from the compared studies \cite{krauss,konferencia1,zhao}, possibilities of applying such predictions for portfolio management were researched. These studies focused solely on designing the prediction pipeline and prediction evaluation. Connecting this methodology with portfolio optimization increases the application value of the research.
 
-Used ML algorithms cannot comprehend the time-flow dependency properly \cite{forecast_book}. However, by using the ARIMA model we addressed the issue. Even though time series models are used in the research quite often, simpler frameworks are used more even with inferior performance \cite{review}. This suggests a suitable alternative to the conventional ML frameworks. 
+Used ML algorithms cannot comprehend the time-flow dependency properly \cite{forecast_book}. However, by using the ARIMA model we addressed the issue. Even though time series models are used in the research quite often, simpler frameworks are used more, even with inferior performance \cite{review}. This suggests a suitable alternative to the conventional ML frameworks. 
 
 As stated earlier, prediction Naïve benchmark showed competitive results, in comparison with the other models. This shows that there exists a less computationally heavy prediction alternative, capable of outperforming advanced ML frameworks. Some studies tend to compare models between each other \cite{mei2018stock} or omit the comparison at all \cite{zhao}. The thesis shows potential
 false validity of the models compared to the computationally inexpensive approaches.
@@ -50,7 +50,7 @@ Such an analysis of any coherent group of stocks could be performed using the de
 create a trustworthy foundations for informed decision-making in the market. Lastly, by researching and implementing more sophisticated portfolio optimization frameworks, the overall performance of the investment 
 might improve.
 
-Apart from that, there is possibility of implementing more advanced frameworks – neural networks. Some studies \cite{review} suggest more reliable prediction results than conventional ML algorithms. However, we decided not to include neural networks in this research, as the data preparation implemented does not align with the requirements of other used frameworks. Altering the preparation process 
+Apart from that, there is possibility of implementing more advanced frameworks – neural networks. Some studies suggest more reliable prediction results than conventional ML algorithms \cite{review}. However, we decided not to include neural networks in this research, as the data preparation implemented does not align with the requirements of other used frameworks. Altering the preparation process 
 just for the purposes of neural networks would bias the analyses. 
 
 Lastly, regarding the goals of the thesis, all of the targeted aims were fully accomplished.
