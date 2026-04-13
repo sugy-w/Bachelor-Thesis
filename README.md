@@ -8,6 +8,19 @@
 
 ---
 
+## Thesis Abstract
+The goal of the presented bachelor thesis is to evaluate the predictability of the
+Information Technology (IT) segment of stocks traded on the US stock markets between September 2017 and January 2026. Using a unified data-pipeline of selected
+features, we employ particular regression machine learning algorithms to predict the
+next-day closing price of individual stocks. The used frameworks are Linear regression,
+Lasso and Ridge regularized regressions, k-Nearest Neighbours, Random Forest Regression, and the ARIMA model. Our results indicate the fairly difficult predictability
+of the vast majority of stocks in IT segment. Furthermore, we employ these models
+in portfolio optimization based on the Markowitz mean-variance model. The study
+empirically demonstrates that obtained predictions have relatively limited impact on
+portfolio performance in comparison with market benchmarks.
+
+---
+
 ## Project Overview
 
 This project investigates predictability of the IT segment (65 stocks) across the index S&P 500. Among these stocks, we implemented list of various ML frameworks,
@@ -139,23 +152,6 @@ pip3 install -r requirements.txt
 - Modular model pipeline (replace StockData.db up to the desire) 
 
 All results can be reproduced using the provided scripts and data.
-
----
-
-## Thesis Abstract
-The goal of the presented bachelor thesis is to evaluate the predictability of the
-Information Technology (IT) segment of stocks traded on the US stock markets be-
-tween September 2017 and January 2026. Using a unified data-pipeline of selected
-features, we employ particular regression machine learning algorithms to predict the
-next-day closing price of individual stocks. The used frameworks are Linear regression,
-Lasso and Ridge regularized regressions, k-Nearest Neighbours, Random Forest Re-
-gression, and the ARIMA model. Our results indicate the fairly difficult predictability
-of the vast majority of stocks in IT segment. Furthermore, we employ these models
-in portfolio optimization based on the Markowitz mean-variance model. The study
-empirically demonstrates that obtained predictions have relatively limited impact on
-portfolio performance in comparison with market benchmarks.
-
----
 
 ## Key Contributions
 
