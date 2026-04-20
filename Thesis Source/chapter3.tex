@@ -4,8 +4,8 @@
 This chapter presents obtained modeling results. For each of the models used, in-depth parameter tuning and evaluation 
 on both the training-validation and test datasets are performed. 
 
-In the subsequent analyses and hypertuning, we used data of the stock Enphase Energy Inc. (ENPH) as a tuning stock. This stock experienced major surge and downturns in the training-validation time interval
-and we assume that this creates a representative data sample. 
+In the subsequent analyzes and hypertuning, we illustrate results based on data of Enphase Energy Inc. (ENPH) stock. This stock experienced major surge and downturns in the training-validation time interval
+and we assume that this creates a relatively representative data sample. However, the actual tuning and conclusions were done based on all stocks, ENPH analyses illustrates the general behaviour of the models. 
 
 \section{Evaluation metrics} 
 
@@ -57,7 +57,7 @@ are considered strongly correlated with the target \cite{islp}. After such preco
 However, such an approach tends not to perform 
 significantly better than keeping all the predictors. Figure \ref{fig:3.1} shows a sample example of MAPE dependence on the number of selected $k$ best features for the stock Enphase Energy Inc. (ENPH).  
 
-It is possible to observe that omitting less correlated predictors causes an increase in MAPE. Up to a certain number $k$, the MAPE level tends to decrease. A further decrease in $k$ results in a stable MAPE level (red dotted line),
+It is possible to observe that including more predictors causes a decrease in MAPE. Up to a certain number $k$, the MAPE level tends to decrease. A further decrease in $k$ results in a stable MAPE level (red dotted line),
 which represents the level of MAPE when no predictors are omitted.
 
 Such behavior was observed in the vast majority of stocks analyzed, with only slight absolute deviations (roughly $10^{-3} - 10^{-1}\%$) below the benchmark line observed. From now on, no feature selection in terms of linear regression 
@@ -156,7 +156,7 @@ in linear regression, it was achieved for the IBM stock. This suggests that diff
 under one algorithm does not necessarily perform best under another.
 
 \section{Ridge regularization}
-Similarly to Lasso, there are several properties of Ridge regularization, that might improve the performance of the regression, compared to the
+Similarly to Lasso, Ridge regularization might improve the overall performance of the regression, compared to the
 linear regression. The parameter tuning process in this case is analogous to the one used in Lasso (see Section \ref{sub:lasso}).
 
 In Figure \ref{fig:3.7}, the dependence of MAPE for the chosen ENPH stock on the selected regularization parameter $\lambda$ and the training window length $p$ is depicted.
@@ -168,7 +168,7 @@ In Figure \ref{fig:3.7}, the dependence of MAPE for the chosen ENPH stock on the
 \end{figure}
 Directly compared to the MAPE development in Figure \ref{fig:3.3}, there is clear evidence of the optimal value of $p$ being 
 in the segment of $p \in [4, 6]$. The rise of error with the increasing value of $p$ is much more visible and stable among various values of $\lambda$.
-With further experiments, value of $p=4$ was chosen for later analyses – the lowest value was chosen to save computational time. Analogous to the problem of choosing value of $p$ in Lasso regression,
+With further experiments based on all included stocks, value of $p=4$ was chosen for later analyses – the lowest value was chosen to save computational time. Analogous to the problem of choosing value of $p$ in Lasso regression,
 a certain subinterval of near-optimal values was localized. 
 
 As seen in Figure \ref{fig:3.8}, dependence of MAPE on the value of the parameter $\lambda$ tends to follow a convex course. The segment of optimal $\lambda$ for the set of stocks 
@@ -246,8 +246,8 @@ To complete the analysis, Figure \ref{fig:3.11} depicts the distribution of APE 
     \caption{\centering Distribution of APE for single stocks on training-validation interval (k-NN).}
     \label{fig:3.11}
 \end{figure}
-Again, the same property of model applies here as well. The individual APE distributions tend to be very similar; however, the order of stocks based on maximal APE is slightly shuffled. Interestingly,
-the order of stocks is very similar to the one in Figure \ref{fig:3.9} (Ridge). This may root from the fact that these models are very close to each other in terms of average MAPE. 
+Again, the similar property, regarding the distributions of APE, is observed here as well. The individual APE distributions tend to be very similar to ones analyzed earlier; however, the order of stocks based on maximal APE is slightly shuffled. Interestingly,
+the order of stocks is very similar to the one in Figure \ref{fig:3.9} (Ridge). This may root from the fact that these models are very close to each other in terms of evaluation performance. 
 
 \section{Random forest regression}
 The Random forest regression framework is a frequently adopted algorithm in the finance area.
@@ -279,9 +279,9 @@ shows dependence of model dominance on the parameter $p > 1$ – the best settin
     \caption{\centering Dependence of model dominance on training window length (stock ENPH).}
     \label{fig:3.13}
 \end{figure}
-According to the analyses, this means that evaluation of MAPE is the same as in the k-NN framework and naïve model. The value of average MAPE per stock (in the optimal model) is $\textbf{1.69 \%}$.
+According to the analyses, this means that evaluation of MAPE is the same as in the k-NN framework and naïve model, as the setting $p = 1$ was chosen. The value of average MAPE per stock (in the optimal model) is $\textbf{1.69 \%}$.
 The respective distributions of particular APEs is equivalent to the Figure \ref{fig:3.11}.
-% Tu sme skončili, počkáme na výsledky
+
 \section{ARIMA model}
 
 As mentioned in Section \ref{sub:arima}, ARIMA framework is capable of capturing time dependencies by default. This 
@@ -299,7 +299,9 @@ parameters. For each rolling window and for each
 stock within it, the optimal settings of $p,d,q$ are chosen based on BIC and there is no need to optimize
 parameters separately or visualize dependencies similar to those in previous sections.
 
-Lastly, it is suitable to outline the use of the parameter $p$ (length of the training window). Its value was set constant over the entire interval as $p = 20$ and the ARIMA tuner was bounded not to analyze past values beyond this timepoint. 
+Lastly, it is suitable to outline the use of the parameter $p$ (length of the training window). Its value was set constant over the entire interval as $p = 20$ and the ARIMA tuner was bounded not to analyze past values beyond this timepoint.
+What is more, it is suitable to state a denotion conflict, as $p$ is chosen to denote training window length and ARIMA autoregressivity parameter. According to the traditional marking used in
+context of ARIMA, we decided to maintain it.    
 
 On the training-validation interval, this optimized model achieved an average MAPE $\textbf{1.897 \%}$ and dominance of $\textbf{58.25 \%}$.
 Although the model was not able to outperform naïve benchmark or even Ridge in terms of average MAPE, it performed best overall in terms of model dominance.
@@ -326,7 +328,7 @@ However, such cases represent small fraction of events on the market and should 
 
 \section{Test evaluation}
 In the previous sections, the process of parameter tuning was outlined in detail and, based on the introduced metrics, evaluated in order to optimize
-model performance. As introduced earlier, the same rolling-window-based prediction approach will be used on the test interval as well (see Section \ref{testing_sub}).
+model performance. As introduced earlier, the same rolling-window-based prediction approach is used on the test interval as well (see Section \ref{testing_sub}).
 
 The evaluation of all implemented algorithms on both training-validation and test interval is shown in Table \ref{tab:trainval}. Values of model dominance for k-NN and RFA are blank as they
 have no interpretative value – models are equivalent to the naïve benchmark. 

@@ -26,10 +26,10 @@ a bi-objective optimization problem can be formulated as follows:
 \end{equation}
 where $\lambda$ is a hyperparameter controlling the investor's aversion to the risk. This problem aligns with the assumption that higher returns yield higher risk \cite{portfolio}.
 
-For the purposes of this thesis, it is sufficient to introduce certain constraints in Equation \eqref{eq:4.1}. In the considered strategy, short selling of stocks (seeking profit from an asset's decline) is forbidden
+For the purposes of this thesis, it is sufficient to introduce certain constraints in \eqref{eq:4.1}. In the considered strategy, short selling of stocks (seeking profit from an asset's decline) is forbidden
 (represented as $\mathbf{w} \geq \mathbf{0}_a$). Lastly, we require that the entire capital is allocated, with no uninvested funds (represented as $\mathbf{1}_a^{\top}\mathbf{w}=1$).
 
-However, framework in Equation \eqref{eq:4.1}, together with the introduced constraints, tends to be impractical in real-world scenarios \cite{portfolio}. The problem arises with frequent re-allocations
+However, framework in \eqref{eq:4.1}, together with the introduced constraints, tends to be impractical in real-world scenarios \cite{portfolio}. The problem arises with frequent re-allocations
 and transaction costs in practice. Particularly, frequent re-allocations generate higher costs for the investor and subsequently lead to a decline in profit. With next-day predictions
 considered in this thesis, we decided to maintain the daily re-allocations; however, to minimize day-to-day transactions, we adopted an \textit{ad hoc} modification of the framework based on Equation \eqref{eq:4.1}.
 
@@ -88,7 +88,7 @@ In all subsequent analyses, the main focus is on tuning the risk-aversion hyperp
 \par
 In \textbf{model-backed portfolio} optimizations, the expected return vector $\bm{\mu}_t$ for a given day $t$ is derived from the tuned rolling-window prediction models introduced in the previous sections (see Chapter \ref{chap:3}).
 
-In addition, a specific approach is required for deriving the covariance matrix $\bm{\Sigma}$. Suppose we are predicting the closing price on day $t$, with historical data available for days $t-1, t-2, \ldots$ available. Subsequently,
+In addition, a specific approach is required for deriving the covariance matrix $\bm{\Sigma}$. Suppose we are predicting the closing price on day $t$, with historical data for days $t-1, t-2, \ldots$ available. Subsequently,
 percentual returns for each stock, on each of the days $t-60, t-59, \ldots, t-1$ are calculated. Using these vectors of historical returns for each stock, the covariance matrix of stock returns is computed, which serves as $\bm{\Sigma}$. 
 
 A constant $60$-days backward window
@@ -150,7 +150,7 @@ Lastly, to compare the portfolios, we simulate investment growth. Suppose an ini
     \label{fig:4.3}
 \end{figure}
 
-\subsection{Overview of risk-aversion}
+\subsection{Overview of risk-aversion (Lasso)}
 In Figure \ref{fig:4.4}, the dependence of CAGR on the value of $\lambda_R$ for the Lasso model is shown. Similar to the case shown in Figure \ref{fig:4.1}, a direct relationship between CAGR and $\lambda_R$ can be observed.
 \begin{figure}[H]
     \centering
@@ -185,13 +185,12 @@ Compared to Figure \ref{fig:4.3}, worse performance can be observed throughout $
 
 \subsection{Further tuning}
 At this point, an interesting observation occurred. Comparing Figures \ref{fig:4.4} and \ref{fig:4.5}, it is possible to observe the same monotonic behaviour of both CAGR and AV
-with respect to the parameter $\lambda_R$ across all employed prediction models. However, the actual optimal values for $\lambda_R$ vary across models, the overall dependence overview stays the same.
+with respect to the parameter $\lambda_R$ across all employed prediction models. Even though, the actual optimal values for $\lambda_R$ vary across models, the overall dependence overview stays the same.
+With this, it is appropriate to formally state the methodology used for selecting the optimal value of $\lambda_R$. By analyzing performance of portfolios on the given interval,
+it is possible (in all models) to identify a threshold value of $\lambda_R$ beyond which improvement in both CAGR and AV becomes negligible. For all models, value of $\lambda_R$ was selected at this threshold.
 
 For this reason, we decided not to include dedicated tuning sections for each model, as the methodology and the process of tuning is identical across all considered models. Instead, this section
 summarizes the resulting optimal parameter settings for each particular model and the overall evaluation of the corresponding portfolios.
-
-Lastly, it is appropriate to formally state the methodology used for selecting the optimal value of $\lambda_R$. By analyzing performance of portfolios on the given interval,
-it is possible (in all models) to identify a threshold value of $\lambda_R$ beyond which improvement in both CAGR and AV becomes negligible. For all models, value of $\lambda_R$ was selected at this threshold.
 
 An overview of portfolio model settings is presented in Table \ref{tab:settings}. Note that for both Lasso and Ridge, the prediction model corresponds to the General model setting.
 
