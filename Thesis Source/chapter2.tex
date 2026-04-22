@@ -69,7 +69,7 @@ $\mathbf{X}[t]$ (the $t$-th row of $\mathbf{X}$) represents data available throu
 would result in larger time-complexity and necessity to optimize new parameter further. Secondly, we want to emphasize short-term market dynamics,
 which are commonly observed in financial time series and documented in the literature \cite{forecast_book}.} To ensure that the data in the $\mathbf{X}$ are not biased, each particular row is transformed via Z-score standardization.
 
-Secondly, univariate $\mathbf{Y} \in \mathbb{R}^M$ accumulates values of the target variable (next closing price) of the particular stock, to the respective rows of $\mathbf{X}$. This means, that $\mathbf{Y}_t$ (the $t$-th value in the $Y$) is the value of the closing price on day $t$.
+Secondly, univariate $\mathbf{Y} \in \mathbb{R}^M$ accumulates values of the target variable (next closing price) of the particular stock, to the respective rows of $\mathbf{X}$. This means, that $Y_t$ (the $t$-th value in the $Y$) is the value of the closing price on day $t$.
 \par
 Further, we define parameter $1 \leq p<M$, which is the length of the training subwindow, meaning how many \textit{next-day} predictions model would be trained on,
 and $w$, which denotes the forecasting horizon, i.e., the number of time units into the future for which predictions are made. For the purposes of this thesis and its next-day prediction methodology, we define $w=1$.
@@ -88,7 +88,7 @@ between input and target matrices. Algorithm \ref{alg:sliding_window} shows what
     \State Retrieve closing prices into the target $\mathbf{Y}$
     \For{$t = T_1$ to $T_2 - (p + 1)$}
         \State $\mathbf{X}_{\text{train}} \gets \mathbf{X}[t : t+p]$  \>\>\>\>\>\>\> \# Z-score scaled
-        \State $\mathbf{Y}_{\text{train}} \gets (\mathbf{Y}_t, \mathbf{Y}_{t+1}, \ldots, \mathbf{Y}_{t+p})$
+        \State $\mathbf{Y}_{\text{train}} \gets (Y_t, Y_{t+1}, \ldots, Y_{t+p})$
         \State $\mathbf{X}_{\text{predict}} \gets \mathbf{X}[t+p+1]$ \>\> \# Z-score scaled
         \State \# $\mathbf{X}_\text{predict}$ corresponds to the latest available data 
         \State Train model $\hat{f}$ on $(\mathbf{X}_{\text{train}}, \mathbf{Y}_{\text{train}})$: so $\mathbf{Y}_{\text{train}}\approx\hat{\mathbf{Y}}_{\text{train}}=\hat{f}(\mathbf{X}_{\text{train}})$ 

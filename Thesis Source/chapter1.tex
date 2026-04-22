@@ -30,7 +30,7 @@ about the functional form of $f$ (e.g., linear, polynomial, etc.). Then, using s
 such methods used in this thesis are linear regression or its regularized variants. 
 
 On the other hand, \textbf{non-parametric methods} do not assume any specific functional form of $f$. Instead, they rely on patterns included in the data itself to roughly approximate $f$. Generalisation to unseen data
-is achieved by identifying patterns and similarities in the training data, without explicitly defining a parametric class of functions $\hat{f}$. An example of such a method used in this thesis is the k-nearest neighbours algorithm or the random forest algorithm.
+is achieved by identifying patterns and similarities in the training data, without explicitly defining a parametric class of functions $\hat{f}$. An example of such a method used in this thesis is the k-Nearest neighbours algorithm or the random forest algorithm.
 
 Lastly, based on the character of the $Y$, we can distinguish regression and classification tasks. In \textbf{regression} tasks, $Y$ is a continuous variable, while in \textbf{classification} tasks, $Y$ is a categorical variable.
 
@@ -191,7 +191,7 @@ Let $N \subseteq \{i\}_{i=1}^{n}$ be the set of indices of the $k$ nearest train
 \begin{equation}
     Y \approx \frac{1}{k}\sum_{i \in N} Y_i.    
 \end{equation}
-This method is non-parametric and aims to uncover patterns solely using the given training dataset. This method is called the \textbf{k-nearest neighbours} algorithm (k-NN). 
+This method is non-parametric and aims to uncover patterns solely using the given training dataset. This method is called the \textbf{k-Nearest neighbours} algorithm (k-NN). 
 
 \section{Decision tree regression}
 
