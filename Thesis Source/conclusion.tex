@@ -16,7 +16,7 @@ largely of the market data. Chapter \ref{chap:2} introduced the concepts of the 
 Subsequently, it was possible to further evaluate the adopted ML frameworks and optimize their settings in order to achieve the best prediction results. The results showed that stocks in the IT segment,
 in the particular time interval, were difficult to predict. Naïve prediction showed a great potential and justified that stock price development aligns more with the random walk \cite{fama1970efficient}. 
 
-The introduced metrics of dominance and MAPE showed that vast majority of employed models were outperformed by the naïve prediction in terms of prediction accuracy.
+The introduced metrics of dominance and MAPE showed that vast majority of employed models were outperformed by the Naïve prediction in terms of prediction accuracy.
 Only one framework (ARIMA model) outperformed the Naïve model in terms of dominance, which showed that time series models might be more capable of generalizing the pattern than conventional ML models.
 This result is often not stated in a number of studies (e.g., \cite{patel}, \cite{vijh}, \cite{konferencia1}), which might lead to an overestimation of the models' practical utility.
 
@@ -25,7 +25,7 @@ the performance of portfolios, backed by models, was above-average compared to t
 
 On the other hand, quite a counterintuitive fact arose in the analyses. While during the period between 2017 and 2022, models with the lowest dominance delivered the best-performing portfolios, during the period between 2023 and 2026 the opposite
 emerged. The portfolio backed by the Lasso model (which was evaluated as the least dominant model) was the best performer (on the testing set) in terms of average annual return across all the considered models. Even so, the NASDAQ index outperformed the portfolios, which is opposite
-to the previous interval as well.
+to the previous data sample as well.
 
 Comparing both analyzed intervals, the results of the research suggest that the proposed portfolio models (accompanied with the prediction modeling) tend to be less volatile and profitable during periods of neither a bull nor a bear market than Naïve portfolio or conventional indices. On the other hand, during a strong bull market (in this case, the technology segment),
 strategy performed worse than the NASDAQ index.
@@ -38,7 +38,7 @@ and brings an unconventional point of view regarding the model's evaluation.
 
 Used ML algorithms cannot comprehend the time-flow dependency properly \cite{forecast_book}. However, by using the ARIMA model we addressed the issue. Even though time series models are used in the research quite often, simpler frameworks are used more, even with inferior performance \cite{review}. This suggested a suitable alternative to the conventional ML frameworks. 
 
-As stated earlier, prediction Naïve benchmark showed competitive results, in comparison with the other models. This shows that there exists a less computationally heavy prediction alternative, capable of outperforming advanced ML frameworks. Some studies tend to compare models between each other \cite{mei2018stock} or omit the comparison at all \cite{zhao,vijh}. The thesis shows potential
+As stated earlier, prediction Naïve benchmark showed competitive results, in comparison with the other models. This shows that there exists a less computationally heavy prediction alternative, capable of outperforming advanced ML frameworks. Some studies tend to compare models between each other \cite{review} or omit the comparison at all (e.g., \cite{cijh}, \cite{zhao}). The thesis shows potential
 worse performance of the models compared to the computationally inexpensive approaches.
 
 Quantitative and qualitative comparison with the existing studies is limited. Direct comparison cannot be done, as there is no widely known study conducting similar rolling-window prediction on the whole IT market segment. However, several implicit conclusions can be done.
