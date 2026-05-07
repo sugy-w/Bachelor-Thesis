@@ -16,7 +16,7 @@ first time in 1952 by Harry Markowitz \cite{portfolio}.
 
 Suppose $\mathbf{w} \in \mathbb{R}^a$, where $a$ is the number of assets considered, is a vector of weights, and $\mathbf{w}_i$ represents
 fraction of capital assigned to the $i$-th asset. Further, let $\bm{\Sigma} \in \mathbb{R}^{a \times a}$ denote the covariance matrix of asset returns
-in the given time interval. Lastly, let $\bm{\mu} \in \mathbb{R}^{a}$ represents the vector of expected returns of considered assets in the next time unit.
+in the given time interval. Lastly, let $\bm{\mu} \in \mathbb{R}^{a}$ represent the vector of expected returns of considered assets in the next time unit.
 
 The goal is to balance the overall return of the portfolio (represented as $\mathbf{w}^{\top}\bm{\mu}$) with the portfolio variance (represented as $\mathbf{w}^{\top}\bm{\Sigma}\mathbf{w}$). Such 
 a bi-objective optimization problem can be formulated as follows:
@@ -170,8 +170,8 @@ to converge to approximately $17 \%$. By increasing the value of $\lambda_R$ ove
 
 Increasing the value of $\lambda_R$ beyond $2000$ yields only minimal gains in CAGR, on the order of $10^{-2} - 10^{-1} \%$. Considering that further increases do not necessarily improve risk management, we set $\lambda_R = 2000$. 
 
-The resulting portfolio achieves a CAGR $\mathbf{20.15 \%}$, an AV $\mathbf{16.8 \%}$ and a Sharpe ratio $\mathbf{1.2}$. On average, capital was allocated to $\mathbf{11.1}$ stock per day (out of a total $65$).
-Although the Lasso portfolio was unable to outperform naïve in terms of CAGR, it achieved slightly lower volatility, with AV reduced by approximately $0.2 \%$ in absolute terms.
+The resulting portfolio achieves a CAGR $\mathbf{19.87 \%}$, an AV $\mathbf{16.77 \%}$ and a Sharpe ratio $\mathbf{1.18}$. On average, capital was allocated to $\mathbf{11.1}$ stock per day (out of a total $65$).
+Although the Lasso portfolio was unable to outperform the Naïve model in terms of CAGR, it achieved slightly lower volatility, with AV reduced by approximately $0.2 \%$ in absolute terms.
 
 To complete the evaluation, simulation of $100 \> \$$ investment is visualized in Figure \ref{fig:4.6}
 \begin{figure}[H]
@@ -184,7 +184,7 @@ To complete the evaluation, simulation of $100 \> \$$ investment is visualized i
 Compared to Figure \ref{fig:4.3}, worse performance can be observed throughout $2021$ and $2022$. Interestingly, during the COVID-19 period (between 2021 and 2022), major indices declined; however, the proposed portfolio remained relatively stable. This suggests that the proposed portfolio might perform comparatively well during a bear market—a phase in which the overall market generally experiences negative returns.
 
 \subsection{Further tuning}
-At this point, an interesting observation occurred. Comparing Figures \ref{fig:4.4} and \ref{fig:4.5}, it is possible to observe the same monotonic behaviour of both CAGR and AV
+At this point, an interesting observation occurred. Comparing Figures \ref{fig:4.4} and \ref{fig:4.5}, it is possible to observe a similar monotonic behaviour of both CAGR and AV
 with respect to the parameter $\lambda_R$ across all employed prediction models. Even though, the actual optimal values for $\lambda_R$ vary across models, the overall dependence overview stays the same.
 With this, it is appropriate to formally state the methodology used for selecting the optimal value of $\lambda_R$. By analyzing performance of portfolios on the given interval,
 it is possible (in all models) to identify a threshold value of $\lambda_R$ beyond which improvement in both CAGR and AV becomes negligible. For all models, value of $\lambda_R$ was selected at this threshold.
@@ -240,7 +240,7 @@ NASDAQ & 9.19 & 25.52 & 0.36& -- \\ %
 There is clear evidence of the dominance of model-backed portfolios over the benchmark indices in all three metrics. In terms of CAGR, the best-performing portfolio was ARIMA. The ranking of portfolios by CAGR 
 fully aligns with the ranking of prediction models by dominance (see Table \ref{tab:trainval}). Interestingly, the best performing prediction model (in terms of average MAPE) did not perform the best in terms of CAGR.
 % Dať dokopy výsledky
-Furthermore, the behaviour of the AV metric is noteworthy. The lowest AV among model-backed portfolios was observed for the Ridge model, while the highest in Naïve model. This suggests that, in this case, employing predictions into the MVP framework generally reduces volatility compared to a 
+Furthermore, the behaviour of the AV metric is noteworthy. The lowest AV among model-backed portfolios was observed for the Lasso model, while the highest in Naïve model. This suggests that, in this case, employing predictions into the MVP framework generally reduces volatility compared to a 
 portfolio that uses no next-day predictions. 
 
 Concluding the evaluation, model-backed portfolios substantially overperformed both indices across all metrics. This result may root from the performance of these models during the COVID-19 period, where major indices declined sharply, while the model-backed portfolios remained relatively stable.
@@ -277,9 +277,9 @@ Ridge & 15.30 & 25.24 & 0.61& 13.1 \\ %
 Lasso & 17.07 & 25.26 & 0.68& 12.01 \\ % 
 \hline
 \hline
-S\&P 500 & 8.35 & 23.1 & 0.36 & \\ %
+S\&P 500 & 8.35 & 23.1 & 0.36 & -- \\ %
 \hline
-NASDAQ & 18.51 & 25.15 & 0.74 & \\ %
+NASDAQ & 18.51 & 25.15 & 0.74 & -- \\ %
 \hline
 \end{tabular}
 \caption{\centering Evaluation of all analyzed portfolio settings, together with benchmark indices (Testing interval).}

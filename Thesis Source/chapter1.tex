@@ -56,7 +56,7 @@ In practice, the goal is to choose the model complexity (e.g., by assuming a fun
 \end{figure}
 Familiar terms connected to bias and variance are the aforementioned overfitting and underfitting. Typically, in models with low complexity (high bias and low variance), a situation may occur in which the model performs poorly on both training and testing data – this is called underfitting.
 
-On the other hand, the opposite situation arises when the model is overly complex (low bias and high variance). In this case, typically the model performs well on training data; however, it performs significantly worse on the testing data, as it effectively memorizes the training data. This situations is referred to as overfitting.
+On the other hand, the opposite situation arises when the model is overly complex (low bias and high variance). In this case, typically the model performs well on training data; however, it performs significantly worse on the testing data, as it effectively memorizes the training data. This situation is referred to as overfitting.
 \section{Linear regression}
 Linear regression is one of the most fundamental methods in ML. It is a parametric method used for regression tasks, assuming that the true relationship between the predictors and the target variable is linear \cite{islp}.
 
@@ -206,7 +206,7 @@ is to recursively partition training dataset into tree's nodes, representing cer
 depth, with leaf nodes, whose data points define the resulting target approximation.
 
 Similarly to the k-NN case, this algorithm is capable of solving both regression and classification tasks; however,
-only the regression setup in explained.
+only the regression setup is explained.
 
 Let $\{ Y_i, X_{i, 1}, X_{i, 2}, \ldots, X_{i, p} \}_{i=1}^{n}$
 be the training dataset. The complete dataset is associated with the root node of the tree structure. The tree-building algorithm aims to recursively divide this set

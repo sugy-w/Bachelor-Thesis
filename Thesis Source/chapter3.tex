@@ -1,10 +1,10 @@
 \chapter{Predictive analyses on IT segment}
 \label{chap:3}
 
-This chapter presents obtained modeling results. For each of the models used, in-depth parameter tuning and evaluation 
+This chapter presents the obtained modeling results. For each of the models used, in-depth parameter tuning and evaluation 
 on both the training-validation and test datasets are performed. 
 
-In the subsequent analyzes and hypertuning, we illustrate results based on data of Enphase Energy Inc. (ENPH) stock. This stock experienced major surge and downturns in the training-validation time interval
+In the subsequent analyses and hypertuning, we illustrate results based on data of Enphase Energy Inc. (ENPH) stock. This stock experienced a major surge and downturns in the training-validation time interval
 and we assume that this creates a relatively representative data sample. However, the actual tuning and conclusions were done based on all stocks, ENPH analyses illustrates the general behaviour of the models. 
 
 \section{Evaluation metrics} 
@@ -27,7 +27,7 @@ the random walk. In accordance with this, such naïve method can be introduced, 
 to be equal to the price on day $t$.
 
 With the benchmark method defined, we quantify performance as the proportion of predictions made by the model that are closer, in terms of APE, to the actual 
-closing price than the predictions made by the naïve benchmark. From now on, such benchmarking will be referred as the \textbf{model's dominance}.
+closing price than the predictions made by the naïve benchmark. From now on, such benchmarking will be referred to as the \textbf{model's dominance}.
 
 \section{Naïve model}
 \label{naive}
@@ -37,7 +37,7 @@ Evaluation result of the model, on the particular training-validation interval, 
 
 \section{Linear regression}
 Although linear regression might seem rather simple, compared to other conventional ML frameworks, it has been implemented in financial predictive
-modelling quite regularly. According to Zhao \cite{zhao}, linear regression is capable of reflecting the trend-based development of a certain stock up to a certain extent. 
+modeling quite regularly. According to Zhao \cite{zhao}, linear regression is capable of reflecting the trend-based development of a certain stock up to a certain extent. 
 Zhao suggests that linear regression alone might not reflect patterns in general for any stock.
 
 On the other hand, Wang et al. \cite{wang} suggest that linear regression, with appropriate data preprocessing, is capable of performing short-term predictions up to a certain
@@ -57,7 +57,7 @@ are considered strongly correlated with the target \cite{islp}. After such preco
 However, such an approach tends not to perform 
 significantly better than keeping all the predictors. Figure \ref{fig:3.1} shows a sample example of MAPE dependence on the number of selected $k$ best features for the stock Enphase Energy Inc. (ENPH).  
 
-It is possible to observe that including more predictors causes a decrease in MAPE. Up to a certain number $k$, the MAPE level tends to decrease. A further decrease in $k$ results in a stable MAPE level (red dotted line),
+It is possible to observe that including more predictors causes a decrease in MAPE. Up to a certain number $k$, the MAPE level tends to decrease. A further increase in $k$ results in a stable MAPE level (red dotted line),
 which represents the level of MAPE when no predictors are omitted.
 
 Such behavior was observed in the vast majority of stocks analyzed, with only slight absolute deviations (roughly $10^{-3} - 10^{-1}\%$) below the benchmark line observed. From now on, no feature selection in terms of linear regression 
@@ -78,7 +78,7 @@ for the selected ENPH stock, is shown in Figure \ref{fig:3.2}.
     \label{fig:3.2}
 \end{figure}
 
-In Figure \ref{fig:3.2}, local minimum is observed at $p=4$. In most of the included stocks we observed a similar convex development of MAPE dependence on $p$. What is more,
+In Figure \ref{fig:3.2}, local minimum is observed at $p=5$. In most of the included stocks we observed a similar convex development of MAPE dependence on $p$. What is more,
 the minimum, in the vast majority of stocks, is observed in $p=4$, rarely at $p=5$. The value of $p=4$ was chosen, based on the overall optimization on the training-validation 
 interval.
 
@@ -113,7 +113,7 @@ Figure \ref{fig:3.3} visualizes the performance of MAPE depending on the chosen 
 In terms of the parameter $p$, it is possible to observe that the lowest MAPE is achieved in the approximate interval $p \in [4, 8]$ for the chosen values of $\lambda$.
 Based on further evaluation of mean MAPE performance across all stocks, the lowest mean MAPE was achieved for $p = 4$. Further analyses were conducted with this value of $p$.
 
-Subsequently, the interval of the optimal setting of $\lambda$ for the given stocks was derived as $\lambda \in [4, 5]$. Figure \ref{fig:3.4} depicts an overview of MAPE for the chosen ENPH stock in dependence from $\lambda$ on the focused interval.
+Subsequently, the interval of the optimal setting of $\lambda$ for the given stocks was derived as $\lambda \in [4, 5]$. Figure \ref{fig:3.4} depicts an overview of MAPE for the chosen ENPH stock in dependence on $\lambda$ on the focused interval.
 What needs to be pointed out is the MAPE fluctuation on the given subinterval $[4.5, 4.7]$. The improvement remains negligible, reaching at most an absolute magnitude of $10^{-3} - 10^{-2} \%$. 
 \begin{figure}[H]
     \centering
@@ -166,7 +166,7 @@ In Figure \ref{fig:3.7}, the dependence of MAPE for the chosen ENPH stock on the
     \caption{\centering MAPE dependence on the rolling window training length parameter and regularization parameter (Ridge, stock ENPH).}
     \label{fig:3.7}
 \end{figure}
-Directly compared to the MAPE development in Figure \ref{fig:3.3}, there is clear evidence of the optimal value of $p$ being 
+Directly compared to the MAPE development in Figure \ref{fig:3.3}, there is a clear evidence of the optimal value of $p$ being 
 in the segment of $p \in [4, 6]$. The rise of error with the increasing value of $p$ is much more visible and stable among various values of $\lambda$.
 With further experiments based on all included stocks, value of $p=4$ was chosen for later analyses – the lowest value was chosen to save computational time. Analogous to the problem of choosing value of $p$ in Lasso regression,
 a certain subinterval of near-optimal values was localized. 
@@ -208,7 +208,7 @@ General and Stock-wise models are negligible.
     \caption{\centering Distribution of APE for single stocks on training-validation interval (General model Ridge).}
     \label{fig:3.9}
 \end{figure}
-Overall, there are only minor distinctions to the presented Figures \ref{fig:3.5} and \ref{fig:3.6}, mainly in the order of stocks based on the error range. This again suggests
+Overall, there are only minor distinctions compared to the presented Figures \ref{fig:3.5} and \ref{fig:3.6}, mainly in the order of stocks based on the error range. This again suggests
 that different ML frameworks tend to have varying performance across different stocks.
 
 \section{k-Nearest neighbours regression}
@@ -218,7 +218,7 @@ is worth exploring. Although the framework seems simple and one might expect lim
 its potential and relevance in predicting stock prices.
 
 Huang \cite{clanok5} included the k-NN algorithm in the stack of algorithms applied on stock price prediction. Even though k-NN did not prove to be the best-performing among the algorithms used, Huang
-states that k-NN performs better in terms of the employed evaluation metric than more complex support vector regression framework.
+states that k-NN performs better in terms of the employed evaluation metric than a more complex support vector regression framework.
 
 Further, Yin et al. \cite{konferencia1} showed that the k-NN algorithm tends to perform well, as their analysis of certain US stocks demonstrated that the
 deviation of predictions is relatively low, compared to other frameworks even for longer forecast periods.
@@ -231,7 +231,7 @@ Figure \ref{fig:3.10} shows the effect of dependence of MAPE on given values of 
     \caption{\centering Dependence of prediction MAPE on $k$ and $p$ parameters (k-NN).}
     \label{fig:3.10}
 \end{figure}
-There is a clear trend showing that the most influential parameters is $k$, number of neighbours. The most interesting observation is the almost constant MAPE
+There is a clear trend showing that the most influential parameter is $k$, number of neighbours. The most interesting observation is the almost constant MAPE
 across all the considered values of $p$ (with constant $k$). This appears to be highly counter-intuitive quality; however, further analyses have shown that it could be explained 
 as a form of pathological behavior of k-NN algorithm. 
 
@@ -246,7 +246,7 @@ To complete the analysis, Figure \ref{fig:3.11} depicts the distribution of APE 
     \caption{\centering Distribution of APE for single stocks on training-validation interval (k-NN).}
     \label{fig:3.11}
 \end{figure}
-Again, the similar property, regarding the distributions of APE, is observed here as well. The individual APE distributions tend to be very similar to ones analyzed earlier; however, the order of stocks based on maximal APE is slightly shuffled. Interestingly,
+Again, the similar property, regarding the distributions of APE, is observed here as well. The individual APE distributions tend to be very similar to the ones analyzed earlier; however, the order of stocks based on maximal APE is slightly shuffled. Interestingly,
 the order of stocks is very similar to the one in Figure \ref{fig:3.9} (Ridge). This may root from the fact that these models are very close to each other in terms of evaluation performance. 
 
 \section{Random forest regression}
@@ -312,7 +312,7 @@ On the other hand, this dominance result might arise from the fact that in appro
 To complete the picture of performance, distribution of APE across the stocks is depicted in Figure \ref{fig:3.14}.
 \newline
 \par
-At this point, it is possible to clearly outline that performance of given ML frameworks varies from stock to stock. As stated before, stocks tend to have various predictability in different ML algorithms, even though input features remain the same. On the other hand, it is possible to observe one common feature among all APE distribution visualizations.
+At this point, it is possible to clearly outline that performance of the given ML frameworks varies from stock to stock. As stated before, stocks tend to have various predictability in different ML algorithms, even though input features remain the same. On the other hand, it is possible to observe one common feature among all APE distribution visualizations.
 In all analyzed distributions, three common stocks are present in the top ranks in order of maximal APE – particularly EPAM Systems Inc. (EPAM), Super Micro Computer (SMCI) and Gen Digital Inc. (GEN).
 
 In all these stocks, a few model predictions were significantly off, with APE exceeding $40 \%$ (at most over $80 \%$).
