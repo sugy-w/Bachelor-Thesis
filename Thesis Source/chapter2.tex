@@ -2,7 +2,7 @@
 \label{chap:2}
 The aim of this chapter is to introduce a set of variables related to the financial market, 
 their possible importance in terms of predictive modeling, and lastly their subsequent processing 
-into specific forms, which were used throughout all the related analyses in this thesis.
+into specific forms, which were used throughout all the related analyzes in this thesis.
 \par
 Market itself and particularly the price movement of financial instruments is a complex and
 counterintuitive process with a large number of various related variables, which contribute to price movements. 
@@ -19,7 +19,7 @@ a small number of sources dealing with a market segment, analyzing single stocks
 Our main focus is on the index S\&P 500 – a US stock index accumulating the 500 biggest publicly traded companies
 in terms of market capitalization. The index itself is considered to be the most trustworthy general indicator of the overall
 US and world’s stock economy state \cite{snp500}. The index itself is divided into several general market segments to which stocks belong. In this
-thesis, we focused on the segment \textbf{Information technology}. However, the approach used in our analyses is adaptable to any subset of stocks –
+thesis, we focused on the segment \textbf{Information technology}. However, the approach used in our analyzes is adaptable to any subset of stocks –
 the only determining constraint is the respective database of stocks.
 \par
 As of late 2025, the Information technology (IT) segment consisted of $68$ US-traded stocks. However, we excluded three stocks (tickers APP, CRWD and DDOG), as their brief period (at most $3$ years) of trading yielded insufficient historical data for reliable modeling. In the year 2025, in terms of total capitalization, the IT group makes a total of
@@ -32,7 +32,7 @@ At first, we introduce specific attributes which define the value movement of al
 as features and target variables. These attributes could be further generalized onto any financial instrument attribute's movement, not only to price 
 itself – as it will be applied to non-stock data as well.
 \par
-For the purposes of defining desired terminology, let's define a time interval on which we analyse an instrument's attribute movement as $[t_1, t_2]$, where
+For the purposes of defining desired terminology, let us define a time interval on which we analyze an instrument's attribute movement as $[t_1, t_2]$, where
 naturally $t_1 < t_2$. The terminology, could be universally defined for any time interval with various frequency.
 \par
 At the breakpoint $t_1$ we define the \textbf{opening value}, which denotes the value of the attribute at the very beginning of the interval. For the purposes of this thesis,
@@ -60,16 +60,16 @@ to pay parts of their profit to their investors on a regular basis (e.g., Apple,
 There are several approaches for splitting time-series data into training, validation, and test sets. For the purposes of next-day prediction — where data from trading days $t-q, t-(q-1), \dots, t-1$ 
 (for some $q$) are used to predict the closing price on day $t$ — the concepts of rolling window methodology are adopted \cite{forecast_book}.
 \par
-In our approach, we define a static time-series interval, which serves as a hybrid train-validation time interval. Let's define the overall data interval being between
+In our approach, we define a static time-series interval, which serves as a hybrid train-validation time interval. Let us define the overall data interval being between
 $T_1$ and $T_2$ timepoints (let $T_2-T_1=M$). On this interval reside two frames of variables. 
 
 Multivariate $\mathbf{X} \in \mathbb{R}^{M \times F}$, where $F$ denotes the number of features used, which serves 
-as an input variable. Included features in $\mathbf{X}$ are values of selected financial variables, shifted backwards up to $q=9$ days. This means, that 
+as an input variable. Included features in $\mathbf{X}$ are values of selected financial variables, shifted backwards up to $q=9$ days. This means that 
 $\mathbf{X}[t]$ (the $t$-th row of $\mathbf{X}$) represents data available through days $t-1, t-2, \ldots, t-9$. \footnote{We chose the value of $q$ due to few reasons constant. Firstly, variable $q$ 
 would result in larger time-complexity and necessity to optimize new parameter further. Secondly, we want to emphasize short-term market dynamics,
 which are commonly observed in financial time series and documented in the literature \cite{forecast_book}.} To ensure that the data in the $\mathbf{X}$ are not biased, each particular row is transformed via Z-score standardization.
 
-Secondly, univariate $\mathbf{Y} \in \mathbb{R}^M$ accumulates values of the target variable (next closing price) of the particular stock, to the respective rows of $\mathbf{X}$. This means, that $Y_t$ (the $t$-th value in the $Y$) is the value of the closing price on day $t$.
+Secondly, univariate $\mathbf{Y} \in \mathbb{R}^M$ accumulates values of the target variable (next closing price) of the particular stock, to the respective rows of $\mathbf{X}$. This means that $Y_t$ (the $t$-th value in the $Y$) is the value of the closing price on day $t$.
 \par
 Further, we define parameter $1 \leq p<M$, which is the length of the training subwindow, meaning how many \textit{next-day} predictions model would be trained on,
 and $w$, which denotes the forecasting horizon, i.e., the number of time units into the future for which predictions are made. For the purposes of this thesis and its next-day prediction methodology, we define $w=1$.
@@ -155,7 +155,7 @@ difference from S\&P 500 is its segment focus. NASDAQ focuses mainly on tech and
 
 Commodities denote mainly raw resources and materials, which are traded mainly in uniform quality and large quantities. Their fundamental role in the market
 comes from the fact that most of these assets play an essential part in further processing, consumption and industry. Matsumoto et al. \cite{clanok3} suggest that the commodity
-market plays a vital part in the whole financial segment, which suggests, that including such assets in the database might be sufficient.
+market plays a vital part in the whole financial segment, which suggests that including such assets in the database might be sufficient.
 \par
 In this thesis, we included data regarding two major commodities – \textbf{crude oil} and \textbf{gold}. Even though there might not be a clear
 connection to the IT sector, we believe that such data would bring valuable information about the general state 
@@ -197,7 +197,7 @@ issued by the government of the USA, where an investor, in basic terms, lends mo
 These bonds are further divided based on their maturity – the time within which issuer obliges to fully repay issued money.
 \par
 Price movements of bonds with various maturities are considered to be a good indicator of the US economy, and thus of the stock market state \cite{clanok6}. In our database
-of possible features we included bonds with a maturity of 13 weeks, which belong to the group of short terms bonds, and bonds with 5 year long maturity. This kind of maturity
+of possible features we included bonds with a maturity of 13 weeks, which belong to the group of short-term bonds, and bonds with 5 year long maturity. This kind of maturity
 is on the edge between long-term and medium-term. The choice reflects the need to track data regarding relatively very short horizon and a long one.
 \par
 Apart from the bond-related data we considered obtaining data which are not directly financial – they are not any type of asset. We researched possibilities of
@@ -216,7 +216,7 @@ is considered to be relatively stable market state. Value development between th
 \end{figure}
 
 It is surely interesting to address the sudden VIX surge during the April 2025. This sudden increase was basically day-to-day and denotes 
-phase of repeated issuing and cancelling of international tarrifs. As we can see, this political move damaged investors' exposure to the US market then.
+phase of repeated issuing and cancelling of international tariffs. As we can see, this political move damaged investors' exposure to the US market then.
 
 \section{Data preparation summary}
 

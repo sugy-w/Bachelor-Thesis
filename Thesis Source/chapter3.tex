@@ -121,7 +121,7 @@ What needs to be pointed out is the MAPE fluctuation on the given subinterval $[
     \caption{\centering MAPE dependence on the rolling window training length parameter and regularization parameter (Lasso, stock ENPH).}
     \label{fig:3.4}
 \end{figure}
-With the optimized parameters, we decided to verify two approaches to setting up the model. First, we used average of optimized values of $\lambda$ of each of the stocks. The resulting value 
+With the optimized parameters, we decided to verify two approaches to setting up the model. First, we used the average of optimized values of $\lambda$ of each of the stocks. The resulting value 
 is $\overline{\lambda}=4.15$. We set up the Lasso model with the given $\overline{\lambda}$ (General model) and, in contrast, we verified performance of a model that identifies the predicted stock and applies its particular optimized $\lambda$
 (Stock-wise model). The results of performance on the given training-validation interval
 are summarized in Table \ref{tab:mape_lambda}.

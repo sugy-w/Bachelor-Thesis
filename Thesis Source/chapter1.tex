@@ -25,11 +25,11 @@ Then, ML algorithms use this dataset to approximate function $f$ by function $\h
 \newline
 \par
 Based on the methodology used to find $\hat{f}$, we can distinguish two methods – parametric and non-parametric. 
-\textbf{Parametric methods} seek to approximate $f$ by specifically optimizing a various number of parameters, which then explicitly define the function $\hat{f}$. This involves a prior assumption
+\textbf{Parametric methods} seek to approximate $f$ by specifically optimizing various numbers of parameters, which then explicitly define the function $\hat{f}$. This involves a prior assumption
 about the functional form of $f$ (e.g., linear, polynomial, etc.). Then, using specific algorithms, the parameters of the function are estimated from the training data, resulting in $\hat{f}$. Examples of
 such methods used in this thesis are linear regression or its regularized variants. 
 
-On the other hand, \textbf{non-parametric methods} do not assume any specific functional form of $f$. Instead, they rely on patterns included in the data itself to roughly approximate $f$. Generalisation to unseen data
+On the other hand, \textbf{non-parametric methods} do not assume any specific functional form of $f$. Instead, they rely on patterns included in the data itself to roughly approximate $f$. Generalization to unseen data
 is achieved by identifying patterns and similarities in the training data, without explicitly defining a parametric class of functions $\hat{f}$. An example of such a method used in this thesis is the k-Nearest neighbours algorithm or the random forest algorithm.
 
 Lastly, based on the character of the $Y$, we can distinguish regression and classification tasks. In \textbf{regression} tasks, $Y$ is a continuous variable, while in \textbf{classification} tasks, $Y$ is a categorical variable.
@@ -105,7 +105,7 @@ where
 
 In order to derive one of the methods to approximate the parameters $\bm{\beta}$, it is necessary to define
 \textbf{residuals}. A residual represents the deviation of the obtained approximation by the model from the true value of the target (Figure \ref{fig:1.1}). When the model, defined by
-certain approximed $\bm{\hat{\beta}}$, approximates particular $Y$ as $\hat{Y}$, then $Y - \hat{Y}$ is the residual.
+certain approximated $\bm{\hat{\beta}}$, approximates particular $Y$ as $\hat{Y}$, then $Y - \hat{Y}$ is the residual.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{images/residuals.png}
@@ -113,7 +113,7 @@ certain approximed $\bm{\hat{\beta}}$, approximates particular $Y$ as $\hat{Y}$,
     \label{fig:1.1}
 \end{figure}
 Using the residuals, we can measure the goodness of fit. We aim to define the linear relation to be as close as possible to the training data. In matrix notation, we can represent the residuals 
-for all $n$ available observations as $\mathbf{Y} - \textbf{X}\bm{\hat{\beta}}$. To ensure that large errors are penalised more heavily and all of the residuals 
+for all $n$ available observations as $\mathbf{Y} - \textbf{X}\bm{\hat{\beta}}$. To ensure that large errors are penalized more heavily and all of the residuals 
 contribute positively, regardless of their sign, the general error function is defined as
 \begin{equation}
     \label{equation:1.4}
@@ -149,7 +149,7 @@ Such solution arises from the convexity in $\mathbf{\beta}$ of the function in E
 \section{Regularized variants of linear regression}
 
 Linear regression might overfit certain types of datasets. This problem arises with
-large values of the parameters in $\bm{\beta}$. Relatively large values of the parameters result in significant changes in predictions, even under slight input perturbations, thus making the predictions potentially imprecise. There exist a plenty of methods involving explicit feature selection, resulting
+large values of the parameters in $\bm{\beta}$. Relatively large values of the parameters result in significant changes in predictions, even under slight input perturbations, thus making the predictions potentially imprecise. There exist plenty of methods involving explicit feature selection, resulting
 in omitting the features with large $\hat{\beta}_i$; however, by using \textbf{regularized methods}, the approach of feature selection could be avoided \cite{islp,skiena}.
 
 Continue with Equation \eqref{eq:1.5} and let us add a specific term taking into account the sum of absolute values of the single parameters in $\bm{\hat{\beta}}$  
