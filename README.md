@@ -89,7 +89,7 @@ This work provides a fully reproducible quantitative research pipeline (the only
 | Linear regression          | 1.903 | 43.89 |
 | Lasso (GM)          | 2.18 | 39.12 |
 | Lasso (SM)          | 2.36 | 36.55 |
-| Benchmark (Naïve, k-NN, RFA)          | 1.69 |  |
+| Benchmark (Naïve, k-NN, RFA)          | 1.72 |  |
 
 ## Results of predictions (Test)
 
@@ -97,10 +97,8 @@ This work provides a fully reproducible quantitative research pipeline (the only
 |--------------|--------|--------| --------|
 | Naïve  | 16.48 | 25.20 | 0.65   |
 | ARIMA        | 15.67 | 25.48 | 0.62   |
-| Ridge (SM)          | 15.39 | 25.28 | 0.61   |
-| Ridge (GM)          | 15.20 | 25.29 | 0.6   |
-| Lasso (SM)          | 17.11 | 25.51 | 0.67   |
-| Lasso (GM)          | 16.88 | 25.53 | 0.66   |
+| Ridge          | 15.30 | 25.24 | 0.61   |
+| Lasso          | 17.07 | 25.26 | 0.68   |
 |--------------|--------|--------| --------|
 | S&P 500        | 8.35 | 23.1 | 0.36   |
 | NASDAQ Composite         | 18.51 | 25.15 | 0.74   |
